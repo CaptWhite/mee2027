@@ -1,4 +1,4 @@
-name: CI/CD Pipeline - Astro Docker
+name: CI/CD Pipeline - Astro Docker 
 
 on:
   push:
