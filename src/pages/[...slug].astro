@@ -1,0 +1,33 @@
+---
+import { getCollection, render } from 'astro:content';
+import DocsLayout from '../layouts/DocsLayout.astro';
+import { docList, docMapById } from '../docMapping';
+
+export async function getStaticPaths() {
+  const docs = await getCollection('docs');
+
+  return docs.map((entry) => {
+    const basename = entry.id.split('/').pop() ?? entry.id;
+    const foundDoc = docList.find((doc) => doc.id === basename);
+    const slug = foundDoc ? foundDoc.slug : basename;
+    return {
+      params: { slug },
+      props: { entry, slug },
+    };
+  });
+}
+
+const { entry, slug } = Astro.props;
+const { Content } = await render(entry);
+
+// Derive a clean, user-friendly page title from mapping
+const docInfo = docMapById.get(entry.id.split('/').pop() ?? entry.id);
+const cleanTitle = docInfo 
+  ? docInfo.description.replace(/^\.\s*/, '') 
+  : entry.id;
+---
+
+<DocsLayout title={cleanTitle} currentSlug={slug}>
+  <Content />
+</DocsLayout>
+

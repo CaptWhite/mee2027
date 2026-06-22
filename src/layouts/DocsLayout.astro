@@ -1,0 +1,689 @@
+---
+import { docList, docMapBySlug } from '../docMapping';
+import type { MenuTab } from '../docMapping';
+
+interface Props {
+  title: string;
+  currentSlug?: string;
+}
+
+const { title, currentSlug } = Astro.props;
+
+const tabs: MenuTab[] = ['Astrometría', 'Distorsión', 'Deflexión'];
+const activeTab = (docMapBySlug.get(currentSlug ?? '')?.menutab ?? tabs[0]) as MenuTab;
+
+const tabFirstDoc: Record<string, string> = {};
+for (const tab of tabs) {
+  const first = docList.find(d => d.menutab === tab);
+  if (first) tabFirstDoc[tab] = first.slug;
+}
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | Astrometry & Optical Distortion Docs</title>
+    
+    <!-- Google Fonts: Outfit & Space Grotesk -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX CSS for LaTeX equations -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+
+    <!-- Mermaid CDN and Client-side Parser script -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        theme: 'dark',
+        startOnLoad: false,
+        securityLevel: 'loose',
+        fontFamily: 'Space Grotesk, system-ui, sans-serif'
+      });
+
+      // Transform all Astro code blocks with data-language="mermaid" or class "language-mermaid" to <div class="mermaid">
+      const renderMermaid = async () => {
+        const blocks = document.querySelectorAll('pre[data-language="mermaid"], pre.language-mermaid');
+        if (blocks.length > 0) {
+          blocks.forEach((preEl, index) => {
+            const rawCode = preEl.textContent || '';
+            const div = document.createElement('div');
+            div.className = 'mermaid';
+            div.id = `mermaid-${index}`;
+            div.textContent = rawCode;
+            
+            if (preEl.parentNode) {
+              preEl.parentNode.replaceChild(div, preEl);
+            }
+          });
+          await mermaid.run();
+        }
+      };
+
+      // Run immediately if DOM is already loaded, otherwise listen for DOMContentLoaded
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', renderMermaid);
+      } else {
+        renderMermaid();
+      }
+    </script>
+  </head>
+  <body>
+    <!-- Astronomy Space Starfield Background -->
+    <canvas id="starfield" class="starfield-canvas"></canvas>
+    
+    <div class="app-container">
+      <!-- Top header / banner -->
+      <header class="app-header">
+        <div class="header-logo">
+          <div class="brand-row">
+            <span class="stellar-icon">✨</span>
+            <span class="brand-text">Stellar astrometry for eclipses API</span>
+          </div>
+          <span class="brand-sub">Powered by CAPTWHITE.COM</span>
+        </div>
+        <div class="header-desc">Documentación Científica y Matemática</div>
+      </header>
+
+      <div class="workspace">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+          <nav class="menu-tabs" data-tab-first={JSON.stringify(tabFirstDoc)} data-current-slug={currentSlug ?? ''} data-active-tab={activeTab}>
+            {tabs.map(tab => (
+              <button class={`tab-btn${tab === activeTab ? ' active' : ''}`} data-tab={tab}>{tab}</button>
+            ))}
+          </nav>
+          <div class="sidebar-header">
+            <h3>Capítulos</h3>
+          </div>
+          <nav class="sidebar-nav">
+            <ul>
+              {docList.map((item) => (
+                <li data-menutab={item.menutab} hidden={item.menutab !== activeTab ? '' : undefined}>
+                  <a 
+                    href={`/${item.slug}`} 
+                    class={`nav-link ${currentSlug === item.slug ? 'active' : ''} ${item.chapter.includes('.') ? 'sub-chapter' : ''}`}
+                  >
+                    <span class="chapter-number">{item.chapter}</span>
+                    <span class="chapter-title">{item.description}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+          <article class="content-card">
+            <slot />
+          </article>
+        </main>
+      </div>
+    </div>
+
+    <!-- Background Starfield script -->
+    <script>
+      const canvas = document.getElementById('starfield') as HTMLCanvasElement;
+      const ctx = canvas.getContext('2d');
+
+      let stars: Array<{ x: number; y: number; size: number; alpha: number; speed: number }> = [];
+
+      function initStars() {
+        stars = [];
+        const numStars = Math.floor((canvas.width * canvas.height) / 8000);
+        for (let i = 0; i < numStars; i++) {
+          stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 1.5 + 0.5,
+            alpha: Math.random(),
+            speed: Math.random() * 0.005 + 0.002
+          });
+        }
+      }
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        initStars();
+      }
+
+      function animate() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw space gradient overlay
+        const grad = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 10, canvas.width/2, canvas.height/2, canvas.width);
+        grad.addColorStop(0, '#0a0d22');
+        grad.addColorStop(0.5, '#040714');
+        grad.addColorStop(1, '#020309');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw and update stars
+        ctx.fillStyle = '#ffffff';
+        stars.forEach(star => {
+          star.alpha += star.speed;
+          if (star.alpha > 1 || star.alpha < 0) {
+            star.speed = -star.speed;
+          }
+          ctx.globalAlpha = Math.max(0.1, star.alpha);
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        ctx.globalAlpha = 1.0;
+        
+        requestAnimationFrame(animate);
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+      animate();
+    </script>
+
+    <!-- Menu Tabs navigation script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const nav = document.querySelector<HTMLElement>('.menu-tabs');
+        if (!nav) return;
+
+        const tabFirstDoc = JSON.parse(nav.dataset.tabFirst || '{}') as Record<string, string>;
+        const currentSlug = nav.dataset.currentSlug || '';
+        const activeTab = nav.dataset.activeTab || '';
+
+        if (currentSlug && activeTab) {
+          sessionStorage.setItem('tab-last-' + activeTab, currentSlug);
+        }
+
+        const tabs = nav.querySelectorAll<HTMLButtonElement>('.tab-btn');
+        tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            const target = tab.dataset.tab;
+            if (target === activeTab) return;
+            const lastSlug = sessionStorage.getItem('tab-last-' + target);
+            const slug = lastSlug || tabFirstDoc[target];
+            if (slug) window.location.href = '/' + slug;
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* Base Reset and Styling System */
+  :root {
+    --bg-dark: #040612;
+    --bg-card: rgba(13, 17, 36, 0.65);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --accent-purple: #a855f7;
+    --accent-cyan: #06b6d4;
+    --accent-gold: #f59e0b;
+    --accent-glow: rgba(168, 85, 247, 0.2);
+    
+    color-scheme: dark;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+    color: var(--text-primary);
+    background-color: var(--bg-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .starfield-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+  }
+
+  .app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 1.5rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    z-index: 1;
+    position: relative;
+  }
+
+  /* App Header */
+  .app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: rgba(11, 15, 34, 0.5);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  .header-logo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .brand-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .stellar-icon {
+    font-size: 1.5rem;
+    animation: pulse 3s infinite;
+  }
+
+  .brand-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    background: linear-gradient(135deg, #fff 0%, var(--accent-cyan) 50%, var(--accent-purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.05em;
+  }
+
+  .brand-sub {
+    font-size: 0.7rem;
+    color: var(--text-primary);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+
+  .header-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* Menu Tabs Bar */
+  .menu-tabs {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    margin-bottom: 0;
+    background: transparent;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .tab-btn {
+    flex: 1;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+  }
+
+  .tab-btn:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .tab-btn.active {
+    color: #fff;
+    background: rgba(168, 85, 247, 0.12);
+    border-color: rgba(168, 85, 247, 0.3);
+    box-shadow: 0 0 16px rgba(168, 85, 247, 0.1);
+  }
+
+  /* Workspace Layout */
+  .workspace {
+    display: flex;
+    gap: 1.5rem;
+    flex: 1;
+  }
+
+  /* Sidebar Navigation */
+  .sidebar {
+    width: 320px;
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 13rem);
+    position: sticky;
+    top: 9.5rem;
+  }
+
+  .sidebar-header {
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .sidebar-header h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--text-primary);
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem 0.5rem;
+  }
+
+  .sidebar-nav ul {
+    list-style: none;
+  }
+
+  .sidebar-nav li {
+    margin-bottom: 0.5rem;
+  }
+
+  .sidebar-nav li[hidden] {
+    display: none;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.9rem;
+    border: 1px solid transparent;
+  }
+
+  .nav-link:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.05);
+    transform: translateX(4px);
+  }
+
+  .nav-link.active {
+    color: #fff;
+    background: rgba(168, 85, 247, 0.12);
+    border-color: rgba(168, 85, 247, 0.3);
+    box-shadow: 0 0 16px rgba(168, 85, 247, 0.1);
+  }
+
+  .chapter-number {
+    font-family: 'Fira Code', monospace;
+    font-weight: 600;
+    color: var(--accent-cyan);
+    min-width: 2rem;
+    font-size: 0.85rem;
+    background: rgba(6, 182, 212, 0.08);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    text-align: center;
+  }
+
+  .nav-link.active .chapter-number {
+    color: #fff;
+    background: var(--accent-purple);
+  }
+
+  .chapter-title {
+    word-break: break-all;
+    line-height: 1.4;
+  }
+
+  .nav-link.sub-chapter {
+    padding-left: 2rem;
+    font-size: 0.85rem;
+    opacity: 0.95;
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0 10px 10px 0;
+  }
+
+  .nav-link.sub-chapter.active {
+    border-left-color: rgba(168, 85, 247, 0.5);
+  }
+
+  /* Main Content Area */
+  .main-content {
+    flex: 1;
+    min-width: 0; /* Prevents overflow */
+  }
+
+  .content-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 2.5rem;
+    min-height: 100%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Markdown Content Typography styling */
+  article {
+    line-height: 1.7;
+    font-size: 1.05rem;
+  }
+
+  article h1, article h2, article h3, article h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #fff;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+  }
+
+  article h1 {
+    font-size: 2.25rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+    background: linear-gradient(to right, #ffffff, var(--accent-cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 0;
+  }
+
+  article h2 {
+    font-size: 1.6rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 0.5rem;
+    color: var(--accent-cyan);
+  }
+
+  article h3 {
+    font-size: 1.25rem;
+    color: var(--accent-purple);
+  }
+
+  article p {
+    margin-bottom: 1.25rem;
+    color: var(--text-primary);
+  }
+
+  article strong {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  article a {
+    color: var(--accent-cyan);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--accent-cyan);
+    transition: all 0.2s ease;
+  }
+
+  article a:hover {
+    color: var(--accent-purple);
+    border-bottom-color: var(--accent-purple);
+    text-shadow: 0 0 8px rgba(168, 85, 247, 0.3);
+  }
+
+  /* Lists */
+  article ul, article ol {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+  }
+
+  article li {
+    margin-bottom: 0.5rem;
+  }
+
+  /* Blockquotes & Alerts */
+  article blockquote {
+    border-left: 4px solid var(--accent-purple);
+    background: rgba(168, 85, 247, 0.05);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 8px 8px 0;
+  }
+
+  /* Code Block styling */
+  article pre {
+    background: rgba(6, 8, 20, 0.8) !important;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+  }
+
+  article code {
+    font-family: 'Fira Code', monospace;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #e2e8f0;
+  }
+
+  article pre code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+  }
+
+  /* Markdown Tables styling */
+  article table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+  }
+
+  article th, article td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    text-align: left;
+  }
+
+  article th {
+    background: rgba(255, 255, 255, 0.03);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  article tr:nth-child(even) td {
+    background: rgba(255, 255, 255, 0.01);
+  }
+
+  /* KaTeX Math Blocks layout adjustments */
+  .katex-display {
+    padding: 0.75rem 0;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  /* Bulletproof hiding of MathML source nodes to prevent duplicate math text rendering */
+  .katex-mathml {
+    display: none !important;
+  }
+
+  /* Scrollbars styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Animations */
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.7;
+      transform: scale(1.1);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 16px rgba(168, 85, 247, 0.1);
+    }
+    50% {
+      box-shadow: 0 0 24px rgba(168, 85, 247, 0.25);
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .workspace {
+      flex-direction: column;
+    }
+    
+    .sidebar {
+      width: 100%;
+      height: 250px;
+      position: relative;
+      top: 0;
+    }
+  }
+</style>

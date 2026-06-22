@@ -1,0 +1,25 @@
+services:
+  mee2027:
+    image: captwhite/mee2027:latest
+    container_name: mee2027
+    restart: always
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mee2027-http.entrypoints=web"
+      - "traefik.http.routers.mee2027-http.rule=Host(`mee2027.captwhite.com`)"
+      - "traefik.http.routers.mee2027-http.middlewares=redirect-to-https@docker"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      #
+      - "traefik.http.routers.mee2027.entrypoints=websecure"
+      - "traefik.http.routers.mee2027.rule=Host(`mee2027.captwhite.com`)"
+      - "traefik.http.routers.mee2027.tls=true"
+      - "traefik.http.routers.mee2027.tls.certresolver=myresolver"
+      - "traefik.http.services.mee2027.loadbalancer.server.port=4321"
+    networks:
+      - webnet-astro
+
+networks:
+  webnet-astro:
+    external: true
+
