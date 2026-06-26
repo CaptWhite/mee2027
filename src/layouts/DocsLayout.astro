@@ -9,7 +9,7 @@ interface Props {
 
 const { title, currentSlug } = Astro.props;
 
-const tabs: MenuTab[] = ['Astrometría', 'Distorsión', 'Deflexión'];
+const tabs: MenuTab[] = ['Astrometría', 'Distorsión', 'Deflexión', 'Apéndices', 'Presentación', 'Biblio'];
 const activeTab = (docMapBySlug.get(currentSlug ?? '')?.menutab ?? tabs[0]) as MenuTab;
 
 const tabFirstDoc: Record<string, string> = {};
@@ -324,6 +324,7 @@ for (const tab of tabs) {
   /* Menu Tabs Bar */
   .menu-tabs {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5rem;
     padding: 0.75rem;
     margin-bottom: 0;

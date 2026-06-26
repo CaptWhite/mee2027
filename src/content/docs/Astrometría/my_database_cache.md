@@ -164,18 +164,14 @@ def prepare_triangles()
 * **Entradas:** Ninguna.
 * **Salida:** `None`.
 
-#### **Función: `open_database`**
-```python
-def open_database(path)
-```
-* **Descripción:** Función deprecada.
-* **Salida:** Lanza un error explícito: `Exception("Function has been removed")`.
 
 #### **Función: `open_catalogue`**
 ```python
 def open_catalogue(path, debug_folder=None, **kwaargs)
 ```
-* **Descripción:** Abre un catálogo estelar y devuelve su instancia en caché. Si el elemento no existe en `_cache.catalogue_cache`, lo crea y lo almacena antes de retornarlo.
+* **Descripción:** Abre un catálogo estelar y devuelve su instancia en caché. 
+  * Si el catálogo no existe en `_cache.catalogue_cache`, lo crea y lo almacena antes de retornarlo.
+  * Si el catálogo ya está en caché. lo devuelve inmediatamentee
 * **Parámetros de Entrada:**
   * `path` (str): Ruta del catálogo. Si coincide con `get_triangle_db_path()`, se inicia la lógica de sincronización.
   * `debug_folder` (str o Path, opcional): Ruta para archivos de depuración.
@@ -185,15 +181,3 @@ def open_catalogue(path, debug_folder=None, **kwaargs)
 
 ---
 
-## 5. Observaciones sobre el Código (Código Huérfano y Multiprocesamiento)
-
-Al revisar detalladamente la implementación de `my_database_cache.py`, se observan rastros de código legado que presentan inconsistencias importantes para el desarrollador:
-
-> [!CAUTION]
-> **Riesgo de Error de Atributo (`AttributeError`):**
-> 1. Las líneas encargadas de la carga de base de datos con multiprocesamiento (`prepare_triangles_mp`, `work_mp` y el uso de `Manager()`) han sido completamente comentadas en el script.
-> 2. No obstante, dentro de la función activa `open_catalogue`, en la condición `elif path == get_triangle_db_path()`, el código intenta acceder a `_cache.prepare_process.is_alive()` y a `_cache.q.empty()`.
-> 3. Como el flujo de inicialización multiproceso fue deshabilitado y `_cache` no inicializa los atributos `q` ni `prepare_process` (también están comentados en la definición de la clase, líneas 11 y 12), llamar a `open_catalogue` solicitando el path del triángulo arrojará un error en tiempo de ejecución:
->    `AttributeError: type object '_cache' has no attribute 'prepare_process'`
->
-> **Recomendación:** Se sugiere limpiar esta lógica legacy y unificar la inicialización del catálogo de triángulos para que lea directamente del archivo de manera síncrona o restablecer correctamente los hilos/procesos de preparación.
