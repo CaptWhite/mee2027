@@ -4,6 +4,17 @@ Este documento describe en detalle los fundamentos teóricos, formulaciones mate
 
 ---
 
+## Índice
+
+1. [Introducción y Arquitectura del Programa](#1-introducción-y-arquitectura-del-programa)
+2. [Fundamentos Astronómicos](#2-fundamentos-astronómicos)
+3. [Formulación Matemática](#3-formulación-matemática)
+4. [Algoritmos de Búsqueda y Filtrado (`lookup_objects`)](#4-algoritmos-de-búsqueda-y-filtrado-lookup_objects)
+5. [Estructura de Datos y Eficiencia Numérica](#5-estructura-de-datos-y-eficiencia-numérica)
+6. [Descripción Informática del Módulo (API)](#6-descripción-informática-del-módulo-api)
+
+---
+
 ## 1. Introducción y Arquitectura del Programa
 
 El script `my_database_lookup2.py` está diseñado para resolver eficientemente la indexación espacial y la consulta rápida de estrellas para aplicaciones como la resolución de placas (*platesolving*) u orientación astronómica. 
@@ -12,7 +23,19 @@ El flujo lógico consta de dos fases principales:
 1. **Carga y Reducción Astronómica:** Lee el catálogo en formato de texto plano (`.dat.txt`), aplica correcciones por movimiento propio para una época objetivo (por ejemplo, el año 2026), filtra estrellas por su brillo (magnitud límite) y proyecta las coordenadas celestes en un espacio cartesiano tridimensional (vectores directores).
 2. **Persistencia y Búsqueda:** Almacena los datos procesados en un archivo binario comprimido de NumPy (`.npz`) para permitir cargas instantáneas en ejecuciones futuras, y proporciona una función de búsqueda por rangos de Ascensión Recta ($\alpha$) y Declinación ($\delta$) con manejo de discontinuidades geométricas.
 
-```mermaid
+
+
+<div style="display: flex; justify-content: center; width: 100%;">
+
+``` mermaid
+   %%{init: {"theme":"base","themeVariables":{
+    "background":"#000000",
+    "primaryColor":"#000000",
+    "primaryTextColor":"#ffffff",
+    "textColor":"#ffffff",
+    "lineColor":"#ffffff",
+    "edgeColor":"#ffffff"
+}}}%%
 graph TD
     A[Catálogo Tycho-2 .dat.txt] --> B{¿Existe archivo .npz?}
     B -- Sí (Carga Rápida) --> C[Cargar matrices NumPy directas]
@@ -27,7 +50,11 @@ graph TD
     K --> L[Guardar en .npz comprimido]
     C --> M[Listo para lookup_objects]
     L --> M
+
+    %% Forzar color de las flechas/links (índices 0..6)
+    linkStyle 0,1,2,3,4,5,6 stroke:#ffffff,stroke-width:2px     
 ```
+</div>
 
 ---
 
@@ -344,3 +371,27 @@ Guarda y exporta el catálogo estelar preprocesado y propagado en memoria en un 
 
 #### **Parámetros de Salida / Retorno**
 * **`None`** (Guarda el archivo en el sistema de almacenamiento secundario).
+
+---
+
+## Bibliografía
+
+- Høg, E., Fabricius, C., Makarov, V. V., Urban, S., Corbin, T., Wycoff, G., Bastian, U., Schwekendiek, P., & Wicenec, A. (2000). The Tycho-2 catalogue of the 2.5 million brightest stars. *Astronomy and Astrophysics*, 355, L27–L30.
+
+- Hipparcos and Tycho Catalogues (ESA SP-1200). (1997). *ESA Special Publication*, Vol. 1-6. Noordwijk: ESA Publications Division.
+
+- The International Celestial Reference System (ICRS). (1997). *IAU Resolution B2*. Adopted by the 23rd General Assembly of the IAU, Kyoto, 1997.
+
+- Capitaine, N., Chapront, J., Lambert, S., & Wallace, P. (2003). Expressions for IAU 2000 precession quantities. *Astronomy and Astrophysics*, 412(2), 567–586. https://doi.org/10.1051/0004-6361:20031540
+
+- Harris, P., & Zarnecki, A. F. (2022). The Tycho-2 proper motion catalogue: accuracy and stability. *Astronomy and Astrophysics*, 658, A125.
+
+- NumPy Documentation. (2024). *NumPy Reference*. Recuperado de https://numpy.org/doc/stable/reference/
+
+- Virtanen, P., Gommers, R., Oliphant, T. E., Haberland, M., Reddy, T., Cournapeau, D., Burovski, E., Peterson, P., Weckesser, W., Bright, J., van der Walt, S. J., Brett, M., Wilson, J., Millman, K. J., Mayorov, N., Nelson, A. R. J., Jones, E., Kern, R., Larson, E., ... & Carey, V. J. (2020). SciPy 1.0: fundamental algorithms for scientific computing in Python. *Nature Methods*, 17(3), 261–272. https://doi.org/10.1038/s41592-019-0686-2
+
+- Astropy Collaboration. (2018). The Astropy Project: Sustaining and Growing a Community-driven Open-source Project. *The Astrophysical Journal*, 881(1), 67. https://doi.org/10.3847/1538-4357/aabb2f
+
+- Urban, S. E., & Seidelmann, P. K. (2013). *Explanatory Supplement to the Astronomical Almanac* (3rd ed.). University Science Books.
+
+- Greisen, E. W., & Allen, M. S. (1986). FITS Astronomical Image Processing System (AIPS). In D. A. Bohlender (Ed.), *Astronomical Data Analysis Software and Systems III* (ASP Conference Series, Vol. 52, pp. 195–199).

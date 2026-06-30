@@ -6,6 +6,18 @@ Aquí te explico qué sucede "bajo el capó" y cómo se conecta con tu fórmula:
 
 ---
 
+## Índice
+
+1. [Componentes de la Instrucción](#los-componentes-de-la-instrucción)
+2. [¿Cómo lo resuelve?](#cómo-lo-resuelve)
+3. [Algoritmos (El parámetro `method`)](#algoritmos-el-parámetro-method)
+4. [Explicación para un público matemático](#explicalo-para-un-publico-matematico)
+5. [Método por defecto: BFGS](#si-utilizo-esta-espresion-de-scipyoptimizeminimize-qué-método-utiliza-minimizeloss_fxn-guess)
+6. [Aplicación al cálculo de desplazamiento y RMS de centroides](#como-se-aplica-esta-formula-al-calcular-el-desplazamiento-y-rms-de-centroides-de-dos-fotografias)
+7. [Búsqueda iterativa de BFGS para minimizar distancias al cuadrado](#puedes-desarrollar-como-bfgs-busa-iterativamente-el-vector-b-que-reduce-la-suma-de-distancias-al-cuadrado)
+
+---
+
 ### Los Componentes de la Instrucción
 
 Cuando ejecutas `scipy.optimize.minimize(fun, x0, ...)`, estás mapeando los elementos de tu ecuación matemática de la siguiente forma:
@@ -412,4 +424,28 @@ Donde $\rho_k = \frac{1}{\mathbf{y}_k^T \mathbf{s}_k}$. Esta fórmula impone la 
 
 **¿Por qué iterar si es una parábola?**
 Porque en aplicaciones reales, `scipy.optimize.minimize` no sabe de antemano que tu función es una parábola perfecta. BFGS es lo suficientemente robusto para tratarla como tal si lo es, o para adaptarse si decides añadir rotaciones o términos no lineales más adelante.
+
+---
+
+## Bibliografía
+
+- Virtanen, P., Gommers, R., Oliphant, T. E., Haberland, M., Reddy, T., Cournapeau, D., Burovski, E., Peterson, P., Weckesser, W., Bright, J., van der Walt, S. J., Brett, M., Wilson, J., Millman, K. J., Mayorov, N., Nelson, A. R. J., Jones, E., Kern, R., Larson, E., ... & Carey, V. J. (2020). SciPy 1.0: fundamental algorithms for scientific computing in Python. *Nature Methods*, 17(3), 261–272. https://doi.org/10.1038/s41592-019-0686-2
+
+- Nocedal, J., & Wright, S. J. (2006). *Numerical Optimization* (2nd ed.). Springer. https://doi.org/10.1007/978-0-387-40065-5
+
+- Broyden, C. G. (1970). The convergence of a class of double-rank minimization algorithms. *Journal of the Institute of Mathematics and Its Applications*, 6(3), 222–231. https://doi.org/10.1093/imamat/6.3.222
+
+- Fletcher, R. (1970). A new approach to variable metric algorithms. *The Computer Journal*, 13(3), 317–322. https://doi.org/10.1093/comjnl/13.3.317
+
+- Goldfarb, D. (1970). A family of variable-metric methods derived by variational means. *Mathematics of Computation*, 24(109), 23–26. https://doi.org/10.1090/S0025-5718-1970-0258249-5
+
+- Shanno, D. F. (1970). Conditioning of quasi-Newton methods for function minimization. *Mathematics of Computation*, 24(111), 647–656. https://doi.org/10.1090/S0025-5718-1970-0274029-X
+
+- Boyd, S., & Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. https://doi.org/10.1017/CBO9780511814372
+
+- Luenberger, D. G., & Ye, Y. (2008). *Linear and Nonlinear Programming* (3rd ed.). Springer. https://doi.org/10.1007/978-0-387-74503-9
+
+- Kyurgiordan, J. (2023). *Optimización Matemática: Métodos Gradientes y Cuasi-Newton*. Editorial Universitaria.
+
+- Virtanen, P., & Gommers, R. (2022). *SciPy documentation: scipy.optimize.minimize*. Recuperado de https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html
 

@@ -13,17 +13,19 @@ Los datos 'BSC5' están disponibles desde <http://tdc-www.harvard.edu/catalogs/b
 
 ## Índice
 
-- [Diagrama del proceso de creación del KDtree triángulos](#diagrama-del-proceso-de-creación-del-kdtree-triángulos)
-- [Secuencia de ficheros a crear después de la instalación](#secuencia-de-ficheros-a-crear-después-de-la-instalación)
-- [Cambios en la última versión](#cambios-en-la-última-versión)
-  - [Sintaxis](#sintaxis)
-  - [Explicación](#explicación)
-- [Bibliografía y referencias](#bibliografía-y-referencias)
+- [Generación del árbol de triángulos a partir de la BBDD de Tycho.](#generación-del-árbol-de-triángulos-a-partir-de-la-bbdd-de-tycho)
+  - [Índice](#índice)
+  - [Diagrama del proceso de creación del KDtree triángulos](#diagrama-del-proceso-de-creación-del-kdtree-triángulos)
+  - [Secuencia de ficheros a crear después de la instalación](#secuencia-de-ficheros-a-crear-después-de-la-instalación)
+  - [Cambios en la última versión](#cambios-en-la-última-versión)
+    - [Sintaxis](#sintaxis)
+    - [Explicación](#explicación)
+  - [Bibliografía y referencias](#bibliografía-y-referencias)
  
 ---
 ## Diagrama del proceso de creación del KDtree triángulos
 
-
+<div style="display: flex; justify-content: center; width: 100%;">
 
 ```mermaid
 %%{init: {"theme":"base","themeVariables":{
@@ -88,6 +90,7 @@ classDef ftpStep fill:#000,stroke:#fff,stroke-width:2px,color:#fff
 classDef stacked fill:#77f,stroke:#77f,stroke-width:2px,color:#fff
 ```
 
+</div>
 
 ## Secuencia de ficheros a crear después de la instalación
 

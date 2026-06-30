@@ -4,6 +4,15 @@ Este documento describe detalladamente el diseño matemático, algorítmico e in
 
 ---
 
+## Índice
+
+1. [Introducción y Propósito del Módulo](#1-introducción-y-propósito-del-módulo)
+2. [Fundamentos Algorítmicos y Matemáticos](#2-fundamentos-algorítmicos-y-matemáticos)
+3. [Arquitectura del Mecanismo de Caché](#3-arquitectura-del-mecanismo-de-caché)
+4. [Descripción Informática del Módulo (API)](#4-descripción-informática-del-módulo-api)
+
+---
+
 ## 1. Introducción y Propósito del Módulo
 
 El módulo `my_database_cache.py` actúa como una capa de persistencia intermedia en memoria (Caché Singleton) que gestiona dos tipos de datos:
@@ -12,7 +21,17 @@ El módulo `my_database_cache.py` actúa como una capa de persistencia intermedi
 
 El principal objetivo del módulo es evitar el reanálisis y la recarga computacionalmente costosa de archivos en disco (archivos `.dat` o archivos comprimidos `.npz`) durante consultas repetitivas de placas.
 
-```mermaid
+<div style="display: flex; justify-content: center; width: 100%;">
+
+``` mermaid
+   %%{init: {"theme":"base","themeVariables":{
+    "background":"#000000",
+    "primaryColor":"#000000",
+    "primaryTextColor":"#ffffff",
+    "textColor":"#ffffff",
+    "lineColor":"#ffffff",
+    "edgeColor":"#ffffff"
+}}}%%
 graph TD
     A[Llamada open_catalogue path] --> B{¿Está en _cache.catalogue_cache?}
     B -- Sí --> C[Retornar objeto en caché]
@@ -23,6 +42,7 @@ graph TD
     F --> G
 ```
 
+</div>
 ---
 
 ## 2. Fundamentos Algorítmicos y Matemáticos
@@ -180,4 +200,22 @@ def open_catalogue(path, debug_folder=None, **kwaargs)
   * Instancia de `database_searcher` o `TriangleData` recuperada de la memoria caché.
 
 ---
+
+## Bibliografía
+
+- Bentley, J. L. (1975). Multidimensional binary search trees used for associative searching. *Communications of the ACM*, 18(9), 509–517. https://doi.org/10.1145/361002.361007
+
+- Friedman, J. H., Bentley, J. L., & Finkel, R. A. (1977). An algorithm for finding best matches in logarithmic expected time. *ACM Transactions on Mathematical Software*, 3(3), 209–226. https://doi.org/10.1145/355744.355745
+
+- Virtanen, P., Gommers, R., Oliphant, T. E., Haberland, M., Reddy, T., Cournapeau, D., Burovski, E., Peterson, P., Weckesser, W., Bright, J., van der Walt, S. J., Brett, M., Wilson, J., Millman, K. J., Mayorov, N., Nelson, A. R. J., Jones, E., Kern, R., Larson, E., ... & Carey, V. J. (2020). SciPy 1.0: fundamental algorithms for scientific computing in Python. *Nature Methods*, 17(3), 261–272. https://doi.org/10.1038/s41592-019-0686-2
+
+- NumPy Documentation. (2024). *NumPy Reference*. Recuperado de https://numpy.org/doc/stable/reference/
+
+- Astropy Collaboration. (2018). The Astropy Project: Sustaining and Growing a Community-driven Open-source Project. *The Astrophysical Journal*, 881(1), 67. https://doi.org/10.3847/1538-4357/aabb2f
+
+- Høg, E., Fabricius, C., Makarov, V. V., Urban, S., Corbin, T., Wycoff, G., Bastian, U., Schwekendiek, P., & Wicenec, A. (2000). The Tycho-2 catalogue of the 2.5 million brightest stars. *Astronomy and Astrophysics*, 355, L27–L30.
+
+- Irani, M., & Anandan, J. (1998). Periodic motion segmentatio and its application to astronomical image sequences. *IEEE Transactions on Pattern Analysis and Machine Intelligence*, 20(4), 407–417. https://doi.org/10.1109/34.677259
+
+- Lang, D., Hogg, D. W., Mierle, K., & Blanton, M. (2010). Astrometry.net: Blind astrometric calibration of arbitrary astronomical images. *The Astronomical Journal*, 139(5), 1782–1800. https://doi.org/10.1088/0004-6256/139/5/1782
 

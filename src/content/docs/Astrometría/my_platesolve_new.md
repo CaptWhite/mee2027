@@ -11,7 +11,18 @@ El proceso de *platesolving* requiere de una base de datos indexada con descript
 2. **Construcción de bases tangentes locales:** Para cada estrella ancla, se define un plano tangente y se determinan las coordenadas polares de sus vecinas más brillantes.
 3. **Generación de tripletas (Triángulos):** Se combinan las estrellas de la vecindad de cada ancla para construir descriptores triangulares invariantes de escala y orientación, los cuales son finalmente almacenados en disco.
 
-```mermaid
+<div class="clase" style="display: flex; justify-content: center; width: 100%;">
+
+``` mermaid
+   %%{init: {"theme":"base","themeVariables":{
+    "background":"#000000",
+    "primaryColor":"#000000",
+    "primaryTextColor":"#ffffff",
+    "textColor":"#ffffff",
+    "lineColor":"#ffffff",
+    "edgeColor":"#ffffff"
+}}}%%
+
 graph TD
     A[Cargar catálogo Tycho corregido J2024] --> B[Paso 1: Selección de Anclas]
     B --> C[Filtrar estrellas dobles y aglomeraciones]
@@ -21,6 +32,7 @@ graph TD
     F --> G[Normalizar Ratios y Diferencias Angulares]
     G --> H[Guardar matrices npz comprimidas]
 ```
+</div>
 
 ---
 
@@ -53,14 +65,18 @@ $$
 \mathbf{t}_{\phi} = \mathbf{z} \times \mathbf{v}_{\text{anc}}
 $$
 
-   $$\hat{\phi} = \frac{\mathbf{t}_{\phi}}{\|\mathbf{t}_{\phi}\|}$$
+$$
+\hat{\phi} = \frac{\mathbf{t}_{\phi}}{\|\mathbf{t}_{\phi}\|}
+$$
 2. **Vector tangente de Declinación ($\hat{\theta}$):** Dirección norte-sur tangente al meridiano local:
 
 $$
 \mathbf{t}_{\theta} = \hat{\phi} \times \mathbf{v}_{\text{anc}}
 $$
 
-   $$\hat{\theta} = \frac{\mathbf{t}_{\theta}}{\|\mathbf{t}_{\theta}\|}$$
+$$
+\hat{\theta} = \frac{\mathbf{t}_{\theta}}{\|\mathbf{t}_{\theta}\|}
+$$
 
 Proyectando el vector diferencia $\mathbf{\delta}$ en este plano tangente, obtenemos sus coordenadas 2D cartesianas locales $(x, y)$:
 
@@ -68,7 +84,9 @@ $$
 x = \hat{\theta} \cdot \mathbf{\delta}
 $$
 
-$$y = \hat{\phi} \cdot \mathbf{\delta}$$
+$$
+y = \hat{\phi} \cdot \mathbf{\delta}
+$$
 
 ---
 

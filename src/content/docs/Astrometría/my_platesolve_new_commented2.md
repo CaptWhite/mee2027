@@ -1,5 +1,5 @@
 
-# 🌌 **VISIÓN GENERAL ASTRONÓMICA DEL ALGORITMO PLATE SOLVE**
+# **VISIÓN GENERAL ASTRONÓMICA DEL ALGORITMO PLATE SOLVE**
 
 La función construye una **base de datos geométrica** que permite reconocer el cielo mediante patrones de estrellas.
 En astronomía esto se usa en **star trackers** a bordo de satélites, telescopios robóticos o sistemas de astrometría.
@@ -15,7 +15,7 @@ Esto se logra construyendo, para cada estrella brillante:
 
 ---
 
-# 🧠 **IDEA MATEMÁTICA CENTRAL**
+# **IDEA MATEMÁTICA CENTRAL**
 
 Todo ocurre sobre la **esfera celeste**, que matemáticamente es:
 $$S^2 = \{ x \in \mathbb{R}^3 , | , |x| = 1 \}$$
@@ -31,7 +31,7 @@ El algoritmo usa:
 * **Relaciones invariantes de triángulos**, como cocientes de distancias angulares para ser robustos a escalas.
 
 ---
-# ⭐ PASO 0 — Definición de parámetros
+# PASO 0 — Definición de parámetros
 
    **a =  80000**    *número de estrellas más brillantes* \
    **b = 120000**    *número de estrellas adicionales consideradas para anclajes, pero solo si están suficientemente separadas de las más brillantes* \
@@ -44,7 +44,7 @@ El algoritmo usa:
 
 ---
 
-# ⭐ PASO 1 — Selección de anclas
+# PASO 1 — Selección de anclas
 
 Se eligen estrellas brillantes que están suficientemente separadas entre sí según una distancia angular mínima:
 $$\theta_{\text{sep}} = 0.65^\circ$$
@@ -62,7 +62,7 @@ Matemáticamente, se está obteniendo un **subconjunto “pseudouniforme” de p
 
 ---
 
-# 🌐 PASO 2 — Selección de estrellas dentro del campo de visión
+# PASO 2 — Selección de estrellas dentro del campo de visión
 
 Para cada ancla $a_i$, se buscan estrellas dentro de un **cap (casquete esférico)**:
 $$\theta < \theta_{\text{FOV}} = 1.7^\circ$$
@@ -99,12 +99,14 @@ Matemáticamente, es una proyección a coordenadas locales de la esfera (como un
 
 ---
 
-# 🔺 PASO 3 — Construcción de triángulos invariantes
+# PASO 3 — Construcción de triángulos invariantes
 
 Cada estrella ancla define un conjunto de estrellas vecinas.
 El algoritmo toma **todas las combinaciones** de pares.
 Si hay $N = c + e$ estrellas:
-$$\binom{N}{2} = \frac{N(N-1)}{2}$$
+$$
+\binom{N}{2} = \frac{N(N-1)}{2}
+$$
 
 En el caso típico $N=18$, son 153 triángulos por ancla.
 
@@ -114,15 +116,21 @@ Para cada triángulo formado por:
 
 Se computa:
 ### 1. **La razón entre distancias angulares**
-$$R = \frac{\theta(A,C)}{\theta(A,B)}$$
+$$
+R = \frac{\theta(A,C)}{\theta(A,B)}
+$$
 
 Y se fuerza:
-$$R \le 1,\quad \text{(si no, se invierte)}$$
+$$
+R \le 1,\quad \text{(si no, se invierte)}
+$$
 
 Esto es importante porque **define una representación única e invariante del triángulo**.
 
 ### 2. **La diferencia de ángulos locales:**
-$$\Delta\phi = \phi_C - \phi_B \quad\text{mod}(2\pi)$$
+$$
+\Delta\phi = \phi_C - \phi_B \quad\text{mod}(2\pi)
+$$
 
 Esto define la **orientación del triángulo** alrededor del ancla.
 
@@ -155,7 +163,7 @@ Durante el reconocimiento:
 
 ---
 
-# 🔭 **Resumen completamente matemático/astronómico**
+# **Resumen completamente matemático/astronómico**
 
 El algoritmo:
 
@@ -195,11 +203,11 @@ Para ello:
 
 ---
 
-# 🟦 **DETALLE DEL PROCESO POR ETAPAS**
+# **DETALLE DEL PROCESO POR ETAPAS**
 
 ---
 
-## 🔵 **Paso 1 — Selección de anclas ("anchors")**
+## **Paso 1 — Selección de anclas ("anchors")**
 
 El código recorre las primeras `d` estrellas más brillantes y decide si cada una será:
 
@@ -208,14 +216,14 @@ El código recorre las primeras `d` estrellas más brillantes y decide si cada u
 
 Criterios:
 
-### ⭐ *Para ser ancla (kept)*:
+### *Para ser ancla (kept)*:
 
 Una estrella se selecciona si:
 
 * Está entre las **a** más brillantes aunque tenga vecinos cercanos *pero no estrellas dobles*, o
 * Está entre **a+b** y **no tiene otra ancla dentro de θ_sep**.
 
-### ⭐ *Para ser leg (kept2)*:
+### *Para ser leg (kept2)*:
 
 Es menos estricto:
 
@@ -228,7 +236,7 @@ Resultado típico:
 
 ---
 
-## 🔵 **Paso 2 — Para cada ancla, buscar estrellas alrededor**
+## **Paso 2 — Para cada ancla, buscar estrellas alrededor**
 
 Para cada estrella ancla:
 
@@ -253,7 +261,7 @@ Se guardan:
 
 ---
 
-## 🔵 **Paso 3 — Generación de triángulos**
+## **Paso 3 — Generación de triángulos**
 
 Para cada ancla:
 
@@ -269,7 +277,7 @@ Estos dos valores forman la **descripción única del triángulo**.
 
 ---
 
-## 🔵 **Paso final — Guardar la base de datos**
+## **Paso final — Guardar la base de datos**
 
 Se guarda un archivo `.npz` comprimido con:
 
@@ -282,7 +290,7 @@ Este archivo se usará posteriormente para la identificación estelar.
 
 ---
 
-# 📌 **RESUMEN ULTRACORTO (3 líneas)**
+# **RESUMEN ULTRACORTO (3 líneas)**
 
 * El código selecciona estrellas ancla y estrellas secundarias (“legs”) evitando cercanas y dobles.
 * Para cada ancla calcula estrellas dentro del FOV y sus ángulos relativos.

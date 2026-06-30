@@ -6,6 +6,18 @@ Este documento presenta un desarrollo matemático detallado y paso a paso del al
 
 ---
 
+## Índice
+
+1. [Motivación y Antecedentes (Método de Newton vs. Cuasi-Newton)](#1-motivación-y-antecedentes-método-de-newton-vs-cuasi-newton)
+2. [La Ecuación Secante y las Condiciones Matemáticas](#2-la-ecuación-secante-y-las-condiciones-matemáticas)
+3. [Deducción de la Actualización BFGS](#3-deducción-de-la-actualización-bfgs)
+4. [El Algoritmo BFGS Paso a Paso](#4-el-algoritmo-bfgs-paso-a-paso)
+5. [Validación Empírica: Minimización de la Función de Himmelblau](#5-validación-empírica-minimización-de-la-función-de-himmelblau)
+6. [Análisis de las Trayectorias de Optimización](#6-análisis-de-las-trayectorias-de-optimización)
+7. [Comparativa de Métodos en Optimización y Aprendizaje Profundo](#7-comparativa-de-métodos-en-optimización-y-aprendizaje-profundo)
+
+---
+
 ## 1. Motivación y Antecedentes (Método de Newton vs. Cuasi-Newton)
 
 El **Método de Newton** clásico para minimizar una función $f: \mathbb{R}^n \to \mathbb{R}$ utiliza la serie de Taylor de segundo orden para aproximar localmente la función mediante un modelo cuadrático:
@@ -356,7 +368,26 @@ De acuerdo con la tesis y el análisis matemático, las propiedades estructurale
 
 ---
 
-## Referencias
+## Bibliografía
+
+- Broyden, C. G. (1970). The convergence of a class of double-rank minimization algorithms. *Journal of the Institute of Mathematics and Its Applications*, 6(3), 222–231. https://doi.org/10.1093/imamat/6.3.222
+
+- Fletcher, R. (1970). A new approach to variable metric algorithms. *The Computer Journal*, 13(3), 317–322. https://doi.org/10.1093/comjnl/13.3.317
+
+- Goldfarb, D. (1970). A family of variable-metric methods derived by variational means. *Mathematics of Computation*, 24(109), 23–26. https://doi.org/10.1090/S0025-5718-1970-0258249-5
+
+- Shanno, D. F. (1970). Conditioning of quasi-Newton methods for function minimization. *Mathematics of Computation*, 24(111), 647–656. https://doi.org/10.1090/S0025-5718-1970-0274029-X
+
+- Nocedal, J., & Wright, S. J. (2006). *Numerical Optimization* (2nd ed.). Springer. https://doi.org/10.1007/978-0-387-40065-5
+
+- Boyd, S., & Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. https://doi.org/10.1017/CBO9780511814372
+
+- Luenberger, D. G., & Ye, Y. (2008). *Linear and Nonlinear Programming* (3rd ed.). Springer. https://doi.org/10.1007/978-0-387-74503-9
+
+- Dennis, J. E., & Moré, J. J. (1977). Quasi-Newton methods, motivations and theory. *SIAM Review*, 19(1), 46–89. https://doi.org/10.1137/1019005
+
+- Davidon, W. C. (1991). Variable metric algorithm for minimization. *SIAM Journal on Optimization*, 1(1), 1–17. https://doi.org/10.1137/0801001
 
 - García Ventura, J. (2023). *Aplicaciones de los Métodos de Optimización Cuasi-Newton en Aprendizaje Profundo*. Tesis de Maestría en Matemática Aplicada (MMA). Instituto Tecnológico de Santo Domingo (INTEC).
-- Nocedal, J., & Wright, S. (2006). *Numerical Optimization*. Springer Science & Business Media.
+
+- Kyurgiordan, J. (2023). *Optimización Matemática: Métodos Gradientes y Cuasi-Newton*. Editorial Universitaria.

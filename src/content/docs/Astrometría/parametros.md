@@ -4,6 +4,14 @@ El archivo `C:\Users\captw\AppData\Local\MEE2024\MEE2024\MEE_config.txt` almacen
 
 
 ---
+###  Interface gáfica de la aplicación - Find centroids
+
+<div style="display: flex; justify-content: center; margin: 50px 0;">
+    <img src="assets/Find centroids.png" 
+         alt="Haz clic para ampliar" 
+         width="600">
+</div>
+
 
 ### 1. Remove big bright object (blob) - `delete_saturated_blob`
 * **Efecto Algorítmico:** Actúa como un interruptor booleano (`True` o `False`) para activar o desactivar la rutina de supresión de manchas saturadas.

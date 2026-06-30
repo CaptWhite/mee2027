@@ -1,4 +1,4 @@
-# Documentación Unificada de Calibración Astronómica, Guiado y Platesolving
+# Generación de catálogos, centroides, apilado y Platesolving
 
 Este documento reúne de manera estructurada los fundamentos astronómicos, modelados matemáticos, detalles de diseño algorítmico y descripciones de software (API) de los cinco módulos del sistema de calibración de imágenes, alineación por centroides, resolución de placas (*platesolving*) y gestión de catálogos estelares de la aplicación:
 1. `my_database_lookup2.py`
@@ -11,35 +11,108 @@ Este documento reúne de manera estructurada los fundamentos astronómicos, mode
 
 ## Índice General
 
-* [Capítulo 1: Búsqueda y Reducción del Catálogo Estelar (`my_database_lookup2.py`)](#capítulo-1-búsqueda-y-reducción-del-catálogo-estelar-my_database_lookup2py)
-  * [1.1. Introducción y Arquitectura del Programa](#11-introducción-y-arquitectura-del-programa)
-  * [1.2. Fundamentos Astronómicos](#12-fundamentos-astronómicos)
-  * [1.3. Formulación Matemática](#13-formulación-matemática)
-  * [1.4. Algoritmos de Búsqueda y Filtrado (`lookup_objects`)](#14-algoritmos-de-búsqueda-y-filtrado-lookup_objects)
-  * [1.5. Estructura de Datos y Eficiencia Numérica](#15-estructura-de-datos-y-eficiencia-numérica)
-  * [1.6. Descripción Informática del Módulo (API)](#16-descripción-informática-del-módulo-api)
-* [Capítulo 2: Mecanismo de Caché y Estructuras del Patrón (`my_database_cache.py`)](#capítulo-2-mecanismo-de-caché-y-estructuras-del-patrón-my_database_cachepy)
-  * [2.1. Introducción y Propósito del Módulo](#21-introducción-y-propósito-del-módulo)
-  * [2.2. Fundamentos Algorítmicos y Matemáticos](#22-fundamentos-algorítmicos-y-matemáticos)
-  * [2.3. Arquitectura del Mecanismo de Caché](#23-arquitectura-del-mecanismo-de-caché)
-  * [2.4. Descripción Informática del Módulo (API)](#24-descripción-informática-del-módulo-api)
-  * [2.5. Observaciones sobre el Código (Multiprocesamiento y Código Legado)](#25-observaciones-sobre-el-código-multiprocesamiento-y-código-legado)
-* [Capítulo 3: Generación del Catálogo de Triángulos Invariantes (`my_platesolve_new.py`)](#capítulo-3-generación-del-catálogo-de-triángulos-invariantes-my_platesolve_newpy)
-  * [3.1. Introducción y Arquitectura del Programa](#31-introducción-y-arquitectura-del-programa)
-  * [3.2. Modelado Matemático Detallado](#32-modelado-matemático-detallado)
-  * [3.3. Lógica y Estructura de Datos de Mapeo Interno](#33-lógica-y-estructura-de-datos-de-mapeo-interno)
-  * [3.4. Descripción Informática del Módulo (API)](#34-descripción-informática-del-módulo-api)
-  * [3.5. Observaciones sobre el Código (Robustez y Casos Límite)](#35-observaciones-sobre-el-código-robustez-y-casos-límite)
-* [Capítulo 4: Solucionador Astrométrico de Campo Estelar (`my_platesolve_triangle.py`)](#capítulo-4-solucionador-astrométrico-de-campo-estelar-my_platesolve_trianglepy)
-  * [4.1. Introducción y Arquitectura del Solucionador](#41-introducción-y-arquitectura-del-solucionador)
-  * [4.2. Modelado Matemático Detallado](#42-modelado-matemático-detallado)
-  * [4.3. Descripción Informática del Módulo (API)](#43-descripción-informática-del-módulo-api)
-  * [4.4. Bibliografía y Referencias de Soporte](#44-bibliografía-y-referencias-de-soporte)
-* [Capítulo 5: Guiado, Calibración y Apilado de Imágenes (`my_stacker_implementation.py`)](#capítulo-5-guiado-calibración-y-apilado-de-imágenes-my_stacker_implementationpy)
-  * [5.1. Introducción y Propósito del Módulo](#51-introducción-y-propósito-del-módulo)
-  * [5.2. Modelado Matemático y Algorítmico](#52-modelado-matemático-y-algorítmico)
-  * [5.3. Descripción Informática del Módulo (API)](#53-descripción-informática-del-módulo-api)
-  * [5.4. Bibliografía de Soporte (Procesamiento de Imágenes Astronómicas y Alineación)](#54-bibliografía-de-soporte-procesamiento-de-imágenes-astronómicas-y-alineación)
+- [Generación de catálogos, centroides, apilado y Platesolving](#generación-de-catálogos-centroides-apilado-y-platesolving)
+  - [Índice General](#índice-general)
+  - [Capítulo 1: Búsqueda y Reducción del Catálogo Estelar (`my_database_lookup2.py`)](#capítulo-1-búsqueda-y-reducción-del-catálogo-estelar-my_database_lookup2py)
+    - [1.1. Introducción y Arquitectura del Programa](#11-introducción-y-arquitectura-del-programa)
+    - [1.2. Fundamentos Astronómicos](#12-fundamentos-astronómicos)
+      - [1.2.1. Sistema de Coordenadas Ecuatoriales Celestes](#121-sistema-de-coordenadas-ecuatoriales-celestes)
+      - [1.2.2. Movimiento Propio (Proper Motion)](#122-movimiento-propio-proper-motion)
+    - [1.3. Formulación Matemática](#13-formulación-matemática)
+      - [1.3.1. Conversión de Unidades de Movimiento Propio](#131-conversión-de-unidades-de-movimiento-propio)
+      - [1.3.2. Corrección Geométrica por Declinación y Regularización Polar](#132-corrección-geométrica-por-declinación-y-regularización-polar)
+        - [El problema de la singularidad polar:](#el-problema-de-la-singularidad-polar)
+      - [1.3.3. Propagación Temporal a la Época Objetivo](#133-propagación-temporal-a-la-época-objetivo)
+      - [1.3.4. Proyección a Coordenadas Cartesianas (Cosenos Directores)](#134-proyección-a-coordenadas-cartesianas-cosenos-directores)
+    - [1.4. Algoritmos de Búsqueda y Filtrado (`lookup_objects`)](#14-algoritmos-de-búsqueda-y-filtrado-lookup_objects)
+      - [1.4.1. Filtrado por Magnitud](#141-filtrado-por-magnitud)
+      - [1.4.2. Filtrado por Ascensión Recta con Discontinuidad de 360°](#142-filtrado-por-ascensión-recta-con-discontinuidad-de-360)
+      - [1.4.3. Filtrado por Declinación](#143-filtrado-por-declinación)
+    - [1.5. Estructura de Datos y Eficiencia Numérica](#15-estructura-de-datos-y-eficiencia-numérica)
+      - [1.5.1. Organización de Matrices](#151-organización-de-matrices)
+      - [1.5.2. Clasificación por Brillo (Sorting)](#152-clasificación-por-brillo-sorting)
+    - [1.6. Descripción Informática del Módulo (API)](#16-descripción-informática-del-módulo-api)
+      - [1.6.1. Clase `database_searcher`](#161-clase-database_searcher)
+        - [**Atributos de la Clase**](#atributos-de-la-clase)
+        - [**Constructor: `__init__`**](#constructor-__init__)
+        - [**Método: `lookup_objects`**](#método-lookup_objects)
+        - [**Método: `save_npz`**](#método-save_npz)
+  - [Capítulo 2: Mecanismo de Caché y Estructuras del Patrón (`my_database_cache.py`)](#capítulo-2-mecanismo-de-caché-y-estructuras-del-patrón-my_database_cachepy)
+    - [2.1. Introducción y Propósito del Módulo](#21-introducción-y-propósito-del-módulo)
+    - [2.2. Fundamentos Algorítmicos y Matemáticos](#22-fundamentos-algorítmicos-y-matemáticos)
+      - [2.2.1. Representación Geométrica de Patrones (Triángulos)](#221-representación-geométrica-de-patrones-triángulos)
+      - [2.2.2. KD-Tree Bidimensional con Topología Toroidal](#222-kd-tree-bidimensional-con-topología-toroidal)
+        - [Explicación matemática del parámetro `boxsize`:](#explicación-matemática-del-parámetro-boxsize)
+    - [2.3. Arquitectura del Mecanismo de Caché](#23-arquitectura-del-mecanismo-de-caché)
+      - [2.3.1. Carga Dinámica y Fallo de Caché (*Cache Miss*)](#231-carga-dinámica-y-fallo-de-caché-cache-miss)
+    - [2.4. Descripción Informática del Módulo (API)](#24-descripción-informática-del-módulo-api)
+      - [2.4.1. Clase Interna `_cache`](#241-clase-interna-_cache)
+        - [**Atributos de Clase**](#atributos-de-clase)
+      - [2.4.2. Clase `TriangleData`](#242-clase-triangledata)
+        - [**Constructor: `__init__`**](#constructor-__init__-1)
+      - [2.4.3. Funciones del Módulo](#243-funciones-del-módulo)
+        - [**Función: `work`**](#función-work)
+        - [**Función: `prepare_triangles`**](#función-prepare_triangles)
+        - [**Función: `open_database`**](#función-open_database)
+        - [**Función: `open_catalogue`**](#función-open_catalogue)
+  - [Capítulo 3: Generación del Catálogo de Triángulos Invariantes (`my_platesolve_new.py`)](#capítulo-3-generación-del-catálogo-de-triángulos-invariantes-my_platesolve_newpy)
+    - [3.1. Introducción y Arquitectura del Programa](#31-introducción-y-arquitectura-del-programa)
+    - [3.2. Modelado Matemático Detallado](#32-modelado-matemático-detallado)
+      - [3.2.1. Selección de Estrellas "Ancla" y Región de Exclusión](#321-selección-de-estrellas-ancla-y-región-de-exclusión)
+        - [Reglas de Selección:](#reglas-de-selección)
+      - [3.2.2. Base Ortonormal en el Plano Tangente Local](#322-base-ortonormal-en-el-plano-tangente-local)
+      - [3.2.3. Coordenadas Polares del Patrón](#323-coordenadas-polares-del-patrón)
+      - [3.2.4. Características Invariantes de los Triángulos](#324-características-invariantes-de-los-triángulos)
+        - [Normalización para Invariancia de Escala y Orientación:](#normalización-para-invariancia-de-escala-y-orientación)
+    - [3.3. Lógica y Estructura de Datos de Mapeo Interno](#33-lógica-y-estructura-de-datos-de-mapeo-interno)
+    - [3.4. Descripción Informática del Módulo (API)](#34-descripción-informática-del-módulo-api)
+      - [3.4.1. Función: `generate`](#341-función-generate)
+        - [**Constantes de Operación del Generador**](#constantes-de-operación-del-generador)
+      - [3.4.2. Estructura del Archivo NPZ Guardado](#342-estructura-del-archivo-npz-guardado)
+    - [3.5. Observaciones sobre el Código (Robustez y Casos Límite)](#35-observaciones-sobre-el-código-robustez-y-casos-límite)
+  - [Capítulo 4: Solucionador Astrométrico de Campo Estelar (`my_platesolve_triangle.py`)](#capítulo-4-solucionador-astrométrico-de-campo-estelar-my_platesolve_trianglepy)
+    - [4.1. Introducción y Arquitectura del Solucionador](#41-introducción-y-arquitectura-del-solucionador)
+    - [4.2. Modelado Matemático Detallado](#42-modelado-matemático-detallado)
+      - [4.2.1. Estimación del Umbral de Aceptación Estocástico](#421-estimación-del-umbral-de-aceptación-estocástico)
+        - [Probabilidad de Coincidencia Aleatoria ($p$):](#probabilidad-de-coincidencia-aleatoria-p)
+        - [Número de Ensayos Combinatorios ($N$):](#número-de-ensayos-combinatorios-n)
+        - [Límite del Máximo de Variables de Poisson:](#límite-del-máximo-de-variables-de-poisson)
+      - [4.2.2. Estimación Analítica de Escala, Roll y Centro](#422-estimación-analítica-de-escala-roll-y-centro)
+      - [4.2.3. Agrupación y Consenso en Espacio 5D](#423-agrupación-y-consenso-en-espacio-5d)
+      - [4.2.4. Refinamiento de la Rotación mediante el Algoritmo de Kabsch (SVD)](#424-refinamiento-de-la-rotación-mediante-el-algoritmo-de-kabsch-svd)
+    - [4.3. Descripción Informática del Módulo (API)](#43-descripción-informática-del-módulo-api)
+      - [4.3.1. Funciones del Módulo](#431-funciones-del-módulo)
+        - [**`estimate_acceptance_threshold`**](#estimate_acceptance_threshold)
+        - [**`match_centroids`**](#match_centroids)
+        - [**`_find_rotation_matrix`**](#_find_rotation_matrix)
+        - [**`compute_platescale`**](#compute_platescale)
+        - [**`match_triangles_inner`**](#match_triangles_inner)
+        - [**`platesolve`**](#platesolve)
+    - [4.4. Bibliografía y Referencias de Soporte](#44-bibliografía-y-referencias-de-soporte)
+  - [Capítulo 5: Guiado, Calibración y Apilado de Imágenes (`my_stacker_implementation.py`)](#capítulo-5-guiado-calibración-y-apilado-de-imágenes-my_stacker_implementationpy)
+    - [5.1. Introducción y Propósito del Módulo](#51-introducción-y-propósito-del-módulo)
+    - [5.2. Modelado Matemático y Algorítmico](#52-modelado-matemático-y-algorítmico)
+      - [5.2.1. Reducción Astronómica (Calibración de la Imagen)](#521-reducción-astronómica-calibración-de-la-imagen)
+      - [5.2.2. Detección y Enmascaramiento de Blobs Saturados](#522-detección-y-enmascaramiento-de-blobs-saturados)
+      - [5.2.3. Extracción de Centroides Subpíxel (Centro de Masas)](#523-extracción-de-centroides-subpíxel-centro-de-masas)
+        - [Método de Centro de Masa Simplificado](#método-de-centro-de-masa-simplificado)
+        - [Método Avanzado de Normalización por Varianza Local](#método-avanzado-de-normalización-por-varianza-local)
+      - [5.2.4. Alineación Geométrica Inter-frame (Optimización en Dos Pasos)](#524-alineación-geométrica-inter-frame-optimización-en-dos-pasos)
+        - [Paso 1: Búsqueda Global y Ajuste Robusto](#paso-1-búsqueda-global-y-ajuste-robusto)
+        - [Paso 2: Ajuste Fino de Mínimos Cuadrados](#paso-2-ajuste-fino-de-mínimos-cuadrados)
+      - [5.2.5. Apilado por Desplazamiento y Adición (Shift-and-Add)](#525-apilado-por-desplazamiento-y-adición-shift-and-add)
+    - [5.3. Descripción Informática del Módulo (API)](#53-descripción-informática-del-módulo-api)
+      - [5.3.1. Funciones del Módulo](#531-funciones-del-módulo)
+        - [**`open_image`**](#open_image)
+        - [**`roll_fillzero`**](#roll_fillzero)
+        - [**`expand_mask`**](#expand_mask)
+        - [**`remove_saturated_blob`**](#remove_saturated_blob)
+        - [**`attempt_align`**](#attempt_align)
+        - [**`simple_get_centroids`**](#simple_get_centroids)
+        - [**`get_centroids_blur`**](#get_centroids_blur)
+        - [**`filter_edgy_centroids`**](#filter_edgy_centroids)
+        - [**`do_stack`**](#do_stack)
+    - [5.4. Bibliografía de Soporte (Procesamiento de Imágenes Astronómicas y Alineación)](#54-bibliografía-de-soporte-procesamiento-de-imágenes-astronómicas-y-alineación)
 
 ---
 
@@ -51,6 +124,8 @@ El script `my_database_lookup2.py` está diseñado para resolver eficientemente 
 El flujo lógico consta de dos fases principales:
 1. **Carga y Reducción Astronómica:** Lee el catálogo en formato de texto plano (`.dat.txt`), aplica correcciones por movimiento propio para una época objetivo (por ejemplo, el año 2026), filtra estrellas por su brillo (magnitud límite) y proyecta las coordenadas celestes en un espacio cartesiano tridimensional (vectores directores).
 2. **Persistencia y Búsqueda:** Almacena los datos procesados en un archivo binario comprimido de NumPy (`.npz`) para permitir cargas instantáneas en ejecuciones futuras, y proporciona una función de búsqueda por rangos de Ascensión Recta ($\alpha$) y Declinación ($\delta$) con manejo de discontinuidades geométricas.
+
+<div style="display: flex; justify-content: center; width: 100%;">
 
 ```mermaid
 graph TD
@@ -68,6 +143,8 @@ graph TD
     C --> M[Listo para lookup_objects]
     L --> M
 ```
+
+</div>
 
 ### 1.2. Fundamentos Astronómicos
 #### 1.2.1. Sistema de Coordenadas Ecuatoriales Celestes
@@ -213,7 +290,7 @@ $$
 > [!NOTE]
 > Recuerde que en la escala de magnitudes astronómicas, a menor valor numérico, mayor es el brillo intrínseco del objeto.
 
-#### 1.4.2. Filtrado por Ascensión Recta con Discontinuidad de $360^\circ$
+#### 1.4.2. Filtrado por Ascensión Recta con Discontinuidad de 360°
 Dado un intervalo de consulta en Ascensión Recta $[\alpha_{\text{mín}}, \alpha_{\text{máx}}]$, el algoritmo maneja la naturaleza periódica del ángulo (donde $360^\circ \equiv 0^\circ$):
 1. **Caso Estándar ($\alpha_{\text{mín}} < \alpha_{\text{máx}}$):**
    El intervalo no cruza el origen. La condición de filtrado es lógica de conjunción:
@@ -341,6 +418,8 @@ El módulo `my_database_cache.py` actúa como una capa de persistencia intermedi
 
 El principal objetivo del módulo es evitar el reanálisis y la recarga computacionalmente costosa de archivos en disco durante consultas repetitivas de placas.
 
+<div style="display: flex; justify-content: center; width: 100%;">
+
 ```mermaid
 graph TD
     A[Llamada open_catalogue path] --> B{¿Está en _cache.catalogue_cache?}
@@ -351,6 +430,8 @@ graph TD
     E --> G[Almacenar en caché y retornar]
     F --> G
 ```
+
+</div>
 
 ### 2.2. Fundamentos Algorítmicos y Matemáticos
 El corazón matemático de este módulo reside en la clase `TriangleData` y su indexación mediante un **Árbol K-Dimensional (KD-Tree)** con restricciones de periodicidad.
@@ -492,6 +573,8 @@ El proceso de *platesolving* requiere de una base de datos indexada con descript
 2. **Construcción de bases tangentes locales:** Para cada estrella ancla, se define un plano tangente y se determinan las coordenadas polares de sus vecinas más brillantes.
 3. **Generación de tripletas (Triángulos):** Se combinan las estrellas de la vecindad de cada ancla para construir descriptores triangulares invariantes de escala y orientación, los cuales son finalmente almacenados en disco.
 
+<div style="display: flex; justify-content: center; width: 100%;">
+
 ```mermaid
 graph TD
     A[Cargar catálogo Tycho corregido J2024] --> B[Paso 1: Selección de Anclas]
@@ -502,6 +585,8 @@ graph TD
     F --> G[Normalizar Ratios y Diferencias Angulares]
     G --> H[Guardar matrices npz comprimidas]
 ```
+
+</div>
 
 ### 3.2. Modelado Matemático Detallado
 #### 3.2.1. Selección de Estrellas "Ancla" y Región de Exclusión
@@ -529,14 +614,20 @@ $$
 \mathbf{t}_{\phi} = \mathbf{z} \times \mathbf{v}_{\text{anc}}
 $$
 
-   $$\hat{\phi} = \frac{\mathbf{t}_{\phi}}{\|\mathbf{t}_{\phi}\|}$$
+$$
+\hat{\phi} = \frac{\mathbf{t}_{\phi}}{\|\mathbf{t}_{\phi}\|}
+$$
+
+
 2. **Vector tangente de Declinación ($\hat{\theta}$):** Dirección norte-sur tangente al meridiano local:
 
 $$
 \mathbf{t}_{\theta} = \hat{\phi} \times \mathbf{v}_{\text{anc}}
 $$
 
-   $$\hat{\theta} = \frac{\mathbf{t}_{\theta}}{\|\mathbf{t}_{\theta}\|}$$
+$$
+\hat{\theta} = \frac{\mathbf{t}_{\theta}}{\|\mathbf{t}_{\theta}\|}
+$$
 
 Proyectando el vector diferencia $\mathbf{\delta}$ en este plano tangente, obtenemos sus coordenadas 2D cartesianas locales $(x, y)$:
 
@@ -544,7 +635,9 @@ $$
 x = \hat{\theta} \cdot \mathbf{\delta}
 $$
 
-$$y = \hat{\phi} \cdot \mathbf{\delta}$$
+$$
+y = \hat{\phi} \cdot \mathbf{\delta}
+$$
 
 #### 3.2.3. Coordenadas Polares del Patrón
 A partir de las coordenadas del plano tangente local, se calculan las coordenadas polares del vecino $(\Delta\theta, \phi)$:
@@ -588,14 +681,18 @@ $$
 r = \frac{1}{r_{\text{ini}}}
 $$
 
-  $$\Delta\phi = -\Delta\phi_{\text{ini}}$$
+$$
+\Delta\phi = -\Delta\phi_{\text{ini}}
+$$
 * **Si $r_{\text{ini}} \le 1$:**
 
 $$
 r = r_{\text{ini}}
 $$
 
-  $$\Delta\phi = \Delta\phi_{\text{ini}}$$
+$$
+\Delta\phi = \Delta\phi_{\text{ini}}
+$$
 
 Finalmente, se normaliza la diferencia angular al dominio $[0, 2\pi)$ para evitar saltos de fase:
 
@@ -683,6 +780,8 @@ El flujo lógico del algoritmo consta de cinco fases principales:
 4. **Alineación Fina por SVD:** Refina la matriz de rotación tridimensional entre los vectores de la imagen y el catálogo usando la descomposición en valores singulares (Algoritmo de Kabsch).
 5. **Validación Estadística:** Compara el número de correspondencias reales contra un umbral de Poisson riguroso calculado mediante la función Lambert W.
 
+<div style="display: flex; justify-content: center; width: 100%;">
+
 ```mermaid
 graph TD
     A[Centroides en píxeles] --> B[Centrar y generar Triángulos observados]
@@ -696,6 +795,8 @@ graph TD
     I -- Supera Umbral --> J[ÉXITO: Retornar RA, DEC, Roll, Escala]
     I -- Falla Umbral --> K[Intentar Espejado de Imagen / Falla total]
 ```
+
+</div>
 
 ### 4.2. Modelado Matemático Detallado
 #### 4.2.1. Estimación del Umbral de Aceptación Estocástico
@@ -935,6 +1036,8 @@ El pipeline de procesamiento de `my_stacker_implementation.py` consta de las sig
 5. **Alineación Inter-frame:** Optimización geométrica robusta en dos fases para encontrar el vector de desplazamiento relativo $(dy, dx)$ entre tomas.
 6. **Apilado y Registro:** Desplazamiento y co-adición de las imágenes ajustadas por bordes, seguido de la calibración astrométrica final del stack resultante mediante *platesolving*.
 
+<div style="display: flex; justify-content: center; width: 100%;">
+
 ```mermaid
 graph TD
     A[Imágenes Lights, Darks, Flats] --> B[Promediar Darks y Flats]
@@ -948,6 +1051,8 @@ graph TD
     I --> J[Platesolving del Stack para identificar astros]
     J --> K[Guardar resultados FITS/PNG/JSON]
 ```
+
+</div>
 
 ---
 

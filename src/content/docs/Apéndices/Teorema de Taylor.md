@@ -6,6 +6,17 @@ Este documento presenta una guía paso a paso adaptada para nivel universitario,
 
 ---
 
+## Índice
+
+1. [Regla de la cadena para funciones de varias variables](#0-regla-de-la-cadena-para-funciones-de-varias-variables)
+2. [Taylor. El Caso Unidimensional (1D)](#1-taylor-el-caso-unidimensional-1d)
+3. [El Caso Multidimensional (N-D)](#2-el-caso-multidimensional-n-d)
+4. [Demostración Paso a Paso: El Puente de 1D a N-D](#3-demostración-paso-a-paso-el-puente-de-1d-a-n-d)
+5. [Tabla Comparativa de Semejanzas y Analogías](#4-tabla-comparativa-de-semejanzas-y-analogías)
+6. [Ejemplo Práctico: Distancia Euclidiana (Paso 3)](#5-ejemplo-práctico-distancia-euclidiana-paso-3)
+
+---
+
 ## 0. Regla de la cadena para funciones de varias variables
 
 Esa es, precisamente, la **regla de la cadena** para funciones de varias variables.
@@ -427,4 +438,24 @@ $$
 
 
 Esta matriz es simétrica y semi-definida positiva, representando la proyección sobre el plano ortogonal al vector de dirección, escalada inversamente por la distancia.
+
+---
+
+## Bibliografía
+
+- Taylor, B. (1715). *Methodus Incrementorum Directa et Inversa*. London: Innys, Strand.
+
+- Apostol, T. M. (1967). *Calculus, Vol. 1: One-Variable Calculus, with an Introduction to Linear Algebra* (2nd ed.). John Wiley & Sons.
+
+- Marsden, J. E., & Tromba, A. J. (2003). *Vector Calculus* (5th ed.). W. H. Freeman and Company.
+
+- Spivak, M. (2008). *Calculus* (3rd ed.). Publish or Perish.
+
+- Stewart, J. (2015). *Calculus: Early Transcendentals* (8th ed.). Cengage Learning.
+
+- Nocedal, J., & Wright, S. J. (2006). *Numerical Optimization* (2nd ed.). Springer. https://doi.org/10.1007/978-0-387-40065-5
+
+- Boyd, S., & Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. https://doi.org/10.1017/CBO9780511814372
+
+- Kyurgiordan, J. (2023). *Optimización Matemática: Métodos Gradientes y Cuasi-Newton*. Editorial Universitaria.
 

@@ -2,6 +2,13 @@ Para obtener la matriz Hessiana, necesitamos calcular las segundas derivadas par
 
 ---
 
+## Índice
+
+1. [Matriz Hessiana de la Función de Rosenbrock (2 variables)](#1-matriz-hessiana-de-la-función-de-rosenbrock-2-variables)
+2. [Matriz Hessiana de la Función de Rosenbrock (3 variables)](#2-matriz-hessiana-de-la-función-de-rosenbrock-3-variables)
+
+---
+
 ## 1. Matriz Hessiana de la Función de Rosenbrock (2 variables)
 
 La función estándar es $f(x, y) = (a - x)^2 + b(y - x^2)^2$.
@@ -109,3 +116,21 @@ $$
 ### ## ¿Qué nos dice esto?
 
 Como puedes ver, la matriz es **tridiagonal** (solo tiene valores en la diagonal principal y las dos contiguas). Esto refleja el "encadenamiento" que mencionamos antes: cada variable solo "siente" la curvatura de sus vecinas inmediatas, lo que crea ese largo y estrecho pasillo multidimensional tan difícil de optimizar.
+
+---
+
+## Bibliografía
+
+- Rosenbrock, H. H. (1960). An automatic method for finding the greatest or least value of a function. *The Computer Journal*, 3(3), 175–184. https://doi.org/10.1093/comjnl/3.3.175
+
+- Nocedal, J., & Wright, S. J. (2006). *Numerical Optimization* (2nd ed.). Springer. https://doi.org/10.1007/978-0-387-40065-5
+
+- Boyd, S., & Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. https://doi.org/10.1017/CBO9780511814372
+
+- Luenberger, D. G., & Ye, Y. (2008). *Linear and Nonlinear Programming* (3rd ed.). Springer. https://doi.org/10.1007/978-0-387-74503-9
+
+- Dennis, J. E., & Schnabel, R. B. (1996). *Numerical Methods for Unconstrained Optimization and Nonlinear Equations*. SIAM. https://doi.org/10.1137/1.9781611971200
+
+- Kyurgiordan, J. (2023). *Optimización Matemática: Métodos Gradientes y Cuasi-Newton*. Editorial Universitaria.
+
+- García Ventura, J. (2023). *Aplicaciones de los Métodos de Optimización Cuasi-Newton en Aprendizaje Profundo*. Tesis de Maestría en Matemática Aplicada (MMA). Instituto Tecnológico de Santo Domingo (INTEC).

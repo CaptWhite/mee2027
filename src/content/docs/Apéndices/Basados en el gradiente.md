@@ -6,6 +6,16 @@ Este documento presenta una guía paso a paso del algoritmo, su fundamentación 
 
 ---
 
+## Índice
+
+1. [Fundamento Matemático: ¿Por qué $-\nabla f(x)$ es la dirección de máximo descenso?](#1-fundamento-matemático-por-qué--nf-es-la-dirección-de-máximo-descenso)
+2. [La Fórmula Iterativa del Descenso](#2-la-fórmula-iterativa-del-descenso)
+3. [Algoritmo Paso a Paso](#3-algoritmo-paso-a-paso)
+4. [Cómo hallar los valores de $\alpha$ óptimos (Búsqueda Lineal / Line Search)](#4-cómo-hallar-los-valores-de-α-óptimos-búsqueda-lineal--line-search)
+5. [Tasa de Convergencia del Máximo Descenso](#5-tasa-de-convergencia-del-máximo-descenso)
+
+---
+
 ## 1. Fundamento Matemático: ¿Por qué $-\nabla f(x)$ es la dirección de máximo descenso?
 
 Para comprender por qué nos movemos en la dirección del gradiente negativo, analicemos cómo cambia el valor de la función $f(x)$ cuando nos desplazamos una distancia infinitesimal en una dirección dada por un vector unitario $u \in \mathbb{R}^n$ (con $\|u\|_2 = 1$).
@@ -395,3 +405,21 @@ $$
     *   Esto significa que en cada iteración el error solo se reduce en aproximadamente un $4\%$. El algoritmo requerirá cientos de iteraciones para converger debido a que oscilará en zig-zag de una pared del valle a la otra, avanzando muy lentamente a lo largo del fondo del valle hacia el mínimo.
 
 Por esta razón, a pesar de su simplicidad, el método de máximo descenso clásico es notoriamente lento para problemas mal condicionados. Esto motivó el desarrollo de métodos más avanzados como el **Método de Gradiente Conjugado** o los métodos cuasi-Newton (como **BFGS**).
+
+---
+
+## Bibliografía
+
+- Nocedal, J., & Wright, S. J. (2006). *Numerical Optimization* (2nd ed.). Springer. https://doi.org/10.1007/978-0-387-40065-5
+
+- Boyd, S., & Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. https://doi.org/10.1017/CBO9780511814372
+
+- Luenberger, D. G., & Ye, Y. (2008). *Linear and Nonlinear Programming* (3rd ed.). Springer. https://doi.org/10.1007/978-0-387-74503-9
+
+- Bertsekas, D. P. (1999). *Nonlinear Programming* (2nd ed.). Athena Scientific.
+
+- Saad, Y. (2003). *Iterative Methods for Sparse Linear Systems* (2nd ed.). SIAM. https://doi.org/10.1137/1.9780898718003
+
+- Cauchy, A. (1847). Méthode générale pour la résolution des systèmes d'équations simultaines. *Comptes Rendus de l'Académie des Sciences de Paris*, 25, 536–538.
+
+- Kyurgiordan, J. (2023). *Optimización Matemática: Métodos Gradientes y Cuasi-Newton*. Editorial Universitaria.

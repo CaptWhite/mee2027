@@ -6,6 +6,17 @@ A continuación, se presenta un desarrollo detallado, paso a paso, de su formula
 
 ---
 
+## Índice
+
+1. [La Aproximación Cuadrática y la Serie de Taylor](#1-la-aproximación-cuadrática-y-la-serie-de-taylor)
+2. [Demostración Matemática Paso a Paso](#2-demostración-matemática-paso-a-paso)
+3. [Interpretación Geométrica: La Minimización del Paraboloide](#3-interpretación-geométrica-la-minimización-del-paraboloide)
+4. [Diferencias con el Descenso de Gradiente y la Tasa de Aprendizaje ($\alpha$)](#4-diferencias-con-el-descenso-de-gradiente-y-la-tasa-de-aprendizaje-α)
+5. [Ventajas de Calcular y Utilizar el Hessiano](#5-ventajas-de-calcular-y-utilizar-el-hessiano)
+6. [Desventajas y Alternativas en la Práctica](#6-desventajas-y-alternativas-en-la-práctica)
+
+---
+
 ## 1. La Aproximación Cuadrática y la Serie de Taylor
 
 Para comprender por qué el método de Newton es una generalización de la serie de Taylor, debemos analizar cómo modela localmente la función objetivo.
@@ -228,4 +239,24 @@ A pesar de sus extraordinarias ventajas matemáticas, el método de Newton puro 
    * *Solución en SciPy:* Algoritmos como **BFGS** y **L-BFGS** son métodos "cuasi-Newton" que aproximan iterativamente el Hessiano a partir de los cambios en el gradiente sin calcular las segundas derivadas explícitamente, logrando una convergencia superlineal con un costo computacional por iteración mucho menor.
 2. **Sensibilidad a Puntos de Silla y Máximos:**
    Si el Hessiano no es definido positivo (por ejemplo, en regiones no convexas o cerca de puntos de silla), el método de Newton puede dirigirse hacia un máximo local o un punto de silla, o dar pasos en direcciones de ascenso de la función.
-   * *Solución en SciPy:* Se combinan con métodos de **Búsqueda de Línea (Line Search)** o **Regiones de Confianza (Trust-Region)** para acotar el tamaño del paso y garantizar que siempre se descienda la función.
+    * *Solución en SciPy:* Se combinan con métodos de **Búsqueda de Línea (Line Search)** o **Regiones de Confianza (Trust-Region)** para acotar el tamaño del paso y garantizar que siempre se descienda la función.
+
+---
+
+## Bibliografía
+
+- Nocedal, J., & Wright, S. J. (2006). *Numerical Optimization* (2nd ed.). Springer. https://doi.org/10.1007/978-0-387-40065-5
+
+- Boyd, S., & Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. https://doi.org/10.1017/CBO9780511814372
+
+- Dennis, J. E., & Schnabel, R. B. (1996). *Numerical Methods for Unconstrained Optimization and Nonlinear Equations*. SIAM. https://doi.org/10.1137/1.9781611971200
+
+- Ortega, J. M., & Rheinboldt, W. C. (2000). *Iterative Solution of Nonlinear Equations in Several Variables*. SIAM. https://doi.org/10.1137/1.9780898719468
+
+- Newton, I. (1687). *Philosophiæ Naturalis Principia Mathematica*. London.
+
+- Raphson, J. (1690). *Analysis Aequationum Universalis*. London.
+
+- Kyurgiordan, J. (2023). *Optimización Matemática: Métodos Gradientes y Cuasi-Newton*. Editorial Universitaria.
+
+- Luenberger, D. G., & Ye, Y. (2008). *Linear and Nonlinear Programming* (3rd ed.). Springer. https://doi.org/10.1007/978-0-387-74503-9

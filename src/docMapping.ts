@@ -15,7 +15,7 @@ export const docList: DocItem[] = [
     menutab: 'Astrometría',
     id: 'my_platesolve',
     slug: 'my_platesolve',
-    description: 'Calibración y PlateSolving',
+    description: 'Centroides, Apilado y PlateSolving',
     chapter: '1',
   },
   {
