@@ -41,7 +41,11 @@ for (const tab of tabs) {
         theme: 'dark',
         startOnLoad: false,
         securityLevel: 'loose',
-        fontFamily: 'Space Grotesk, system-ui, sans-serif'
+        fontFamily: 'Space Grotesk, system-ui, sans-serif',
+        flowchart: {
+          useMaxWidth: true,
+          htmlLabels: true
+        }
       });
 
       // Transform all Astro code blocks with data-language="mermaid" or class "language-mermaid" to <div class="mermaid">
@@ -594,6 +598,21 @@ for (const tab of tabs) {
     padding: 0;
     color: inherit;
     font-size: inherit;
+  }
+
+  /* Mermaid diagram sizing */
+  .mermaid {
+    width: 100%;
+    max-width: 700px;
+    margin: 1.5rem auto;
+    text-align: center;
+  }
+
+  .mermaid svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
   }
 
   /* Markdown Tables styling */

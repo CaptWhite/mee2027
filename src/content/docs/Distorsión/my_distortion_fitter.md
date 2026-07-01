@@ -5,18 +5,40 @@ Este documento proporciona una descripción matemática y teórica detallada del
 ---
 
 ## Índice
-1. [Introducción y Arquitectura del Sistema](#1-introducción-y-arquitectura-del-sistema)
-2. [Fundamentos Físico-Matemáticos](#2-fundamentos-físico-matemáticos)
-   - [2.1 Transformación de Coordenadas y WCS Inicial](#21-transformación-de-coordenadas-y-wcs-inicial)
-   - [2.2 Bases de Distorsión Polinomial y Legendre](#22-bases-de-distorsión-polinomial-y-legendre)
-   - [2.3 Regresión Lineal y Mínimos Cuadrados Ordinarios (OLS)](#23-regresión-lineal-y-mínimos-cuadrados-ordinarios-ols)
-   - [2.4 Absorción de Términos de Primer Orden (WCS Absorption)](#24-absorción-de-términos-de-primer-orden-wcs-absorption)
-   - [2.5 Correcciones Físico-Astrométricas en Coordenadas de Catálogo](#25-correcciones-físico-astrométricas-en-coordenadas-de-catálogo)
-   - [2.6 Estimación Estocástica de la Fecha de Observación (Date Guessing)](#26-estimación-estocástica-de-la-fecha-de-observación-date-guessing)
-   - [2.7 Barrido Gravitacional de Deflexión de la Luz (Gravity Sweep)](#27-barrido-gravitacional-de-deflexión-de-la-luz-gravity-sweep)
-   - [2.8 Coherencia y Correlación Espacial de Residuos](#28-coherencia-y-correlación-espacial-de-residuos)
-3. [Descripción Detallada de la API del Software](#3-descripción-detallada-de-la-api-del-software)
-4. [Bibliografía y Referencias de Soporte](#4-bibliografía-y-referencias-de-soporte)
+- [Descripción Teórica y Matemática de `my_distortion_fitter.py` y `my_distortion_polynomial.py`](#descripción-teórica-y-matemática-de-my_distortion_fitterpy-y-my_distortion_polynomialpy)
+  - [Índice](#índice)
+  - [1. Introducción y Arquitectura del Sistema](#1-introducción-y-arquitectura-del-sistema)
+    - [Flujo de Ejecución General](#flujo-de-ejecución-general)
+  - [2. Fundamentos Físico-Matemáticos](#2-fundamentos-físico-matemáticos)
+    - [2.1 Transformación de Coordenadas y WCS Inicial](#21-transformación-de-coordenadas-y-wcs-inicial)
+      - [Paso 1: Centrado de píxeles](#paso-1-centrado-de-píxeles)
+      - [Paso 2: Proyección al plano tangente (Detransformación)](#paso-2-proyección-al-plano-tangente-detransformación)
+      - [Paso 3: Transformación Directa (Linear Transform)](#paso-3-transformación-directa-linear-transform)
+    - [2.2 Bases de Distorsión Polinomial y Legendre](#22-bases-de-distorsión-polinomial-y-legendre)
+      - [A) Base Polinomial Clásica (Binomial)](#a-base-polinomial-clásica-binomial)
+      - [B) Base Polinomial de Legendre](#b-base-polinomial-de-legendre)
+    - [2.3 Regresión Lineal y Mínimos Cuadrados Ordinarios (OLS)](#23-regresión-lineal-y-mínimos-cuadrados-ordinarios-ols)
+    - [2.4 Absorción de Términos de Primer Orden (WCS Absorption)](#24-absorción-de-términos-de-primer-orden-wcs-absorption)
+      - [1. Factor de Escala de Placa](#1-factor-de-escala-de-placa)
+      - [2. Desplazamiento del Centro de Placa (RA y Dec)](#2-desplazamiento-del-centro-de-placa-ra-y-dec)
+      - [3. Ángulo de Rotación (Roll)](#3-ángulo-de-rotación-roll)
+    - [2.5 Correcciones Físico-Astrométricas en Coordenadas de Catálogo](#25-correcciones-físico-astrométricas-en-coordenadas-de-catálogo)
+    - [2.6 Estimación Estocástica de la Fecha de Observación (Date Guessing)](#26-estimación-estocástica-de-la-fecha-de-observación-date-guessing)
+    - [2.7 Barrido Gravitacional de Deflexión de la Luz (Gravity Sweep)](#27-barrido-gravitacional-de-deflexión-de-la-luz-gravity-sweep)
+    - [2.8 Coherencia y Correlación Espacial de Residuos](#28-coherencia-y-correlación-espacial-de-residuos)
+  - [3. Descripción Detallada de la API del Software](#3-descripción-detallada-de-la-api-del-software)
+    - [`my_distortion_fitter.py`](#my_distortion_fitterpy)
+      - [1. `match_and_fit_distortion(path_data, options, debug_folder=None)`](#1-match_and_fit_distortionpath_data-options-debug_foldernone)
+      - [2. `match_centroids(other_stars_df, rough_platesolve_x, dbs, corners, image_size, lookupdate, options)`](#2-match_centroidsother_stars_df-rough_platesolve_x-dbs-corners-image_size-lookupdate-options)
+      - [3. `get_nn_correlation_error(positions, errors, options)`](#3-get_nn_correlation_errorpositions-errors-options)
+    - [`my_distortion_polynomial.py`](#my_distortion_polynomialpy)
+      - [1. `get_basis(y, x, w, m, options, use_special=False)`](#1-get_basisy-x-w-m-options-use_specialfalse)
+      - [2. `do_cubic_fit(plate, stardata, initial_guess, img_shape, options, weights=1)`](#2-do_cubic_fitplate-stardata-initial_guess-img_shape-options-weights1)
+      - [3. `_get_corrected_q(q, reg_x, reg_y, w)`](#3-_get_corrected_qq-reg_x-reg_y-w)
+      - [4. `_date_guess(date_guess, q, plate, stardata, img_shape, options)`](#4-_date_guessdate_guess-q-plate-stardata-img_shape-options)
+    - [`my_gravity_sweep.py`](#my_gravity_sweeppy)
+      - [1. `gravity_sweep(stardata0, plate2, initial_guess, image_size, mask_select, mask_select2, starttime, basename, options)`](#1-gravity_sweepstardata0-plate2-initial_guess-image_size-mask_select-mask_select2-starttime-basename-options)
+  - [4. Bibliografía y Referencias de Soporte](#4-bibliografía-y-referencias-de-soporte)
 
 ---
 
@@ -174,7 +196,9 @@ $$
 e_{x, i} = c_{x, 0} + \sum_{k=1}^{M} c_{x, k} B_k(x_{obs, i}, y_{obs, i}) + \epsilon_{x, i}
 $$
 
-$$e_{y, i} = c_{y, 0} + \sum_{k=1}^{M} c_{y, k} B_k(x_{obs, i}, y_{obs, i}) + \epsilon_{y, i}$$
+$$
+e_{y, i} = c_{y, 0} + \sum_{k=1}^{M} c_{y, k} B_k(x_{obs, i}, y_{obs, i}) + \epsilon_{y, i}
+$$
 donde $M = \frac{(d+2)(d+1)}{2} - 1$ es el número de términos de la base y $\epsilon$ es el residuo estocástico.
 
 Si denotamos la matriz de diseño de dimensiones $N \times (M+1)$ como $\mathbf{X}$ (la cual incluye una columna de unos para el término constante $c_0$), el sistema resuelve de forma independiente el sistema lineal utilizando mínimos cuadrados ordinarios:
@@ -183,7 +207,9 @@ $$
 \mathbf{c}_x = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{e}_x
 $$
 
-$$\mathbf{c}_y = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{e}_y$$
+$$
+\mathbf{c}_y = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{e}_y
+$$
 
 Para mitigar el efecto de errores heterocedásticos, el programa estima la incertidumbre estándar relativa de la escala de placa utilizando el estimador robusto de White o matriz de covarianza consistente con heterocedasticidad (HC0):
 

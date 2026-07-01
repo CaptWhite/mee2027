@@ -137,14 +137,18 @@ $$
 r = \frac{1}{r_{\text{ini}}}
 $$
 
-  $$\Delta\phi = -\Delta\phi_{\text{ini}}$$
+$$
+\Delta\phi = -\Delta\phi_{\text{ini}}
+$$
 * **Si $r_{\text{ini}} \le 1$:**
 
 $$
 r = r_{\text{ini}}
 $$
 
-  $$\Delta\phi = \Delta\phi_{\text{ini}}$$
+$$
+\Delta\phi = \Delta\phi_{\text{ini}}
+$$
 
 Finalmente, se normaliza la diferencia angular al dominio $[0, 2\pi)$ para evitar saltos de fase:
 
