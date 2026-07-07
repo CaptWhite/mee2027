@@ -27,58 +27,62 @@ Vamos a desglosar la igualdad paso a paso para que quede claro el porqué.
 ### Planteamiento
 
 Tenemos una función de varias variables:
-\[
+$$
 f(\mathbf{x}) = f(x_1, x_2, \dots, x_n)
-\]
+$$
 
 Y un **camino rectilíneo** (una línea en el espacio) definido como:
-\[\mathbf{x}(t) = \mathbf{x}_0 + t\mathbf{h}\]
+$$
+\mathbf{x}(t) = \mathbf{x}_0 + t\mathbf{h}
+$$
 donde:
-*   \(\mathbf{x}_0 = (x_{0,1}, \dots, x_{0,n})\) es un vector constante (el punto inicial).
-*   \(\mathbf{h} = (h_1, \dots, h_n)\) es un vector constante (la dirección y magnitud del paso).
-*   \(t\) es un escalar real (el parámetro, que juega el papel de "tiempo").
+*   $\mathbf{x}_0 = (x_{0,1}, \dots, x_{0,n})$ es un vector constante (el punto inicial).
+*   $\mathbf{h} = (h_1, \dots, h_n)$ es un vector constante (la dirección y magnitud del paso).
+*   $t$ es un escalar real (el parámetro, que juega el papel de "tiempo").
 
 Al escribir cada componente:
-\[x_1(t) = x_{0,1} + t h_1 \\
+$$
+x_1(t) = x_{0,1} + t h_1 \\
 x_2(t) = x_{0,2} + t h_2 \\
 \vdots \\
-x_n(t) = x_{0,n} + t h_n\]
+x_n(t) = x_{0,n} + t h_n
+$$
 
-Queremos derivar la función compuesta \( g(t) = f(\mathbf{x}(t)) \) respecto a \( t \).
+Queremos derivar la función compuesta $ g(t) = f(\mathbf{x}(t)) $ respecto a $ t $.
 
 ---
 
 ### Por qué aparece la suma
 
-La regla de la cadena multivariable nos dice que la derivada total de \( f \) respecto a \( t \) es la suma de las contribuciones de cómo cambia \( f \) respecto a cada variable \( x_i \), multiplicado por cómo cambia esa variable \( x_i \) respecto a \( t \).
+La regla de la cadena multivariable nos dice que la derivada total de $ f $ respecto a $ t $ es la suma de las contribuciones de cómo cambia $ f $ respecto a cada variable $ x_i $, multiplicado por cómo cambia esa variable $ x_i $ respecto a $ t $.
 
 Visualízalo así:
-1.  Un pequeño cambio en \( t \) (\( \Delta t \)) provoca un pequeño cambio en \( x_1 \) (\( \Delta x_1 \)), en \( x_2 \) (\( \Delta x_2 \)), etc.
-2.  El cambio en \( x_1 \) afecta a \( f \) (a través de \( \frac{\partial f}{\partial x_1} \)).
-3.  El cambio en \( x_2 \) afecta a \( f \) (a través de \( \frac{\partial f}{\partial x_2} \)).
-4.  El efecto total en \( f \) es la **suma** de todos estos efectos individuales.
+1.  Un pequeño cambio en $ t $ ($ \Delta t $) provoca un pequeño cambio en $ x_1 $ ($ \Delta x_1 $), en $ x_2 $ ($ \Delta x_2 $), etc.
+2.  El cambio en $ x_1 $ afecta a $ f $ (a través de $ \frac{\partial f}{\partial x_1} $).
+3.  El cambio en $ x_2 $ afecta a $ f $ (a través de $ \frac{\partial f}{\partial x_2} $).
+4.  El efecto total en $ f $ es la **suma** de todos estos efectos individuales.
 
 Matemáticamente, el teorema de la regla de la cadena establece:
-\[
+$$
 \frac{d}{dt} f(x_1(t), \dots, x_n(t)) = \sum_{i=1}^n \frac{\partial f}{\partial x_i} \frac{d x_i}{dt} \tag{1}
-\]
+$$
 
 ---
 
-### 3. Aplicación al caso concreto (\( \mathbf{x}(t) = \mathbf{x}_0 + t\mathbf{h} \))
+### 3. Aplicación al caso concreto ($ \mathbf{x}(t) = \mathbf{x}_0 + t\mathbf{h} $)
 
-En nuestro caso particular, la derivada de cada componente \( x_i(t) \) respecto a \( t \) es muy sencilla. Como es una función lineal de \( t \):
-\[
+En nuestro caso particular, la derivada de cada componente $ x_i(t) $ respecto a $ t $ es muy sencilla. Como es una función lineal de $ t $:
+$$
 \frac{d x_i}{dt} = \frac{d}{dt}(x_{0,i} + t h_i) = h_i
-\]
+$$
 
-Al sustituir \( \frac{d x_i}{dt} \) por \( h_i \) en la suma, obtenemos exactamente la fórmula que preguntabas:
-\[
+Al sustituir $ \frac{d x_i}{dt} $ por $ h_i $ en la suma, obtenemos exactamente la fórmula que preguntabas:
+$$
 g'(t) = \sum_{i=1}^n \frac{\partial f}{\partial x_i}(\mathbf{x}_0 + t\mathbf{h}) \cdot h_i
-\]
+$$
 
 ### Resumen
-La fórmula es una suma porque **el cambio total en \( f \) es la suma de los cambios provocados por cada variable independiente**. Es la extensión natural de la derivada de \( f(x(t)) \) en una dimensión, donde ahora hay \( n \) "caminos" que convergen en \( f \).
+La fórmula es una suma porque **el cambio total en $ f $ es la suma de los cambios provocados por cada variable independiente**. Es la extensión natural de la derivada de $ f(x(t)) $ en una dimensión, donde ahora hay $ n $ "caminos" que convergen en $ f $.
 
 
 ---
