@@ -13,8 +13,8 @@ export const docList: DocItem[] = [
   {
     filename: 'my_centroids_stack_playsolve.md',
     menutab: 'Astrometría',
-    id: 'my_platesolve',
-    slug: 'my_platesolve',
+    id: 'my_centroids_stack_playsolve',
+    slug: 'my_centroids_stack_playsolve',
     description: 'Centroides, Apilado y PlateSolving',
     chapter: '1',
   },
