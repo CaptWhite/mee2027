@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El experimento de Eddington — Paso a paso</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #f4f2eb;
+      color: #2c2c2a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body { background: #1a1a18; color: #c2c0b6; }
+    }
+
+    h1 {
+      font-size: 1.25rem;
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+      text-align: center;
+    }
+
+    p.sub {
+      font-size: 0.85rem;
+      color: #73726c;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (prefers-color-scheme: dark) { p.sub { color: #9c9a92; } }
+
+    .card {
+      width: 100%;
+      max-width: 700px;
+      background: #fff;
+      border: 0.5px solid rgba(0,0,0,0.12);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .card { background: #262623; border-color: rgba(255,255,255,0.1); }
+    }
+
+    .step-nav {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .step-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #d3d1c7;
+      cursor: pointer;
+      transition: background .2s;
+      border: none;
+      padding: 0;
+    }
+
+    .step-dot.active { background: #185FA5; }
+
+    @media (prefers-color-scheme: dark) {
+      .step-dot { background: #444441; }
+      .step-dot.active { background: #378ADD; }
+    }
+
+    .step-panel { display: none; }
+    .step-panel.active { display: block; }
+
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+
+    .badge-info    { background: #E6F1FB; color: #0C447C; }
+    .badge-success { background: #EAF3DE; color: #27500A; }
+    .badge-warning { background: #FAEEDA; color: #633806; }
+    .badge-danger  { background: #FCEBEB; color: #791F1F; }
+
+    @media (prefers-color-scheme: dark) {
+      .badge-info    { background: #0C447C; color: #B5D4F4; }
+      .badge-success { background: #27500A; color: #C0DD97; }
+      .badge-warning { background: #633806; color: #FAC775; }
+      .badge-danger  { background: #791F1F; color: #F7C1C1; }
+    }
+
+    .step-desc {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #2c2c2a;
+      margin-top: 12px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .step-desc { color: #c2c0b6; }
+    }
+
+    .step-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.25rem;
+    }
+
+    .step-btn {
+      background: transparent;
+      border: 0.5px solid #b4b2a9;
+      border-radius: 8px;
+      padding: 7px 20px;
+      font-size: 13px;
+      color: #5f5e5a;
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    .step-btn:hover { background: #f1efe8; }
+    .step-btn:disabled { opacity: 0.35; cursor: default; }
+
+    @media (prefers-color-scheme: dark) {
+      .step-btn { border-color: #444441; color: #9c9a92; }
+      .step-btn:hover { background: #2c2c2a; }
+    }
+
+    footer {
+      margin-top: 1.5rem;
+      font-size: 11px;
+      color: #b4b2a9;
+      text-align: center;
+    }
+
+    /* SVG text styles */
+    svg .t  { font-family: system-ui, sans-serif; font-size: 14px; fill: #3d3d3a; }
+    svg .th { font-family: system-ui, sans-serif; font-size: 14px; font-weight: 500; fill: #2c2c2a; }
+    svg .ts { font-family: system-ui, sans-serif; font-size: 12px; fill: #5f5e5a; }
+
+    @media (prefers-color-scheme: dark) {
+      svg .t  { fill: #c2c0b6; }
+      svg .th { fill: #dddbd0; }
+      svg .ts { fill: #9c9a92; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>El experimento de Eddington (1919)</h1>
+  <p class="sub">Cómo se demostró que Einstein tenía razón — paso a paso</p>
+
+  <div class="card">
+    <div class="step-nav" id="nav"></div>
+    <div id="panels">
+
+      <!-- PASO 1 -->
+      <div class="step-panel active" data-step="0">
+        <svg width="100%" viewBox="0 0 680 240">
+          <circle cx="340" cy="120" r="50" fill="#EF9F27" opacity="0.15"/>
+          <circle cx="340" cy="120" r="34" fill="#EF9F27" opacity="0.4"/>
+          <circle cx="340" cy="120" r="22" fill="#BA7517"/>
+          <text class="ts" x="340" y="162" text-anchor="middle" fill="#854F0B">Sol</text>
+          <ellipse cx="340" cy="120" rx="130" ry="70" fill="none" stroke="#1D9E75" stroke-width="0.8" stroke-dasharray="5,4" opacity="0.5"/>
+          <circle cx="230" cy="62" r="4" fill="#534AB7"/>
+          <circle cx="310" cy="52" r="4" fill="#534AB7"/>
+          <circle cx="390" cy="55" r="4" fill="#534AB7"/>
+          <circle cx="456" cy="72" r="4" fill="#534AB7"/>
+          <circle cx="470" cy="130" r="4" fill="#534AB7"/>
+          <circle cx="200" cy="130" r="4" fill="#534AB7"/>
+          <circle cx="225" cy="175" r="4" fill="#534AB7"/>
+          <circle cx="460" cy="175" r="4" fill="#534AB7"/>
+          <text class="ts" x="340" y="210" text-anchor="middle">Cúmulo de las Híades — decenas de estrellas brillantes alrededor del Sol</text>
+          <text class="ts" x="340" y="228" text-anchor="middle">durante el eclipse</text>
+        </svg>
+        <span class="badge badge-info">Paso 1 · Elección del campo estelar</span>
+        <p class="step-desc">El 29 de mayo de 1919, el Sol estaría delante del cúmulo de las Híades en Tauro — uno de los grupos de estrellas más brillantes y densos del cielo. Eddington y Dyson eligieron ese eclipse precisamente por eso: cuantas más estrellas de referencia, más fiable la medición. Necesitaban estrellas suficientemente brillantes para impresionar la placa fotográfica en los pocos minutos del eclipse.</p>
+      </div>
+
+      <!-- PASO 2 -->
+      <div class="step-panel" data-step="1">
+        <svg width="100%" viewBox="0 0 680 220">
+          <defs>
+            <marker id="arr1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+          <rect x="60" y="30" width="240" height="150" rx="10" fill="none" stroke="#888780" stroke-width="0.8" stroke-dasharray="5,4"/>
+          <text class="th" x="180" y="58" text-anchor="middle">Isla de Príncipe</text>
+          <text class="ts" x="180" y="78" text-anchor="middle">Golfo de Guinea, África</text>
+          <text class="ts" x="180" y="98" text-anchor="middle">Eddington + Cottingham</text>
+          <text class="ts" x="180" y="118" text-anchor="middle">1 telescopio</text>
+          <text class="ts" x="180" y="138" text-anchor="middle">16 placas expuestas</text>
+          <text class="ts" x="180" y="158" text-anchor="middle">2 placas útiles (nubes)</text>
+          <rect x="380" y="30" width="260" height="150" rx="10" fill="none" stroke="#1D9E75" stroke-width="0.8"/>
+          <text class="th" x="510" y="58" text-anchor="middle" fill="#085041">Sobral</text>
+          <text class="ts" x="510" y="78" text-anchor="middle" fill="#0F6E56">Nordeste de Brasil</text>
+          <text class="ts" x="510" y="98" text-anchor="middle" fill="#0F6E56">Davidson + Crommelin</text>
+          <text class="ts" x="510" y="118" text-anchor="middle" fill="#0F6E56">2 telescopios</text>
+          <text class="ts" x="510" y="138" text-anchor="middle" fill="#0F6E56">19 placas útiles</text>
+          <text class="ts" x="510" y="158" text-anchor="middle" fill="#0F6E56">Cielo despejado</text>
+          <line x1="300" y1="105" x2="378" y2="105" stroke="#888780" stroke-width="0.8" marker-end="url(#arr1)" marker-start="url(#arr1)"/>
+          <text class="ts" x="340" y="96" text-anchor="middle">8 000 km</text>
+          <text class="ts" x="340" y="200" text-anchor="middle">Dos equipos independientes para garantizar el resultado si uno fallaba</text>
+        </svg>
+        <span class="badge badge-success">Paso 2 · Dos expediciones simultáneas</span>
+        <p class="step-desc">Eddington dirigió el equipo de la isla de Príncipe; otro equipo del Observatorio de Greenwich fue a Sobral (Brasil). La estrategia era redundante por necesidad: si el tiempo arruinaba una expedición, la otra salvaría el experimento. El equipo de Sobral llevó dos telescopios: uno grande de alta precisión y uno de campo más amplio como respaldo.</p>
+      </div>
+
+      <!-- PASO 3 -->
+      <div class="step-panel" data-step="2">
+        <svg width="100%" viewBox="0 0 680 220">
+          <defs>
+            <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+          <rect x="60" y="30" width="240" height="100" rx="8" fill="none" stroke="#888780" stroke-width="0.5" stroke-dasharray="4,3"/>
+          <text class="th" x="180" y="58" text-anchor="middle">Enero 1919</text>
+          <text class="ts" x="180" y="78" text-anchor="middle">Fotografías de referencia</text>
+          <text class="ts" x="180" y="96" text-anchor="middle">Híades de noche, sin Sol</text>
+          <text class="ts" x="180" y="114" text-anchor="middle">Posiciones reales de estrellas</text>
+          <line x1="300" y1="80" x2="378" y2="80" stroke="#1D9E75" stroke-width="1" marker-end="url(#arr2)"/>
+          <rect x="380" y="30" width="260" height="100" rx="8" fill="none" stroke="#1D9E75" stroke-width="0.8"/>
+          <text class="th" x="510" y="58" text-anchor="middle" fill="#085041">29 mayo 1919</text>
+          <text class="ts" x="510" y="78" text-anchor="middle" fill="#0F6E56">Fotografías del eclipse</text>
+          <text class="ts" x="510" y="96" text-anchor="middle" fill="#0F6E56">Híades junto al Sol oscurecido</text>
+          <text class="ts" x="510" y="114" text-anchor="middle" fill="#0F6E56">Posiciones aparentes de estrellas</text>
+          <line x1="180" y1="130" x2="180" y2="172" stroke="#888780" stroke-width="0.5" opacity="0.4"/>
+          <line x1="510" y1="130" x2="510" y2="172" stroke="#888780" stroke-width="0.5" opacity="0.4"/>
+          <line x1="180" y1="172" x2="510" y2="172" stroke="#888780" stroke-width="0.5" opacity="0.4"/>
+          <circle cx="340" cy="188" r="5" fill="#D85A30"/>
+          <text class="ts" x="356" y="191" text-anchor="start" fill="#993C1D">Diferencia de posición = desviación gravitacional</text>
+        </svg>
+        <span class="badge badge-warning">Paso 3 · La comparación clave</span>
+        <p class="step-desc">Meses antes del eclipse, ambos equipos fotografiaron las Híades de noche, sin el Sol presente. Esas eran las posiciones "verdaderas" de las estrellas. Durante el eclipse, fotografiaron el mismo campo con el Sol en medio. La diferencia de posición entre ambas series de placas es exactamente la desviación causada por la gravedad solar.</p>
+      </div>
+
+      <!-- PASO 4 -->
+      <div class="step-panel" data-step="3">
+        <svg width="100%" viewBox="0 0 680 220">
+          <defs>
+            <marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+          <rect x="60" y="30" width="560" height="60" rx="8" fill="none" stroke="#888780" stroke-width="0.5"/>
+          <text class="ts" x="340" y="55" text-anchor="middle">Escala real de la placa fotográfica (telescopio de Sobral)</text>
+          <text class="ts" x="340" y="75" text-anchor="middle" fill="#888780">1,75 segundos de arco ≈ 0,017 mm sobre el vidrio de la placa</text>
+          <line x1="80" y1="130" x2="620" y2="130" stroke="#888780" stroke-width="0.5" opacity="0.3"/>
+          <circle cx="300" cy="130" r="5" fill="#534AB7"/>
+          <text class="ts" x="300" y="118" text-anchor="middle" fill="#534AB7">posición real</text>
+          <circle cx="322" cy="130" r="5" fill="#D85A30"/>
+          <text class="ts" x="322" y="150" text-anchor="middle" fill="#D85A30">posición aparente</text>
+          <line x1="305" y1="130" x2="317" y2="130" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr3)"/>
+          <text class="ts" x="340" y="178" text-anchor="middle" fill="#0F6E56">0,017 mm — medido con micrómetro de tornillo</text>
+          <text class="ts" x="340" y="200" text-anchor="middle">La precisión requerida era comparable a medir el grosor de un cabello humano</text>
+        </svg>
+        <span class="badge badge-danger">Paso 4 · El desafío de la medición</span>
+        <p class="step-desc">La desviación predicha por Einstein —1,75 segundos de arco— se traduce en apenas 0,017 milímetros sobre una placa fotográfica. Eddington midió cada estrella con un micrómetro de tornillo, comparando manualmente la posición de cada punto luminoso entre la placa del eclipse y la de referencia nocturna. Hizo este trabajo para cada una de las estrellas visibles, para promediar el ruido y obtener una medida estadísticamente robusta.</p>
+      </div>
+
+      <!-- PASO 5 -->
+      <div class="step-panel" data-step="4">
+        <svg width="100%" viewBox="0 0 680 200">
+          <line x1="80" y1="170" x2="620" y2="170" stroke="#888780" stroke-width="0.5" opacity="0.4"/>
+          <line x1="80" y1="170" x2="80" y2="50"  stroke="#888780" stroke-width="0.5" opacity="0.4"/>
+          <line x1="80" y1="130" x2="620" y2="130" stroke="#888780" stroke-width="0.3" stroke-dasharray="3,5" opacity="0.3"/>
+          <text class="ts" x="74" y="133" text-anchor="end">0,87</text>
+          <line x1="80" y1="80"  x2="620" y2="80"  stroke="#888780" stroke-width="0.3" stroke-dasharray="3,5" opacity="0.3"/>
+          <text class="ts" x="74" y="83"  text-anchor="end">1,75</text>
+          <text class="ts" x="74" y="173" text-anchor="end">0</text>
+          <rect x="130" y="130" width="50" height="40" rx="4" fill="#888780" opacity="0.5"/>
+          <text class="ts" x="155" y="185" text-anchor="middle">Newton</text>
+          <rect x="280" y="100" width="50" height="70" rx="4" fill="#D85A30" opacity="0.7"/>
+          <rect x="280" y="90"  width="50" height="10" rx="2" fill="#D85A30" opacity="0.3"/>
+          <rect x="280" y="110" width="50" height="10" rx="2" fill="#D85A30" opacity="0.3"/>
+          <text class="ts" x="305" y="185" text-anchor="middle" fill="#993C1D">Príncipe</text>
+          <text class="ts" x="305" y="88"  text-anchor="middle" fill="#993C1D">1,61</text>
+          <rect x="430" y="82"  width="50" height="88" rx="4" fill="#1D9E75" opacity="0.7"/>
+          <rect x="430" y="72"  width="50" height="10" rx="2" fill="#1D9E75" opacity="0.3"/>
+          <rect x="430" y="92"  width="50" height="10" rx="2" fill="#1D9E75" opacity="0.3"/>
+          <text class="ts" x="455" y="185" text-anchor="middle" fill="#085041">Sobral</text>
+          <text class="ts" x="455" y="70"  text-anchor="middle" fill="#085041">1,98</text>
+          <line x1="80" y1="80" x2="140" y2="80" stroke="#534AB7" stroke-width="1.5"/>
+          <text class="ts" x="86" y="74" text-anchor="start" fill="#534AB7">Einstein: 1,75&quot;</text>
+        </svg>
+        <span class="badge badge-success">Paso 5 · El veredicto</span>
+        <p class="step-desc">Los valores medidos —1,61 ± 0,30 en Príncipe y 1,98 ± 0,12 en Sobral— eran incompatibles con Newton (0,87) y consistentes con Einstein (1,75), dentro de los márgenes de error. Dyson y Eddington combinaron ambos resultados y el 6 de noviembre de 1919 anunciaron ante la Royal Society: la luz se desvía tal como predijo Einstein. La teoría newtoniana de la gravedad quedaba superada.</p>
+      </div>
+
+    </div>
+
+    <div class="step-actions">
+      <button class="step-btn" id="prev-btn" onclick="move(-1)" disabled>← Anterior</button>
+      <button class="step-btn" id="next-btn" onclick="move(1)">Siguiente →</button>
+    </div>
+  </div>
+
+  <footer>Experimento de Eddington 1919 · Confirmación de la Relatividad General de Einstein</footer>
+
+  <script>
+    const panels = document.querySelectorAll('.step-panel');
+    const nav = document.getElementById('nav');
+    let cur = 0;
+
+    panels.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'step-dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', 'Paso ' + (i + 1));
+      d.onclick = () => go(i);
+      nav.appendChild(d);
+    });
+
+    function go(n) {
+      panels[cur].classList.remove('active');
+      document.querySelectorAll('.step-dot')[cur].classList.remove('active');
+      cur = n;
+      panels[cur].classList.add('active');
+      document.querySelectorAll('.step-dot')[cur].classList.add('active');
+      document.getElementById('prev-btn').disabled = cur === 0;
+      document.getElementById('next-btn').disabled = cur === panels.length - 1;
+    }
+
+    function move(d) {
+      if (cur + d >= 0 && cur + d < panels.length) go(cur + d);
+    }
+  </script>
+</body>
+</html>

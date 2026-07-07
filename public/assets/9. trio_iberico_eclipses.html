@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Trío Ibérico de Eclipses 2026–2027–2028</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #f4f2eb;
+      color: #2c2c2a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body { background: #1a1a18; color: #c2c0b6; }
+    }
+
+    h1 {
+      font-size: 1.25rem;
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: 0.25rem;
+    }
+
+    p.sub {
+      font-size: 0.85rem;
+      color: #73726c;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (prefers-color-scheme: dark) { p.sub { color: #9c9a92; } }
+
+    .card {
+      width: 100%;
+      max-width: 720px;
+      background: #fff;
+      border: 0.5px solid rgba(0,0,0,0.12);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .card { background: #262623; border-color: rgba(255,255,255,0.1); }
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      border-bottom: 0.5px solid rgba(0,0,0,0.1);
+      margin-bottom: 1.25rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .tabs { border-bottom-color: rgba(255,255,255,0.1); }
+    }
+
+    .tab {
+      background: none;
+      border: none;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-family: inherit;
+      color: #73726c;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -0.5px;
+      transition: color .15s, border-color .15s;
+    }
+
+    .tab.active {
+      color: #2c2c2a;
+      border-bottom-color: #2c2c2a;
+      font-weight: 500;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .tab { color: #9c9a92; }
+      .tab.active { color: #dddbd0; border-bottom-color: #dddbd0; }
+    }
+
+    /* Panels */
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* SVG text styles */
+    svg .t  { font-family: system-ui, sans-serif; font-size: 14px; fill: #3d3d3a; }
+    svg .th { font-family: system-ui, sans-serif; font-size: 14px; font-weight: 500; fill: #2c2c2a; }
+    svg .ts { font-family: system-ui, sans-serif; font-size: 12px; fill: #5f5e5a; }
+
+    @media (prefers-color-scheme: dark) {
+      svg .t  { fill: #c2c0b6; }
+      svg .th { fill: #dddbd0; }
+      svg .ts { fill: #9c9a92; }
+    }
+
+    /* Meta grid */
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 480px) { .meta { grid-template-columns: 1fr 1fr; } }
+
+    .m {
+      border: 0.5px solid rgba(0,0,0,0.1);
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: #f9f7f2;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .m { background: #1e1e1c; border-color: rgba(255,255,255,0.08); }
+    }
+
+    .ml {
+      font-size: 10px;
+      color: #b4b2a9;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 2px;
+    }
+
+    .mv {
+      font-size: 13px;
+      font-weight: 500;
+      color: #2c2c2a;
+    }
+
+    @media (prefers-color-scheme: dark) { .mv { color: #dddbd0; } }
+
+    .desc {
+      font-size: 13px;
+      color: #5f5e5a;
+      line-height: 1.7;
+      margin-top: 12px;
+    }
+
+    @media (prefers-color-scheme: dark) { .desc { color: #9c9a92; } }
+
+    /* Context box */
+    .context {
+      width: 100%;
+      max-width: 720px;
+      margin-top: 1rem;
+      border: 0.5px solid rgba(0,0,0,0.1);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      background: #fff;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .context { background: #262623; border-color: rgba(255,255,255,0.1); }
+    }
+
+    .context h2 {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #2c2c2a;
+    }
+
+    @media (prefers-color-scheme: dark) { .context h2 { color: #dddbd0; } }
+
+    .context p {
+      font-size: 13px;
+      color: #5f5e5a;
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+
+    @media (prefers-color-scheme: dark) { .context p { color: #9c9a92; } }
+
+    footer {
+      margin-top: 1.5rem;
+      font-size: 11px;
+      color: #b4b2a9;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>El Trío Ibérico de Eclipses</h1>
+  <p class="sub">Tres eclipses solares sobre España en tres años consecutivos — un hecho inédito desde 1912</p>
+
+  <div class="card">
+    <div class="tabs">
+      <button class="tab active" onclick="go(0)">2026 · Total</button>
+      <button class="tab" onclick="go(1)">2027 · Total</button>
+      <button class="tab" onclick="go(2)">2028 · Anular</button>
+    </div>
+
+    <div id="panels">
+
+      <!-- ECLIPSE 2026 -->
+      <div class="panel active">
+        <svg width="100%" viewBox="0 0 680 200" role="img">
+          <title>Eclipse total del 12 de agosto de 2026 en España</title>
+          <desc>Franja de totalidad cruzando España de oeste a este al atardecer, con el Sol muy bajo en el horizonte.</desc>
+          <rect x="40" y="30" width="600" height="130" rx="10" fill="#EEEDFE" opacity="0.3"/>
+          <rect x="40" y="30" width="600" height="130" rx="10" fill="none" stroke="#534AB7" stroke-width="0.5" opacity="0.5"/>
+          <text class="ts" x="340" y="22" text-anchor="middle">España · 12 agosto 2026 · 20:32 h</text>
+          <!-- Franja de totalidad -->
+          <rect x="80" y="120" width="540" height="30" fill="#534AB7" opacity="0.07"/>
+          <line x1="80" y1="120" x2="620" y2="120" stroke="#534AB7" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+          <line x1="80" y1="150" x2="620" y2="150" stroke="#534AB7" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+          <!-- Sol bajo en el horizonte -->
+          <circle cx="140" cy="148" r="18" fill="#EF9F27" opacity="0.9"/>
+          <circle cx="140" cy="148" r="18" fill="none" stroke="#BA7517" stroke-width="1"/>
+          <text class="ts" x="140" y="152" text-anchor="middle" fill="#412402">Sol</text>
+          <!-- Horizonte -->
+          <line x1="40" y1="155" x2="680" y2="155" stroke="#888780" stroke-width="0.5" stroke-dasharray="2,4" opacity="0.4"/>
+          <text class="ts" x="52" y="163">horizonte</text>
+          <!-- Info box -->
+          <rect x="320" y="40" width="300" height="82" rx="8" fill="white" stroke="rgba(0,0,0,0.08)" stroke-width="0.5"/>
+          <text class="th" x="470" y="62" text-anchor="middle" fill="#2c2c2a">Eclipse del atardecer</text>
+          <text class="ts" x="470" y="80" text-anchor="middle">Totalidad: ~1 min 50 s</text>
+          <text class="ts" x="470" y="96" text-anchor="middle">Sol a 7° (Madrid) — 2° (Palma)</text>
+          <text class="ts" x="470" y="112" text-anchor="middle">1.er total en España desde 1912</text>
+          <!-- Ruta -->
+          <text class="ts" x="340" y="175" text-anchor="middle">Franja: A Coruña → Bilbao → Zaragoza → Valencia → Palma de Mallorca</text>
+        </svg>
+        <div class="meta">
+          <div class="m"><div class="ml">Fecha</div><div class="mv">12 ago 2026</div></div>
+          <div class="m"><div class="ml">Tipo</div><div class="mv">Total</div></div>
+          <div class="m"><div class="ml">Totalidad</div><div class="mv">~1 min 50 s</div></div>
+          <div class="m"><div class="ml">Hora local</div><div class="mv">20:32 h</div></div>
+          <div class="m"><div class="ml">Altura Sol</div><div class="mv">7° Madrid · 2° Palma</div></div>
+          <div class="m"><div class="ml">Franja</div><div class="mv">Galicia → Baleares</div></div>
+        </div>
+        <p class="desc">El primero del trío y el primero visible en la Europa continental en este siglo. Su singularidad es la hora: ocurre al atardecer con el Sol casi en el horizonte, lo que lo convierte en un espectáculo fotográfico extraordinario pero de muy limitada utilidad científica astrométrica. La franja cruza España de noroeste a sureste pasando por A Coruña, Oviedo, Bilbao, Zaragoza, Valencia y Palma.</p>
+      </div>
+
+      <!-- ECLIPSE 2027 -->
+      <div class="panel">
+        <svg width="100%" viewBox="0 0 680 200" role="img">
+          <title>Eclipse total del 2 de agosto de 2027 en España y Egipto</title>
+          <desc>El eclipse del siglo: franja de totalidad cruzando el sur de España y norte de África hasta Egipto con el Sol en el cénit.</desc>
+          <rect x="40" y="30" width="600" height="130" rx="10" fill="#E1F5EE" opacity="0.3"/>
+          <rect x="40" y="30" width="600" height="130" rx="10" fill="none" stroke="#1D9E75" stroke-width="0.5" opacity="0.6"/>
+          <text class="ts" x="340" y="22" text-anchor="middle">España + Egipto · 2 agosto 2027 · 13:05 h (Luxor)</text>
+          <!-- Sol en el cénit -->
+          <circle cx="340" cy="52" r="18" fill="#EF9F27" opacity="0.95"/>
+          <circle cx="340" cy="52" r="18" fill="none" stroke="#BA7517" stroke-width="1"/>
+          <text class="ts" x="340" y="56" text-anchor="middle" fill="#412402">Sol</text>
+          <!-- Franja ancha -->
+          <rect x="80" y="68" width="540" height="36" fill="#1D9E75" opacity="0.09"/>
+          <line x1="80" y1="68" x2="620" y2="68" stroke="#1D9E75" stroke-width="1.5" opacity="0.7"/>
+          <line x1="80" y1="104" x2="620" y2="104" stroke="#1D9E75" stroke-width="1.5" opacity="0.7"/>
+          <!-- Ruta -->
+          <text class="ts" x="340" y="124" text-anchor="middle" fill="#0F6E56">Franja: Cádiz · Málaga · Ceuta · Marruecos · Argelia · Libia · Egipto · Arabia Saudí</text>
+          <text class="ts" x="340" y="142" text-anchor="middle" fill="#085041">82° sobre el horizonte en Luxor — 6 min 23 s de totalidad</text>
+          <!-- Info box -->
+          <rect x="440" y="34" width="200" height="46" rx="8" fill="white" stroke="rgba(0,0,0,0.08)" stroke-width="0.5"/>
+          <text class="th" x="540" y="52" text-anchor="middle" fill="#085041">Eclipse del siglo</text>
+          <text class="ts" x="540" y="70" text-anchor="middle">El más largo accesible del XXI</text>
+          <!-- Horizonte -->
+          <line x1="40" y1="155" x2="680" y2="155" stroke="#888780" stroke-width="0.5" stroke-dasharray="2,4" opacity="0.3"/>
+        </svg>
+        <div class="meta">
+          <div class="m"><div class="ml">Fecha</div><div class="mv">2 ago 2027</div></div>
+          <div class="m"><div class="ml">Tipo</div><div class="mv">Total</div></div>
+          <div class="m"><div class="ml">Totalidad Luxor</div><div class="mv">6 min 23 s</div></div>
+          <div class="m"><div class="ml">Hora Luxor</div><div class="mv">13:05 h</div></div>
+          <div class="m"><div class="ml">Altura Sol</div><div class="mv">82° (Luxor)</div></div>
+          <div class="m"><div class="ml">España</div><div class="mv">Cádiz / Málaga 4+ min</div></div>
+        </div>
+        <p class="desc">La joya de la corona. El eclipse total más largo accesible en tierra de todo el siglo XXI. La franja cruza el sur de España —Cádiz y Málaga con más de cuatro minutos de oscuridad total— y continúa por el norte de África hasta Egipto. En Luxor, con el Sol a 82° sobre el horizonte y 6 minutos 23 segundos de totalidad, se dan las condiciones ideales para el experimento MEE2027.</p>
+      </div>
+
+      <!-- ECLIPSE 2028 -->
+      <div class="panel">
+        <svg width="100%" viewBox="0 0 680 200" role="img">
+          <title>Eclipse anular del 26 de enero de 2028 en España</title>
+          <desc>El anillo de fuego: la Luna no cubre completamente el Sol dejando visible un aro brillante alrededor de su silueta.</desc>
+          <rect x="40" y="30" width="600" height="130" rx="10" fill="#FAEEDA" opacity="0.35"/>
+          <rect x="40" y="30" width="600" height="130" rx="10" fill="none" stroke="#BA7517" stroke-width="0.5" opacity="0.5"/>
+          <text class="ts" x="340" y="22" text-anchor="middle">España · 26 enero 2028 · ~18:00 h (atardecer)</text>
+          <!-- Anillo de fuego -->
+          <circle cx="210" cy="100" r="42" fill="#EF9F27" opacity="0.85"/>
+          <circle cx="210" cy="100" r="30" fill="#1a1a18"/>
+          <circle cx="210" cy="100" r="42" fill="none" stroke="#EF9F27" stroke-width="5" opacity="0.9"/>
+          <text class="ts" x="210" y="155" text-anchor="middle" fill="#633806">Anillo de fuego</text>
+          <text class="ts" x="210" y="170" text-anchor="middle" fill="#888780">Luna más pequeña que el Sol</text>
+          <!-- Info box -->
+          <rect x="330" y="40" width="300" height="110" rx="8" fill="white" stroke="rgba(0,0,0,0.08)" stroke-width="0.5"/>
+          <text class="th" x="480" y="62" text-anchor="middle" fill="#2c2c2a">Eclipse anular</text>
+          <text class="ts" x="480" y="82" text-anchor="middle">La Luna NO cubre el Sol completo</text>
+          <text class="ts" x="480" y="100" text-anchor="middle">Aro brillante visible ~7 minutos</text>
+          <text class="ts" x="480" y="116" text-anchor="middle">No hay oscuridad total</text>
+          <text class="ts" x="480" y="132" text-anchor="middle">Franja: Huelva → Madrid → Valencia</text>
+        </svg>
+        <div class="meta">
+          <div class="m"><div class="ml">Fecha</div><div class="mv">26 ene 2028</div></div>
+          <div class="m"><div class="ml">Tipo</div><div class="mv">Anular</div></div>
+          <div class="m"><div class="ml">Anularidad</div><div class="mv">~7 minutos</div></div>
+          <div class="m"><div class="ml">Hora local</div><div class="mv">~18:00 h</div></div>
+          <div class="m"><div class="ml">Efecto</div><div class="mv">Anillo de fuego</div></div>
+          <div class="m"><div class="ml">Franja</div><div class="mv">SO → NE peninsular</div></div>
+        </div>
+        <p class="desc">El cierre de la trilogía y el más diferente en naturaleza. La Luna se encuentra algo más alejada de la Tierra, su disco aparente es ligeramente más pequeño que el del Sol y no llega a taparlo del todo. El resultado es un aro perfecto de luz solar alrededor de la silueta lunar: el anillo de fuego. No hay oscuridad total, pero es uno de los espectáculos visuales más hipnóticos de la astronomía.</p>
+      </div>
+
+    </div><!-- /panels -->
+  </div><!-- /card -->
+
+  <div class="context">
+    <h2>¿Por qué es tan excepcional el Trío Ibérico?</h2>
+    <p>Por término medio, el tiempo que tarda en repetirse un eclipse solar total en un mismo punto del globo es de <strong>375 años</strong>. Los últimos eclipses totales visibles desde España peninsular fueron en 1860, 1870, 1900, 1905 y 1912. El siguiente, tras el trío, no llegará hasta 2053.</p>
+    <p>Ver tres eclipses desde un mismo territorio en tres años consecutivos — dos de ellos totales — es estadísticamente rarísimo. El Gobierno español lo consideró un acontecimiento suficientemente excepcional como para crear, mediante Real Decreto (BOE, 30 julio 2025), una Comisión Interministerial con trece ministerios para su coordinación.</p>
+    <p>La web oficial del trío es <strong>trioeclipses.es</strong>, gestionada por el Instituto Geográfico Nacional.</p>
+  </div>
+
+  <footer>Trío Ibérico de Eclipses 2026–2027–2028 · Archivo HTML autónomo · Sin dependencias externas</footer>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const panels = document.querySelectorAll('.panel');
+
+    function go(i) {
+      tabs.forEach((t, j) => t.classList.toggle('active', i === j));
+      panels.forEach((p, j) => p.classList.toggle('active', i === j));
+    }
+  </script>
+
+</body>
+</html>

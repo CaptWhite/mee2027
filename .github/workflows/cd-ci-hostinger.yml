@@ -69,10 +69,17 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             echo "Conexión SSH establecida, iniciando despliegue."
-            cd /home/${{ secrets.SSH_USER }}/workspaces/mee2027
+            cd /home/${{ secrets.SSH_USER }}/workspaces/cursos
 
-            echo "Actualizando y reiniciando contenedores..."
-            docker compose pull
-            docker compose --file docker-compose-prod.yml down
+            echo "Deteniendo y eliminando contenedor actual..."
+            docker compose --file docker-compose-prod.yml down --remove-orphans
+
+            echo "Eliminando imagen antigua..."
+            docker rmi captwhite/cursos:latest 2>/dev/null || true
+
+            echo "Descargando nueva imagen..."
+            docker compose --file docker-compose-prod.yml pull
+
+            echo "Iniciando nuevo contenedor..."
             docker compose --file docker-compose-prod.yml up -d
-            echo "✅ Despliegue de contenedores finalizado y levantado."
+            echo "✅ Despliegue finalizado."
