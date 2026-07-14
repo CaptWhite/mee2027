@@ -1117,7 +1117,11 @@ $$
 \text{Blur}(y, x) = \left(\text{BoxFilter}(I, k) - \text{BoxFilter}(I, d_{\text{int}}) \cdot \frac{d_{\text{int}}^2}{k^2}\right) \cdot \frac{k^2}{k^2 - d_{\text{int}}^2}
 $$
 
-   $$I_{\text{sub}}(y, x) = I(y, x) - \text{Blur}(y, x)$$
+
+$$
+I_{\text{sub}}(y, x) = I(y, x) - \text{Blur}(y, x)
+$$
+
 2. **Normalización por Varianza Local:**
    Calcula el cuadrado de la señal $I_{\text{sub}}^2$, recorta los extremos (percentil 95) para evitar que estrellas hiper-brillantes distorsionen la estadística local, y obtiene la varianza local con un filtro de caja de $50 \times 50$:
 

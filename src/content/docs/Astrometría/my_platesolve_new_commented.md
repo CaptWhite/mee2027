@@ -7,7 +7,9 @@ Sea:
 * $K_2 \subset \{1,\dots,d\}$:  índices con `kept2 = True` (legs), con ( K \subseteq K_2 )
 
 Entonces:
-$$\mathbf{v}^{(2)}_j = \mathbf{v}_{k_j}, \quad k_j \in K_2$$
+$$
+\mathbf{v}^{(2)}_j = \mathbf{v}_{k_j}, \quad k_j \in K_2
+$$
 
 es decir, `vectors2` es el subconjunto de vectores con índices en $K_2$.
 
@@ -15,10 +17,18 @@ es decir, `vectors2` es el subconjunto de vectores con índices en $K_2$.
 
 ## 2) Mapeo de índices
 El código construye una función de correspondencia:
-$$f: K_2 \to \{1,\dots,|K_2|\}$$
+
+$$
+f: K_2 \to \{1,\dots,|K_2|\}
+$$
+
 
 tal que:
-$$f(i) = i - \sum_{m=1}^i \mathbf{1}_{{m \notin K_2}}$$
+
+$$
+f(i) = i - \sum_{m=1}^i \mathbf{1}_{{m \notin K_2}}
+$$
+
 
 Esto es exactamente lo que implementa:
 ```python
@@ -31,31 +41,41 @@ y permite pasar de índice global (i) a índice en `vectors2`.
 
 ## 3) Para cada anchor
 Para cada $i \in \{1,\dots,n_{\text{kept}}\}$, con:
-$$\mathbf{a} = \mathbf{v}_{k_i}$$
+$$
+\mathbf{a} = \mathbf{v}_{k_i}
+$$
 (donde $k_i \in K$), se hace:
 
 ---
 
 ### 3.1) Vecinos en la esfera
 Se define el conjunto de vecinos:
-$$\mathcal{N}_i = \{ j \in K_2 :  d(\mathbf{v}_j, \mathbf{a}) \le \theta*{\text{pat}} \}$$
+$$
+\mathcal{N}_i = \{ j \in K_2 :  d(\mathbf{v}_j, \mathbf{a}) \le \theta*{\text{pat}} \}
+$$
 
 donde la distancia es angular (aunque KDTree usa euclídea equivalente en esfera unitaria).
 
 Se elimina el propio punto:
-$$\mathcal{N}_i \leftarrow \mathcal{N}_i \setminus \{k_i\}$$
+$$
+\mathcal{N}_i \leftarrow \mathcal{N}_i \setminus \{k_i\}
+$$
 
 ---
 
 ### 3.2) Vectores relativos
 Para cada vecino $j \in \mathcal{N}_i$:
-$$\Delta_j = \mathbf{v}_j - \mathbf{a}$$
+$$
+\Delta_j = \mathbf{v}_j - \mathbf{a}
+$$
 
 ---
 
 ### 3.3) Distancia angular
 Se calcula:
-$$\theta_j = 2 \arcsin\left( \frac{|\Delta_j|}{2} \right)$$
+$$
+\theta_j = 2 \arcsin\left( \frac{|\Delta_j|}{2} \right)
+$$
 
 Esto es la distancia angular real en la esfera.
 
@@ -65,11 +85,17 @@ Esto es la distancia angular real en la esfera.
 Se define:
 
 * vector polo:
-  $$\mathbf{z} = (0,0,1)$$
+  $$
+  \mathbf{z} = (0,0,1)
+  $$
 * dirección azimutal:
-$$\hat{\boldsymbol{\phi}} = \frac{\mathbf{z} \times \mathbf{a}}{|\mathbf{z} \times \mathbf{a}|}$$
+$$
+\hat{\boldsymbol{\phi}} = \frac{\mathbf{z} \times \mathbf{a}}{|\mathbf{z} \times \mathbf{a}|}
+$$
 * dirección polar:
-$$\hat{\boldsymbol{\theta}} = \frac{\hat{\boldsymbol{\phi}} \times \mathbf{a}}{|\hat{\boldsymbol{\phi}} \times \mathbf{a}|}$$
+$$
+\hat{\boldsymbol{\theta}} = \frac{\hat{\boldsymbol{\phi}} \times \mathbf{a}}{|\hat{\boldsymbol{\phi}} \times \mathbf{a}|}
+$$
 
 Esto define una base ortonormal en el plano tangente a la esfera en $\mathbf{a}$.
 
@@ -77,10 +103,16 @@ Esto define una base ortonormal en el plano tangente a la esfera en $\mathbf{a}$
 
 ### 3.5) Coordenadas locales
 Se proyectan los vectores:
-$$x_j = \hat{\boldsymbol{\theta}} \cdot \Delta_j$$
-$$y_j = \hat{\boldsymbol{\phi}} \cdot \Delta_j$$
+$$
+x_j = \hat{\boldsymbol{\theta}} \cdot \Delta_j
+$$
+$$
+y_j = \hat{\boldsymbol{\phi}} \cdot \Delta_j
+$$
 y se obtiene el ángulo:
-$$\phi_j = \operatorname{atan2}(y_j, x_j)$$
+$$
+\phi_j = \operatorname{atan2}(y_j, x_j)
+$$
 
 ---
 
@@ -89,18 +121,26 @@ Se seleccionan dos subconjuntos:
 ---
 
 ### 4.1) (c) vecinos más cercanos
-$$C_i = \text{los } c \text{ índices con menor } \theta_j$$
+$$
+C_i = \text{los } c \text{ índices con menor } \theta_j
+$$
 ---
 
 ### 4.2) (e) estrellas más brillantes restantes
 Como el índice original está ordenado por brillo:
-$$E_i = \text{los primeros } e \text{ elementos de } \mathcal{N}_i \setminus C_i$$
+
+$$
+E_i = \text{los primeros } e \text{ elementos de } \mathcal{N}_i \setminus C_i
+$$
+
 (según orden creciente de índice → más brillantes)
 
 ---
 
 ### 4.3) Patrón final
-$$P_i = C_i \cup E_i  \quad \text{con } |P_i| = c+e$$
+$$
+P_i = C_i \cup E_i  \quad \text{con } |P_i| = c+e
+$$
 
 ---
 
@@ -109,13 +149,21 @@ $$P_i = C_i \cup E_i  \quad \text{con } |P_i| = c+e$$
 Para cada anchor $i$ y cada $j \in P_i$:
 
 ### Índices
-$$\text{pattern\_ind}[i, k] = j$$
+$$
+\text{pattern\_ind}[i, k] = j
+$$
 ---
 
 ### Datos geométricos
-$$\text{pattern\_data}[i,k,0] = \theta_j$$
-$$\text{pattern\_data}[i,k,1] = \phi_j$$
-$$\text{pattern\_data}[i,k,2:5] = \mathbf{v}_j$$
+$$
+\text{pattern\_data}[i,k,0] = \theta_j
+$$
+$$
+\text{pattern\_data}[i,k,1] = \phi_j
+$$
+$$
+\text{pattern\_data}[i,k,2:5] = \mathbf{v}_j
+$$
 
 
 ---
@@ -129,7 +177,9 @@ El algoritmo construye, para cada estrella ancla $\mathbf{a}$:
 * más sus coordenadas cartesianas
 
 Es decir, cada patrón es:
-$$\{ (\theta_j, \phi_j, \mathbf{v}*j) \}_{j \in P_i}$$
+$$
+\{ (\theta_j, \phi_j, \mathbf{v}*j) \}_{j \in P_i}
+$$
 
 ---
 
@@ -220,7 +270,9 @@ Más concretamente:
 * construyes un sistema de coordenadas local (plano tangente)
 * representas vecinos como:
 
-$$(\theta, \phi)$$
+$$
+(\theta, \phi)
+$$
 
 👉 Esto es equivalente a:
 * un **descriptor polar local**
@@ -257,7 +309,10 @@ Si quieres profundizar, busca:
 
 ## 🧾 6) Traducción conceptual final
 Tu código implementa:
-$$\textbf{Descriptor local polar de vecindad estelar}$$
+$$
+\textbf{Descriptor local polar de vecindad estelar}
+
+$$
 
 que es una variante de:
 * **geometric invariant descriptors**

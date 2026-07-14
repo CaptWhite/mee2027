@@ -135,7 +135,9 @@ $$
 
 **Barycentric Coordinate Time (TCB)** es la escala de tiempo usada para efemerides planetarias, corregida de los efectos relativistas del campo gravitatorio del Sistema Solar. Se relaciona con el Tiempo Terrestre (TT) mediante:
 
-$$\text{TCB} = \text{TT} + L_B \cdot (J_D - 2\,443\,144.5) \cdot 86\,400$$
+$$
+\text{TCB} = \text{TT} + L_B \cdot (J_D - 2\,443\,144.5) \cdot 86\,400
+$$
 
 donde $L_B ~ 1.550505 x 10^-8$.
 
@@ -158,7 +160,9 @@ $$
 
 Para alinear los vectores locales con los vectores ICRS, se encuentra la matriz de rotacion `R en SO(3)` que minimiza:
 
-$$\min_R \| R \cdot \vec{V}_{\text{local}} - \vec{V}_{\text{ICRS}} \|_F$$
+$$
+\min_R \| R \cdot \vec{V}_{\text{local}} - \vec{V}_{\text{ICRS}} \|_F
+$$
 
 donde `||.||_F` es la norma de Frobenius. La solucion se obtiene mediante **SVD** (Descomposicion en Valores Singulares):
 

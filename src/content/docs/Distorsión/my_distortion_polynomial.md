@@ -5,22 +5,29 @@ Este documento proporciona una descripción formal, teórica y matemática del s
 ---
 
 ## Índice
-1. [Introducción](#1-introducción)
-2. [Formulación de Bases de Diseño](#2-formulación-de-bases-de-diseño)
-   - [2.1 Polinomios Binomiales Clásicos](#21-polinomios-binomiales-clásicos)
-   - [2.2 Polinomios Ortogonales de Legendre](#22-polinomios-ortogonales-de-legendre)
-3. [Regresión Astrométrica por Mínimos Cuadrados Ordinarios (OLS)](#3-regresión-astrométrica-por-mínimos-cuadrados-ordinarios-ols)
-   - [3.1 Ecuaciones Normales y Ajuste de Coeficientes](#31-ecuaciones-normales-y-ajuste-de-coeficientes)
-   - [3.2 Soporte para Coeficientes Fijos (Fixed Coefficients)](#32-soporte-para-coeficientes-fijos-fixed-coefficients)
-   - [3.3 Incertidumbres por Heterocedasticidad (HC0)](#33-incertidumbres-por-heterocedasticidad-hc0)
-4. [Absorción de Parámetros Lineales en WCS (WCS Absorption)](#4-absorción-de-parámetros-lineales-en-wcs-wcs-absorption)
-   - [4.1 Factor de Escala (Platescale)](#41-factor-de-escala-platescale)
-   - [4.2 Centro de Placa (RA, Dec)](#42-centro-de-placa-ra-dec)
-   - [4.3 Ángulo de Rotación (Roll)](#43-ángulo-de-rotación-roll)
-5. [Algoritmo de Estimación de Época (Date Guessing)](#5-algoritmo-de-estimación-de-época-date-guessing)
-6. [Interpolación y Apertura de Archivos de Calibración](#6-interpolación-y-apertura-de-archivos-de-calibración)
-7. [Referencia de la API](#7-referencia-de-la-api)
-8. [Bibliografía y Referencias de Soporte](#8-bibliografía-y-referencias-de-soporte)
+- [Descripción Teórica y Matemática de `my_distortion_polynomial.py`](#descripción-teórica-y-matemática-de-my_distortion_polynomialpy)
+  - [Índice](#índice)
+  - [1. Introducción](#1-introducción)
+  - [2. Formulación de Bases de Diseño](#2-formulación-de-bases-de-diseño)
+    - [2.1 Polinomios Binomiales Clásicos](#21-polinomios-binomiales-clásicos)
+    - [2.2 Polinomios Ortogonales de Legendre](#22-polinomios-ortogonales-de-legendre)
+  - [3. Regresión Astrométrica por Mínimos Cuadrados Ordinarios (OLS)](#3-regresión-astrométrica-por-mínimos-cuadrados-ordinarios-ols)
+    - [3.1 Ecuaciones Normales y Ajuste de Coeficientes](#31-ecuaciones-normales-y-ajuste-de-coeficientes)
+    - [3.2 Soporte para Coeficientes Fijos (Fixed Coefficients)](#32-soporte-para-coeficientes-fijos-fixed-coefficients)
+    - [3.3 Incertidumbres por Heterocedasticidad (HC0)](#33-incertidumbres-por-heterocedasticidad-hc0)
+  - [4. Absorción de Parámetros Lineales en WCS (WCS Absorption)](#4-absorción-de-parámetros-lineales-en-wcs-wcs-absorption)
+    - [4.1 Factor de Escala (Platescale)](#41-factor-de-escala-platescale)
+    - [4.2 Centro de Placa (RA, Dec)](#42-centro-de-placa-ra-dec)
+    - [4.3 Ángulo de Rotación (Roll)](#43-ángulo-de-rotación-roll)
+  - [5. Algoritmo de Estimación de Época (Date Guessing)](#5-algoritmo-de-estimación-de-época-date-guessing)
+  - [6. Interpolación y Apertura de Archivos de Calibración](#6-interpolación-y-apertura-de-archivos-de-calibración)
+  - [7. Referencia de la API](#7-referencia-de-la-api)
+    - [Clases y Funciones Principales](#clases-y-funciones-principales)
+      - [1. `get_basis(y, x, w, m, options, use_special=False)`](#1-get_basisy-x-w-m-options-use_specialfalse)
+      - [2. `_cubic_helper(q, plate, target, w, m, fix_coeff_x, fix_coeff_y, options, use_special=False, weights=1)`](#2-_cubic_helperq-plate-target-w-m-fix_coeff_x-fix_coeff_y-options-use_specialfalse-weights1)
+      - [3. `apply_corrections(q, plate, coeff_x, coeff_y, img_shape, options)`](#3-apply_correctionsq-plate-coeff_x-coeff_y-img_shape-options)
+      - [4. `do_cubic_fit(plate, stardata, initial_guess, img_shape, options, weights=1)`](#4-do_cubic_fitplate-stardata-initial_guess-img_shape-options-weights1)
+  - [8. Bibliografía y Referencias de Soporte](#8-bibliografía-y-referencias-de-soporte)
 
 ---
 
@@ -98,7 +105,9 @@ $$
 \mathbf{e}_x = \mathbf{x}_{detransformed} - \mathbf{x}_{obs} \in \mathbb{R}^N
 $$
 
-$$\mathbf{e}_y = \mathbf{y}_{detransformed} - \mathbf{y}_{obs} \in \mathbb{R}^N$$
+$$
+\mathbf{e}_y = \mathbf{y}_{detransformed} - \mathbf{y}_{obs} \in \mathbb{R}^N
+$$
 
 El ajuste por mínimos cuadrados ordinarios estima los coeficientes óptimos $\mathbf{c}_x$ y $\mathbf{c}_y$ resolviendo las ecuaciones normales:
 
@@ -106,7 +115,9 @@ $$
 \mathbf{c}_x = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T (\mathbf{e}_x \cdot m)
 $$
 
-$$\mathbf{c}_y = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T (\mathbf{e}_y \cdot m)$$
+$$
+\mathbf{c}_y = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T (\mathbf{e}_y \cdot m)
+$$
 donde $m$ es un factor de escala de normalización de placa (fijado típicamente en $1$).
 
 ### 3.2 Soporte para Coeficientes Fijos (Fixed Coefficients)
@@ -126,7 +137,9 @@ $$
 \mathbf{e}^*_{x} = \mathbf{e}_x - \frac{\mathbf{X}_{fixed} \mathbf{c}_{x, fixed}}{m}
 $$
 
-$$\mathbf{e}^*_{y} = \mathbf{e}_y - \frac{\mathbf{X}_{fixed} \mathbf{c}_{y, fixed}}{m}$$
+$$
+\mathbf{e}^*_{y} = \mathbf{e}_y - \frac{\mathbf{X}_{fixed} \mathbf{c}_{y, fixed}}{m}
+$$
 
 Posteriormente, el estimador calcula mediante regresión lineal ordinaria los coeficientes libres sobre la matriz reducida $\mathbf{X}_{free}$:
 
@@ -134,7 +147,9 @@ $$
 \mathbf{c}_{x, free} = (\mathbf{X}_{free}^T \mathbf{X}_{free})^{-1} \mathbf{X}_{free}^T (\mathbf{e}^*_x \cdot m)
 $$
 
-$$\mathbf{c}_{y, free} = (\mathbf{X}_{free}^T \mathbf{X}_{free})^{-1} \mathbf{X}_{free}^T (\mathbf{e}^*_y \cdot m)$$
+$$
+\mathbf{c}_{y, free} = (\mathbf{X}_{free}^T \mathbf{X}_{free})^{-1} \mathbf{X}_{free}^T (\mathbf{e}^*_y \cdot m)
+$$
 
 Los coeficientes de distorsión finales para cada eje corresponden a la concatenación de los coeficientes estimados y los fijos:
 
@@ -194,7 +209,9 @@ $$
 \begin{pmatrix} \Delta\alpha \\ \Delta\delta \end{pmatrix} = s_{old} \begin{pmatrix} \frac{1}{\cos\delta_0} & 0 \\ 0 & 1 \end{pmatrix} \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix} \begin{pmatrix} a_0 \\ b_0 \end{pmatrix}
 $$
 
-$$\alpha_{0, new} = \alpha_{0, old} + \Delta\alpha$$
+$$
+\alpha_{0, new} = \alpha_{0, old} + \Delta\alpha
+$$
 
 $$
 \delta_{0, new} = \delta_{0, old} + \Delta\delta
@@ -209,7 +226,9 @@ $$
 \Delta\theta = \frac{a_y}{w}
 $$
 
-$$\theta_{new} = \theta_{old} - \Delta\theta$$
+$$
+\theta_{new} = \theta_{old} - \Delta\theta
+$$
 
 Este refinamiento algebraico se ejecuta de manera repetida en tres pasadas consecutivas de la función `do_cubic_fit`, garantizando la estabilidad y reduciendo los términos lineales de la regresión de distorsión a cero.
 

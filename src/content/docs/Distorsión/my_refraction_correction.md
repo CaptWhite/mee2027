@@ -5,14 +5,22 @@ Este documento proporciona una descripción formal, teórica y matemática del f
 ---
 
 ## Índice
-1. [Introducción y Contexto](#1-introducción-y-contexto)
-2. [Fundamentos Físico-Matemáticos](#2-fundamentos-físico-matemáticos)
-   - [2.1 Refracción Atmosférica y el Sistema Horizontal (AltAz)](#21-refracción-atmosférica-y-el-sistema-horizontal-altaz)
-   - [2.2 El Problema de Procrustes Ortogonal y la Orientación Terrestre](#22-el-problema-de-procrustes-ortogonal-y-la-orientación-terrestre)
-   - [2.3 Re-proyección a Coordenadas Celestes Aparentes](#23-re-proyección-a-coordenadas-celestes-aparentes)
-   - [2.4 Hackeo Dinámico de la Masa para Deflexión Gravitacional](#24-hackeo-dinámico-de-la-masa-para-deflexión-gravitacional)
-3. [Estructura de la API del Módulo](#3-estructura-de-la-api-del-módulo)
-4. [Bibliografía y Referencias de Soporte](#4-bibliografía-y-referencias-de-soporte)
+- [Descripción Teórica y Matemática de `my_refraction_correction.py`](#descripción-teórica-y-matemática-de-my_refraction_correctionpy)
+  - [Índice](#índice)
+  - [1. Introducción y Contexto](#1-introducción-y-contexto)
+  - [2. Fundamentos Físico-Matemáticos](#2-fundamentos-físico-matemáticos)
+    - [2.1 Refracción Atmosférica y el Sistema Horizontal (AltAz)](#21-refracción-atmosférica-y-el-sistema-horizontal-altaz)
+      - [Conversión al Marco Horizontal local](#conversión-al-marco-horizontal-local)
+    - [2.2 El Problema de Procrustes Ortogonal y la Orientación Terrestre](#22-el-problema-de-procrustes-ortogonal-y-la-orientación-terrestre)
+      - [Formulación del Problema](#formulación-del-problema)
+      - [Solución Mediante Descomposición en Valores Singulares (SVD)](#solución-mediante-descomposición-en-valores-singulares-svd)
+    - [2.3 Re-proyección a Coordenadas Celestes Aparentes](#23-re-proyección-a-coordenadas-celestes-aparentes)
+    - [2.4 Hackeo Dinámico de la Masa para Deflexión Gravitacional](#24-hackeo-dinámico-de-la-masa-para-deflexión-gravitacional)
+  - [3. Estructura de la API del Módulo](#3-estructura-de-la-api-del-módulo)
+    - [`AstroCorrect` (Clase)](#astrocorrect-clase)
+      - [1. `__init__(self)`](#1-__init__self)
+      - [2. `correct_ra_dec(self, stardata, options, var_grav = None)`](#2-correct_ra_decself-stardata-options-var_grav--none)
+  - [4. Bibliografía y Referencias de Soporte](#4-bibliografía-y-referencias-de-soporte)
 
 ---
 
@@ -137,7 +145,9 @@ $$
 \alpha_{app} = \arctan2(v'_{y, i}, v'_{x, i})
 $$
 
-$$\delta_{app} = \arctan\left( \frac{v'_{z, i}}{\sqrt{(v'_{x, i})^2 + (v'_{y, i})^2}} \right)$$
+$$
+\delta_{app} = \arctan\left( \frac{v'_{z, i}}{\sqrt{(v'_{x, i})^2 + (v'_{y, i})^2}} \right)
+$$
 
 Se normaliza el ángulo de Ascensión Recta para asegurar que $\alpha_{app} \in [0, 2\pi)$. Estas coordenadas celestes refractadas se empaquetan en el objeto de salida `SkyCoord` para el resolvedor astrométrico.
 

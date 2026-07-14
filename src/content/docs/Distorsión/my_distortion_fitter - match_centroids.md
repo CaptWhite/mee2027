@@ -120,7 +120,9 @@ $$
 \delta_{obs, i} = \arcsin(v_{z, i}) \times \frac{180}{\pi}
 $$
 
-$$\alpha_{obs, i} = \arctan2(v_{y, i}, v_{x, i}) \times \frac{180}{\pi} \quad (\text{normalizado en el intervalo } [0, 360^\circ))$$
+$$
+\alpha_{obs, i} = \arctan2(v_{y, i}, v_{x, i}) \times \frac{180}{\pi} \quad (\text{normalizado en el intervalo } [0, 360^\circ))
+$$
 
 Esto produce el conjunto de observaciones estimadas proyectadas al cielo en grados:
 
@@ -146,7 +148,9 @@ $$
 d_1(i) = \|\mathbf{o}_i - \mathbf{c}_{j_1(i)}\|_2 = \sqrt{(\alpha_{obs, i} - \alpha_{cata, j_1})^2 + (\delta_{obs, i} - \delta_{cata, j_1})^2}
 $$
 
-$$d_2(i) = \|\mathbf{o}_i - \mathbf{c}_{j_2(i)}\|_2 = \sqrt{(\alpha_{obs, i} - \alpha_{cata, j_2})^2 + (\delta_{obs, i} - \delta_{cata, j_2})^2}$$
+$$
+d_2(i) = \|\mathbf{o}_i - \mathbf{c}_{j_2(i)}\|_2 = \sqrt{(\alpha_{obs, i} - \alpha_{cata, j_2})^2 + (\delta_{obs, i} - \delta_{cata, j_2})^2}
+$$
 donde por definición de orden se cumple que $d_1(i) \le d_2(i)$.
 
 #### Búsqueda B: Del catálogo a las observaciones estimadas ($C \to O$)

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const docsDir = './src/content/docs/Apéndices';
+const docsDir = './src/content/docs/Astrometría';
 
 // Read all files in src/content/docs
 const files = fs.readdirSync(docsDir);

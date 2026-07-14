@@ -143,7 +143,9 @@ $$
 \alpha_0 = \arctan2(R_{0, 1}, R_{0, 0}) \pmod{360^\circ}
 $$
 
-   $$\delta_0 = \arctan2(R_{0, 2}, \sqrt{R_{1, 2}^2 + R_{2, 2}^2})$$
+$$
+\delta_0 = \arctan2(R_{0, 2}, \sqrt{R_{1, 2}^2 + R_{2, 2}^2})
+$$
 
 $$
 \theta_{roll} = \arctan2(R_{1, 2}, R_{2, 2}) \pmod{360^\circ}

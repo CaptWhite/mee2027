@@ -60,7 +60,9 @@ $$
 \mathbf{c}_x = [c_{x, 0}, c_{x, 1}, \dots, c_{x, M}]^T \in \mathbb{R}^{M+1}
 $$
 
-$$\mathbf{c}_y = [c_{y, 0}, c_{y, 1}, \dots, c_{y, M}]^T \in \mathbb{R}^{M+1}$$
+$$
+\mathbf{c}_y = [c_{y, 0}, c_{y, 1}, \dots, c_{y, M}]^T \in \mathbb{R}^{M+1}
+$$
 
 Sin embargo, los términos constantes $c_{x, 0}$ y $c_{y, 0}$ representan desplazamientos traslacionales uniformes de todo el sensor en los ejes $X$ e $Y$. Durante las fases previas de calibración y absorción (WCS Absorption), **estos desplazamientos traslacionales ya han sido absorbidos en su totalidad** al desplazar las coordenadas celestes centrales $(\alpha_0, \delta_0)$ del vector de estado global $\mathbf{q}$.
 
@@ -70,7 +72,9 @@ $$
 \mathbf{c}^*_x = [c_{x, 1}, \dots, c_{x, M}]^T \in \mathbb{R}^M
 $$
 
-$$\mathbf{c}^*_y = [c_{y, 1}, \dots, c_{y, M}]^T \in \mathbb{R}^M$$
+$$
+\mathbf{c}^*_y = [c_{y, 1}, \dots, c_{y, M}]^T \in \mathbb{R}^M
+$$
 
 La evaluación de la distorsión del sensor en píxeles se realiza mediante contracción tensorial utilizando la notación de Einstein (`einsum`):
 
@@ -78,7 +82,9 @@ $$
 \Delta x_j = \sum_{i=1}^M B_{j, i} \cdot c_{x, i}^*
 $$
 
-$$\Delta y_j = \sum_{i=1}^M B_{j, i} \cdot c_{y, i}^*$$
+$$
+\Delta y_j = \sum_{i=1}^M B_{j, i} \cdot c_{y, i}^*
+$$
 
 Esta contracción es equivalente a la multiplicación de matriz por vector:
 
@@ -86,7 +92,9 @@ $$
 \mathbf{\Delta x} = \mathbf{B} \mathbf{c}^*_x
 $$
 
-$$\mathbf{\Delta y} = \mathbf{B} \mathbf{c}^*_y$$
+$$
+\mathbf{\Delta y} = \mathbf{B} \mathbf{c}^*_y
+$$
 
 ---
 

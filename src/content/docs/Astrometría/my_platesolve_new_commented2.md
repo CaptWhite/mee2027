@@ -18,7 +18,11 @@ Esto se logra construyendo, para cada estrella brillante:
 # **IDEA MATEMÁTICA CENTRAL**
 
 Todo ocurre sobre la **esfera celeste**, que matemáticamente es:
-$$S^2 = \{ x \in \mathbb{R}^3 , | , |x| = 1 \}$$
+
+$$
+S^2 = \{ x \in \mathbb{R}^3 , | , |x| = 1 \}
+$$
+
 Cada estrella es un vector unitario $v \in \mathbb{R}^3$.
 
 El algoritmo usa:
@@ -47,16 +51,28 @@ El algoritmo usa:
 # PASO 1 — Selección de anclas
 
 Se eligen estrellas brillantes que están suficientemente separadas entre sí según una distancia angular mínima:
-$$\theta_{\text{sep}} = 0.65^\circ$$
+
+$$
+\theta_{\text{sep}} = 0.65^\circ
+$$
+
 
 Esto garantiza un conjunto de estrellas **bien distribuidas**, evitando agrupamientos o regiones densas como el plano galáctico.
 
 El criterio angular asegura:
-$$\theta(v_i, v_j) > \theta_{\text{sep}}$$
+
+$$
+\theta(v_i, v_j) > \theta_{\text{sep}}
+$$
+
 para cualquier par de anclas.
 
 Se descartan estrellas dobles usando un umbral mucho más pequeño:
-$$\theta_{\text{double}} = 0.01^\circ$$
+
+$$
+\theta_{\text{double}} = 0.01^\circ
+$$
+
 
 Matemáticamente, se está obteniendo un **subconjunto “pseudouniforme” de puntos sobre la esfera**.
 
@@ -65,15 +81,27 @@ Matemáticamente, se está obteniendo un **subconjunto “pseudouniforme” de p
 # PASO 2 — Selección de estrellas dentro del campo de visión
 
 Para cada ancla $a_i$, se buscan estrellas dentro de un **cap (casquete esférico)**:
-$$\theta < \theta_{\text{FOV}} = 1.7^\circ$$
+
+$$
+\theta < \theta_{\text{FOV}} = 1.7^\circ
+$$
+
 
 Es decir, todas las estrellas en un vecindario angular definido por:
-$$\text{vecindad}(a_i) = \{ v \in S^2 : \theta(a_i, v) < \theta_{\text{FOV}}\}$$
+
+$$
+\text{vecindad}(a_i) = \{ v \in S^2 : \theta(a_i, v) < \theta_{\text{FOV}}\}
+$$
+
 Esto modela el campo de visión real de un sensor estelar.
 
 Luego se calculan:
 1. **Distancias angulares** exactas usando la identidad:
-$$d\theta = 2\arcsin\left(\frac{||v - a_i||}{2}\right)$$
+
+$$
+d\theta = 2\arcsin\left(\frac{||v - a_i||}{2}\right)
+$$
+
 esta fórmula proviene de la relación entre cuerdas y arcos en la esfera.
 
 2. **Ángulo de posición relativo φ**
@@ -86,12 +114,24 @@ Sea:
 * $\theta_{hat} = \phi_{hat} \times a_i$
 
 Entonces cualquier estrella $s$ produce un vector:
-$$\Delta = s - a_i$$
+
+$$
+\Delta = s - a_i
+$$
+
 
 Y se calcula:
-$$x = \theta_{\text{hat}} \cdot \Delta$$
+
+$$
+x = \theta_{\text{hat}} \cdot \Delta
+$$
+
 $$y = \phi_{\text{hat}} \cdot \Delta$$
-$$\phi = \arctan2(y, x)$$
+
+$$
+\phi = \arctan2(y, x)
+$$
+
 
 Esto da el **ángulo azimutal relativo** entre el ancla y cada estrella.
 

@@ -5,13 +5,20 @@ Este documento proporciona una descripción formal, teórica y matemática del f
 ---
 
 ## Índice
-1. [Introducción y Objetivos](#1-introducción-y-contexto)
-2. [Fundamentos de la Geometría de Triángulos (Geometric Invariants)](#2-fundamentos-de-la-geometría-de-triángulos-geometric-invariants)
-3. [Ajuste Analítico de Placa y Rotación 3D](#3-ajuste-analítico-de-placa-y-rotación-3d)
-4. [Agrupamiento y Consenso de Soluciones (Hough KDTree Voting)](#4-agrupamiento-y-consenso-de-soluciones-hough-kdtree-voting)
-5. [Cálculo Estadístico del Umbral de Aceptación Astrométrico](#5-cálculo-estadístico-del-umbral-de-aceptación-astrométrico)
-6. [Estructura y API del resolvedor](#6-estructura-y-api-del-resolvedor)
-7. [Bibliografía y Referencias de Soporte](#7-bibliografía-y-referencias-de-soporte)
+- [Descripción Teórica y Matemática del Algoritmo `platesolve`](#descripción-teórica-y-matemática-del-algoritmo-platesolve)
+  - [Índice](#índice)
+  - [1. Introducción y Contexto](#1-introducción-y-contexto)
+  - [2. Fundamentos de la Geometría de Triángulos (Geometric Invariants)](#2-fundamentos-de-la-geometría-de-triángulos-geometric-invariants)
+      - [1. Relación de Lados (Ratio)](#1-relación-de-lados-ratio)
+      - [2. Diferencia de Ángulo Polar ($\\Delta\\phi$)](#2-diferencia-de-ángulo-polar-deltaphi)
+  - [3. Ajuste Analítico de Placa y Rotación 3D](#3-ajuste-analítico-de-placa-y-rotación-3d)
+    - [1. Escala de Placa ($s$)](#1-escala-de-placa-s)
+    - [2. Matriz de Rotación de Placa ($R$)](#2-matriz-de-rotación-de-placa-r)
+  - [4. Agrupamiento y Consenso de Soluciones (Hough KDTree Voting)](#4-agrupamiento-y-consenso-de-soluciones-hough-kdtree-voting)
+  - [5. Cálculo Estadístico del Umbral de Aceptación Astrométrico](#5-cálculo-estadístico-del-umbral-de-aceptación-astrométrico)
+  - [6. Estructura y API del resolvedor](#6-estructura-y-api-del-resolvedor)
+    - [`platesolve(centroids, image_shape, options, output_dir=None, try_mirror_also=True)`](#platesolvecentroids-image_shape-options-output_dirnone-try_mirror_alsotrue)
+  - [7. Bibliografía y Referencias de Soporte](#7-bibliografía-y-referencias-de-soporte)
 
 ---
 
@@ -33,7 +40,9 @@ $$
 \mathbf{w}_1 = \mathbf{v}_1 - \mathbf{v}_0
 $$
 
-$$\mathbf{w}_2 = \mathbf{v}_2 - \mathbf{v}_0$$
+$$
+\mathbf{w}_2 = \mathbf{v}_2 - \mathbf{v}_0
+$$
 
 Calculamos sus distancias físicas en píxeles:
 
@@ -59,7 +68,9 @@ $$
 \phi_1 = \text{arctan2}(w_{1, y}, w_{1, x})
 $$
 
-$$\phi_2 = \text{arctan2}(w_{2, y}, w_{2, x})$$
+$$
+\phi_2 = \text{arctan2}(w_{2, y}, w_{2, x})
+$$
 
 $$
 \Delta\phi = (\phi_2 - \phi_1) \pmod{2\pi}
@@ -103,7 +114,9 @@ $$
 \mathbf{U} = [\mathbf{u}_0 \ | \ \mathbf{u}_1 \ | \ \mathbf{u}_2]
 $$
 
-$$\mathbf{V} = [\mathbf{v}_0 \ | \ \mathbf{v}_1 \ | \ \mathbf{v}_2]$$
+$$
+\mathbf{V} = [\mathbf{v}_0 \ | \ \mathbf{v}_1 \ | \ \mathbf{v}_2]
+$$
 
 La matriz de rotación de placa $R \in \mathbb{R}^{3 \times 3}$ satisface la relación lineal:
 
@@ -184,7 +197,9 @@ $$
 x_0 = \frac{\ln(N_{attempts})}{W\left( \frac{\ln N_{attempts}}{e \cdot \lambda} \right)}
 $$
 
-$$x_1 = x_0 + \frac{\ln\lambda - \lambda - \frac{1}{2}\ln(2\pi) - \frac{3}{2}\ln x_0}{\ln x_0 - \ln\lambda}$$
+$$
+x_1 = x_0 + \frac{\ln\lambda - \lambda - \frac{1}{2}\ln(2\pi) - \frac{3}{2}\ln x_0}{\ln x_0 - \ln\lambda}
+$$
 
 El umbral de aceptación final de la hipótesis astrométrica se define sumando las tres estrellas del triángulo inicial de anclaje:
 

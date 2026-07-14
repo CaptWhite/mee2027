@@ -21,23 +21,35 @@ La RA se mide de 0 a 360 grados. Si un usuario busca una región que cruza el me
 Sea $RA_{min}$ y $RA_{max}$ los límites de búsqueda:
 
 1.  **Caso Normal ($RA_{min} < RA_{max}$)**:
-    $$S = \{star \mid RA_{min} < RA_{star} < RA_{max}\}$$
+
+$$
+S = \{star \mid RA_{min} < RA_{star} < RA_{max}\}
+$$
+
 2.  **Caso de Cruce ($RA_{min} > RA_{max}$)**:
-    $$S = \{star \mid RA_{star} > RA_{min} \lor RA_{star} < RA_{max}\}$$
+
+$$
+S = \{star \mid RA_{star} > RA_{min} \lor RA_{star} < RA_{max}\}
+$$
+
 
 Esta lógica asegura que el "corte" de la esfera no deje huecos en la base de datos.
 
 ### B. Transformación a Versores (Direction Vectors)
 Para evitar el uso constante de funciones trigonométricas costosas (`cos`, `sin`) durante búsquedas espaciales complejas, el módulo pre-calcula la representación de cada estrella como un vector unitario $\mathbf{V}$ en $\mathbb{R}^3$:
 
-$$\mathbf{V} = \begin{bmatrix} 
+$$
+\mathbf{V} = \begin{bmatrix} 
 \cos \alpha \cdot \cos \delta \\ 
 \sin \alpha \cdot \cos \delta \\ 
 \sin \delta 
-\end{bmatrix}$$
+\end{bmatrix}
+$$
 
 Esto permite que cálculos posteriores, como la distancia angular $\theta$ entre dos estrellas $\mathbf{V_1}$ y $\mathbf{V_2}$, se realicen mediante un simple producto escalar:
-$$\theta = \arccos(\mathbf{V_1} \cdot \mathbf{V_2})$$
+$$
+\theta = \arccos(\mathbf{V_1} \cdot \mathbf{V_2})
+$$
 
 ## 3. Optimización de Memoria y Tipos de Datos
 

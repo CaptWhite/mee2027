@@ -14,12 +14,16 @@ Aquí tienes la explicación matemática de lo que hace:
 
 Cuando ejecutas este comando, estás planteando que tu variable dependiente ($y$) se puede explicar como una combinación lineal de una o más variables independientes ($X$), más un término de error o ruido ($\epsilon$):
 
-$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_k x_k + \epsilon$$
+$$
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_k x_k + \epsilon
+$$
 
 O expresado en forma de matrices para todos tus datos a la vez:
 
 
-$$\mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}$$
+$$
+\mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}
+$$
 
 Donde:
 
@@ -36,7 +40,9 @@ El objetivo de `sm.OLS` es encontrar el valor óptimo de los coeficientes (llam�
 
 Para lograrlo, **minimiza la suma de los cuadrados de los residuos** (la distancia vertical entre los puntos reales y la línea/plano ajustado):
 
-$$S(\boldsymbol{\beta}) = \sum_{i=1}^{n} \epsilon_i^2 = \sum_{i=1}^{n} (y_i - \mathbf{x}_i^T \boldsymbol{\beta})^2$$
+$$
+S(\boldsymbol{\beta}) = \sum_{i=1}^{n} \epsilon_i^2 = \sum_{i=1}^{n} (y_i - \mathbf{x}_i^T \boldsymbol{\beta})^2
+$$
 
 ---
 
@@ -44,7 +50,9 @@ $$S(\boldsymbol{\beta}) = \sum_{i=1}^{n} \epsilon_i^2 = \sum_{i=1}^{n} (y_i - \m
 
 A diferencia de los algoritmos de aprendizaje profundo que usan aproximaciones por descenso de gradiente, `sm.OLS` resuelve este problema de forma exacta mediante álgebra lineal pura utilizando la **Ecuación Normal**:
 
-$$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}$$
+$$
+\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}
+$$
 
 1. Multiplica la transpuesta de tus predictores por sí misma ($\mathbf{X}^T \mathbf{X}$) para obtener una matriz de covarianza.
 2. Calcula su inversa $(\mathbf{X}^T \mathbf{X})^{-1}$.
@@ -86,13 +94,19 @@ Vamos a desglosarlo matemáticamente pieza por pieza:
 En la línea previa definiste el modelo para el eje $X$ como:
 
 
-$$\text{Error}_x \cdot m = \beta_0 + \beta_1 \cdot \text{basis\_free}_1 + \dots + \epsilon$$
+$$
+\text{Error}_x \cdot m = \beta_0 + \beta_1 \cdot \text{basis\_free}_1 + \dots + \epsilon
+$$
 
 Cuando ejecutas `.predict(sm.add_constant(basis_free))`, el modelo OLS toma los coeficientes óptimos $\hat{\boldsymbol{\beta}}$ ya calculados por la ecuación normal y evalúa la función lineal para cada estrella:
 
-$$\widehat{\Delta x}_i \cdot m = \mathbf{x}_i^T \hat{\boldsymbol{\beta}}_x$$
+$$
+\widehat{\Delta x}_i \cdot m = \mathbf{x}_i^T \hat{\boldsymbol{\beta}}_x
+$$
 
-$$\widehat{\Delta y}_i \cdot m = \mathbf{x}_i^T \hat{\boldsymbol{\beta}}_y$$
+$$
+\widehat{\Delta y}_i \cdot m = \mathbf{x}_i^T \hat{\boldsymbol{\beta}}_y
+$$
 
 Esto nos da el **error sistemático estimado** (o la distorsión del modelo) para cada estrella en los ejes $X$ e $Y$.
 
@@ -102,11 +116,15 @@ Esto nos da el **error sistemático estimado** (o la distorsión del modelo) par
 El código agrupa las predicciones de ambos ejes en una lista de dos vectores fila:
 
 
-$$\begin{bmatrix} [\widehat{\Delta y}_1 \cdot m, & \widehat{\Delta y}_2 \cdot m, & \dots] \\ [\widehat{\Delta x}_1 \cdot m, & \widehat{\Delta x}_2 \cdot m, & \dots] \end{bmatrix}$$
+$$
+\begin{bmatrix} [\widehat{\Delta y}_1 \cdot m, & \widehat{\Delta y}_2 \cdot m, & \dots] \\ [\widehat{\Delta x}_1 \cdot m, & \widehat{\Delta x}_2 \cdot m, & \dots] \end{bmatrix}
+$$
 
 Al aplicar la transpuesta (`.T`), esta matriz se reordena para que cada **fila** corresponda a una estrella y cada **columna** a un eje geométrico, quedando en formato $(N, 2)$:
 
-$$\begin{bmatrix} \widehat{\Delta y}_1 \cdot m & \widehat{\Delta x}_1 \cdot m \\ \widehat{\Delta y}_2 \cdot m & \widehat{\Delta x}_2 \cdot m \\ \vdots & \vdots \end{bmatrix}$$
+$$
+\begin{bmatrix} \widehat{\Delta y}_1 \cdot m & \widehat{\Delta x}_1 \cdot m \\ \widehat{\Delta y}_2 \cdot m & \widehat{\Delta x}_2 \cdot m \\ \vdots & \vdots \end{bmatrix}
+$$
 
 *(Nota curiosa: El código coloca primero el resultado de $Y$ y luego el de $X$. Esto suele ocurrir si en las estructuras de datos de la imagen o del catálogo las coordenadas están indexadas en formato de matriz `[fila, columna]`, que equivale a `[y, x]`).*
 
@@ -117,14 +135,18 @@ Dado que en el paso de `sm.OLS` multiplicaste los errores originales por un fact
 
 Al dividir matemáticamente entre $m$, **cancelas esa escala** y devuelves las predicciones a las unidades físicas originales de la placa (por ejemplo, píxeles o milímetros):
 
-$$\frac{\widehat{\Delta}_i \cdot m}{m} = \widehat{\Delta}_i$$
+$$
+\frac{\widehat{\Delta}_i \cdot m}{m} = \widehat{\Delta}_i
+$$
 
 
 ##### 4. La combinación lineal final: `plate + (...) + fixed_correction`
 
 Finalmente, se realiza una suma vectorial para cada punto $i$ de la placa:
 
-$$\mathbf{P}_{\text{corregido}, i} = \mathbf{P}_{\text{original}, i} + \widehat{\mathbf{\Delta}}_i + \mathbf{C}_{\text{fija}}$$
+$$
+\mathbf{P}_{\text{corregido}, i} = \mathbf{P}_{\text{original}, i} + \widehat{\mathbf{\Delta}}_i + \mathbf{C}_{\text{fija}}
+$$
 
 Donde:
 
@@ -152,13 +174,17 @@ Supongamos que tus variables predictoras en `basis_free` forman una matriz con $
 
 Al aplicar `sm.add_constant`, matemáticamente estás creando la **Matriz de Diseño** ($\mathbf{X}$), añadiendo una columna de unos ($1$) al principio. Esto es indispensable para activar el intercepto u ordenada al origen ($\beta_0$):
 
-$$\mathbf{X} = \begin{bmatrix} 1 & x_{1,1} & x_{1,2} & \dots & x_{1,k} \\ 1 & x_{2,1} & x_{2,2} & \dots & x_{2,k} \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 1 & x_{N,1} & x_{N,2} & \dots & x_{N,k} \end{bmatrix}$$
+$$
+\mathbf{X} = \begin{bmatrix} 1 & x_{1,1} & x_{1,2} & \dots & x_{1,k} \\ 1 & x_{2,1} & x_{2,2} & \dots & x_{2,k} \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 1 & x_{N,1} & x_{N,2} & \dots & x_{N,k} \end{bmatrix}
+$$
 
 ##### 2. El Vector de Parámetros Ajustados: `ols_result_y`
 
 El objeto `ols_result_y` ya contiene internamente los coeficientes óptimos calculados previamente durante el `.fit()`. Estos coeficientes forman el vector $\hat{\boldsymbol{\beta}}_y$:
 
-$$\hat{\boldsymbol{\beta}}_y = \begin{bmatrix} \hat{\beta}_0 \\ \hat{\beta}_1 \\ \vdots \\ \hat{\beta}_k \end{bmatrix}$$
+$$
+\hat{\boldsymbol{\beta}}_y = \begin{bmatrix} \hat{\beta}_0 \\ \hat{\beta}_1 \\ \vdots \\ \hat{\beta}_k \end{bmatrix}
+$$
 
 
 
@@ -166,11 +192,15 @@ $$\hat{\boldsymbol{\beta}}_y = \begin{bmatrix} \hat{\beta}_0 \\ \hat{\beta}_1 \\
 
 Cuando ejecutas `.predict(\mathbf{X})`, el algoritmo realiza el producto punto matricial entre la matriz de diseño y el vector de coeficientes:
 
-$$\hat{\mathbf{y}} = \mathbf{X} \hat{\boldsymbol{\beta}}_y$$
+$$
+\hat{\mathbf{y}} = \mathbf{X} \hat{\boldsymbol{\beta}}_y
+$$
 
 Si desglosamos esta multiplicación fila por fila (es decir, para cada estrella $i$), la instrucción está resolviendo la ecuación lineal:
 
-$$\hat{y}_i = \hat{\beta}_0 \cdot 1 + \hat{\beta}_1 \cdot x_{i,1} + \hat{\beta}_2 \cdot x_{i,2} + \dots + \hat{\beta}_k \cdot x_{i,k}$$
+$$
+\hat{y}_i = \hat{\beta}_0 \cdot 1 + \hat{\beta}_1 \cdot x_{i,1} + \hat{\beta}_2 \cdot x_{i,2} + \dots + \hat{\beta}_k \cdot x_{i,k}
+$$
 
 ##### ¿Qué obtienes como resultado?
 
@@ -185,13 +215,17 @@ La instrucción `ols_result_x.params` devuelve matemáticamente el **vector de c
 
 Es decir, no ejecuta ninguna operación nueva; simplemente te da acceso a los "pesos" o valores numéricos finales de la ecuación que el algoritmo encontró tras resolver la ecuación normal:
 
-$$\hat{\boldsymbol{\beta}}_x = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}$$
+$$
+\hat{\boldsymbol{\beta}}_x = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}
+$$
 
 ##### ¿Qué contiene exactamente este vector?
 
 Si aplicaste `sm.add_constant(basis_free)`, el resultado de `ols_result_x.params` será un arreglo de NumPy (o una serie de Pandas) con la siguiente estructura matemática:
 
-$$\hat{\boldsymbol{\beta}}_x = \begin{bmatrix} \hat{\beta}_0 \\ \hat{\beta}_1 \\ \hat{\beta}_2 \\ \vdots \end{bmatrix}$$
+$$
+\hat{\boldsymbol{\beta}}_x = \begin{bmatrix} \hat{\beta}_0 \\ \hat{\beta}_1 \\ \hat{\beta}_2 \\ \vdots \end{bmatrix}
+$$
 
 Su significado geométrico depende directamente de qué variables hayas metido dentro de `basis_free`:
 
@@ -202,7 +236,9 @@ Su significado geométrico depende directamente de qué variables hayas metido d
 
 Si tu matriz `basis_free` contenía las posiciones lineales de los píxeles $(x, y)$, la ecuación que OLS resolvió para el eje X fue:
 
-$$\text{Error}_x \cdot m = \hat{\beta}_0 + \hat{\beta}_1 x + \hat{\beta}_2 y$$
+$$
+\text{Error}_x \cdot m = \hat{\beta}_0 + \hat{\beta}_1 x + \hat{\beta}_2 y
+$$
 
 En este escenario físico real:
 
@@ -233,7 +269,9 @@ Recordemos que cuando el script ajusta los modelos para ambos ejes, las variable
 En un diseño astrométrico simétrico ideal, la escala de la placa (vamos a llamarla $w$) se estima promediando o combinando estas dos componentes ortogonales debido a las ecuaciones de proyección:
 
 
-$$w \approx \frac{\beta_{1x} + \beta_{2y}}{2} \quad \text{o bien} \quad w = \sqrt{\beta_{1x}^2 + \beta_{2y}^2}$$
+$$
+w \approx \frac{\beta_{1x} + \beta_{2y}}{2} \quad \text{o bien} \quad w = \sqrt{\beta_{1x}^2 + \beta_{2y}^2}
+$$
 
 ---
 
@@ -244,7 +282,9 @@ En `statsmodels`, `HC0_se` significa **Heteroskedasticity-Robust Standard Errors
 * **El problema físico:** En las imágenes astronómicas, el error de medición no es el mismo para todas las estrellas (las estrellas brillantes tienen menos ruido de fotones que las débiles, y las estrellas en los bordes de la imagen sufren más distorsiones ópticas). Esto viola el principio clásico de OLS que asume que el ruido es idéntico en todos lados (homocedasticidad).
 * **La solución matemática:** `HC0_se` calcula la incertidumbre real de los coeficientes utilizando una matriz sándwich que pondera los residuos al cuadrado individuales ($e_i^2$):
 
-$$\text{SE}_{\text{robusto}} = \sqrt{\operatorname{diag}\left((\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T \operatorname{diag}(e_i^2) \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\right)}$$
+$$
+\text{SE}_{\text{robusto}} = \sqrt{\operatorname{diag}\left((\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T \operatorname{diag}(e_i^2) \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\right)}
+$$
 
 
 
@@ -256,7 +296,9 @@ Por tanto, `ols_result_x.HC0_se[1]` es la **incertidumbre matemática pura** del
 
 Si reescribimos el código como una ecuación matemática formal, la instrucción ejecuta lo siguiente:
 
-$$\text{Error Relativo} = \frac{\sqrt{(\sigma_{\beta_{1x}})^2 + (\sigma_{\beta_{2y}})^2}}{w}$$
+$$
+\text{Error Relativo} = \frac{\sqrt{(\sigma_{\beta_{1x}})^2 + (\sigma_{\beta_{2y}})^2}}{w}
+$$
 
 Donde:
 
@@ -276,7 +318,9 @@ Esta fase se encarga de **aplicar formalmente todas las correcciones calculadas 
 
 Matemáticamente, lo que está ocurriendo aquí es una **actualización de estado mediante una suma vectorial** de la base previa más las desviaciones infinitesimales descubiertas por la regresión:
 
-$$\mathbf{q}_{\text{corregido}} = \mathbf{q}_{\text{actual}} + \mathbf{\Delta q}$$
+$$
+\mathbf{q}_{\text{corregido}} = \mathbf{q}_{\text{actual}} + \mathbf{\Delta q}
+$$
 
 Si desglosamos la tupla elemento por elemento de izquierda a derecha, vemos cómo se aplica la física y la geometría que calculamos en los pasos anteriores:
 
@@ -304,9 +348,13 @@ Este es el significado matemático detallado de cada cálculo:
 
 Este bloque calcula el nuevo factor de escala de la placa fotográfica aplicando una **corrección geométrica promedio (media geométrica)**.
 
-$$\text{multiplier} = \sqrt{\left(1 + \frac{\beta_{1[x]}}{w}\right) \left(1 + \frac{\beta_{2[y]}}{w}\right)}$$
+$$
+\text{multiplier} = \sqrt{\left(1 + \frac{\beta_{1[x]}}{w}\right) \left(1 + \frac{\beta_{2[y]}}{w}\right)}
+$$
 
-$$\text{escala}_{\text{nueva}} = \text{escala}_{\text{base}} \times \text{multiplier}$$
+$$
+\text{escala}_{\text{nueva}} = \text{escala}_{\text{base}} \times \text{multiplier}
+$$
 
 **La matemática detrás:**
 
@@ -338,7 +386,9 @@ El cálculo opera de derecha a izquierda:
 
 Esta línea calcula el pequeño desfase angular o error de rotación (*roll*) del telescopio usando la **aproximación de ángulo pequeño**.
 
-$$\Delta \theta \approx \frac{\beta_{2x}}{w}$$
+$$
+\Delta \theta \approx \frac{\beta_{2x}}{w}
+$$
 
 **La matemática detrás:**
 Anteriormente dedujimos que el coeficiente que acompaña a la variable $Y$ en la ecuación de $X$ es $\beta_{2x} = -s \sin\theta$.
@@ -359,7 +409,9 @@ Sustituyendo estos valores en la identidad, obtenemos que $\beta_{2x} \approx -\
 
 Podemos modelar este paso como la transición del estado actual del sistema al estado corregido:
 
-$$\mathbf{q}_{\text{actual}} \longrightarrow \mathbf{q}_{\text{corregido}}$$
+$$
+\mathbf{q}_{\text{actual}} \longrightarrow \mathbf{q}_{\text{corregido}}
+$$
 
 Donde el vector de parámetros está definido en el espacio de configuración del telescopio como $\mathbf{q} = (\text{Escala}, \text{RA}, \text{DEC}, \text{Rotación})$.
 
@@ -372,7 +424,9 @@ Si desglosamos la tupla elemento por elemento de izquierda a derecha, la lógica
 * **Operación:** Sustitución por escala multiplicativa.
 * **La matemática detrás:** A diferencia de las coordenadas de posición, la escala de la placa fotográfica no se corrige sumando un diferencial. Como determinamos en los pasos previos, la distorsión geométrica en los ejes del sensor actúa como un factor adimensional de estiramiento o compresión. Por lo tanto, el nuevo estado absorbe directamente el cálculo multiplicativo:
 
-$$\text{Escala}_{\text{nueva}} = \text{Escala}_{\text{base}} \times \text{multiplier}$$
+$$
+\text{Escala}_{\text{nueva}} = \text{Escala}_{\text{base}} \times \text{multiplier}
+$$
 
 
 
@@ -381,7 +435,9 @@ $$\text{Escala}_{\text{nueva}} = \text{Escala}_{\text{base}} \times \text{multip
 * **Operación:** Corrección aditiva lineal en el eje horizontal celeste.
 * **La matemática detrás:** Se aplica una traslación lineal sumando el diferencial $\Delta\text{RA}$ (almacenado en `shiftRA_DEC[0]`) a la coordenada de centro actual en RA (`q[1]`). En este punto, `shiftRA_DEC[0]` ya ha sido corregido algebraicamente mediante la división por $\cos(\delta)$ para contrarrestar la convergencia de los meridianos en la esfera celeste. La operación matemática es:
 
-$$\alpha_{\text{corregida}} = \alpha_{\text{actual}} + \Delta\alpha$$
+$$
+\alpha_{\text{corregida}} = \alpha_{\text{actual}} + \Delta\alpha
+$$
 
 
 ###### 3. `q[2] + shiftRA_DEC[1]` (Declinación - DEC)
@@ -389,7 +445,9 @@ $$\alpha_{\text{corregida}} = \alpha_{\text{actual}} + \Delta\alpha$$
 * **Operación:** Corrección aditiva lineal en el eje vertical celeste.
 * **La matemática detrás:** De manera homóloga al paso anterior, se realiza una traslación en el eje de las latitudes celestes sumando el diferencial $\Delta\text{DEC}$ (`shiftRA_DEC[1]`) a la declinación base (`q[2]`). Al ser arcos de círculo máximo, esta componente no requería correcciones por proyección esférica y se acopla directamente:
 
-$$\delta_{\text{corregida}} = \delta_{\text{actual}} + \Delta\delta$$
+$$
+\delta_{\text{corregida}} = \delta_{\text{actual}} + \Delta\delta
+$$
 
 
 
@@ -398,7 +456,9 @@ $$\delta_{\text{corregida}} = \delta_{\text{actual}} + \Delta\delta$$
 * **Operación:** Corrección sustractiva (Retroalimentación Negativa).
 * **La matemática detrás:** Aquí ocurre un cambio de signo crítico. El valor `shift_roll_angle` ($\Delta\theta$) representa el error de giro detectado en las estrellas de la imagen. En física y teoría de control, para cancelar un error observado y devolver el sistema a su orientación ideal, se debe aplicar una acción en el sentido opuesto. Por lo tanto, el algoritmo resta algebraicamente el desvío:
 
-$$\theta_{\text{corregido}} = \theta_{\text{actual}} - \Delta\theta$$
+$$
+\theta_{\text{corregido}} = \theta_{\text{actual}} - \Delta\theta
+$$
 
 
 

@@ -817,7 +817,9 @@ $$
 $$
 
 Esto permite que cálculos posteriores, como la distancia angular $\theta$ entre dos estrellas $\mathbf{V_1}$ y $\mathbf{V_2}$, se realicen mediante un simple producto escalar:
-$$\theta = \arccos(\mathbf{V_1} \cdot \mathbf{V_2})$$
+$$
+\theta = \arccos(\mathbf{V_1} \cdot \mathbf{V_2})
+$$
 
 ---
 

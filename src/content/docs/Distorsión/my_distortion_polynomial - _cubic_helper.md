@@ -5,13 +5,15 @@ Este documento proporciona una descripción teórica y matemática detallada del
 ---
 
 ## Índice
-1. [Introducción y Propósito](#1-introducción-y-propósito)
-2. [Cálculo de los Residuos en el Plano del Detector](#2-cálculo-de-los-residuos-en-el-plano-del-detector)
-3. [Partición de la Base de Diseño (Libres vs. Fijos)](#3-partición-de-la-base-de-diseño-libres-vs-fijos)
-4. [Sustracción de la Distorsión Fija (Correction Step)](#4-sustracción-de-la-distorsión-fija-correction-step)
-5. [Ajuste por Mínimos Cuadrados Ordinarios (OLS)](#5-ajuste-por-mínimos-cuadrados-ordinarios-ols)
-6. [Cálculo Robustecido de la Incertidumbre de Escala de Placa (HC0)](#6-cálculo-robustecido-de-la-incertidumbre-de-escala-de-placa-hc0)
-7. [Bibliografía y Referencias de Soporte](#7-bibliografía-y-referencias-de-soporte)
+- [Descripción Teórica y Matemática de la Rutina `_cubic_helper`](#descripción-teórica-y-matemática-de-la-rutina-_cubic_helper)
+  - [Índice](#índice)
+  - [1. Introducción y Propósito](#1-introducción-y-propósito)
+  - [2. Cálculo de los Residuos en el Plano del Detector](#2-cálculo-de-los-residuos-en-el-plano-del-detector)
+  - [3. Partición de la Base de Diseño (Libres vs. Fijos)](#3-partición-de-la-base-de-diseño-libres-vs-fijos)
+  - [4. Sustracción de la Distorsión Fija (Correction Step)](#4-sustracción-de-la-distorsión-fija-correction-step)
+  - [5. Ajuste por Mínimos Cuadrados Ordinarios (OLS)](#5-ajuste-por-mínimos-cuadrados-ordinarios-ols)
+  - [6. Cálculo Robustecido de la Incertidumbre de Escala de Placa (HC0)](#6-cálculo-robustecido-de-la-incertidumbre-de-escala-de-placa-hc0)
+  - [7. Bibliografía y Referencias de Soporte](#7-bibliografía-y-referencias-de-soporte)
 
 ---
 
@@ -76,7 +78,9 @@ $$
 \Delta x_{fixed, i} = \sum_{k=1}^{n_{total}-n_{free}} B_{fixed, i, k} \cdot c_{x, fixed, k}
 $$
 
-$$\Delta y_{fixed, i} = \sum_{k=1}^{n_{total}-n_{free}} B_{fixed, i, k} \cdot c_{y, fixed, k}$$
+$$
+\Delta y_{fixed, i} = \sum_{k=1}^{n_{total}-n_{free}} B_{fixed, i, k} \cdot c_{y, fixed, k}
+$$
 
 Estos valores se restan a los errores brutos para aislar la componente residual que será modelada por el ajuste de mínimos cuadrados libres:
 
@@ -104,7 +108,9 @@ $$
 \mathbf{e}'_{x} \cdot m = \mathbf{X} \mathbf{a} + \mathbf{\epsilon}_x
 $$
 
-$$\mathbf{e}'_{y} \cdot m = \mathbf{X} \mathbf{b} + \mathbf{\epsilon}_y$$
+$$
+\mathbf{e}'_{y} \cdot m = \mathbf{X} \mathbf{b} + \mathbf{\epsilon}_y
+$$
 donde:
 - $\mathbf{a} \in \mathbb{R}^{n_{free}+1}$ es el vector que contiene el intercepto constante de regresión en $X$ ($a_0$) y los $n_{free}$ coeficientes de distorsión libres en $X$.
 - $\mathbf{b} \in \mathbb{R}^{n_{free}+1}$ es el vector que contiene el intercepto constante de regresión en $Y$ ($b_0$) y los $n_{free}$ coeficientes de distorsión libres en $Y$.
@@ -115,7 +121,9 @@ $$
 \mathbf{a} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T (\mathbf{e}^*_x \cdot m)
 $$
 
-$$\mathbf{b} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T (\mathbf{e}^*_y \cdot m)$$
+$$
+\mathbf{b} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T (\mathbf{e}^*_y \cdot m)
+$$
 
 ---
 
@@ -129,7 +137,9 @@ $$
 \text{Cov}(\mathbf{a}) = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \text{diag}(\hat{\epsilon}_{x, i}^2) \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1}
 $$
 
-$$\text{Cov}(\mathbf{b}) = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \text{diag}(\hat{\epsilon}_{y, i}^2) \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1}$$
+$$
+\text{Cov}(\mathbf{b}) = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \text{diag}(\hat{\epsilon}_{y, i}^2) \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1}
+$$
 donde $\hat{\epsilon}_{x, i}$ y $\hat{\epsilon}_{y, i}$ son los residuos finales del ajuste.
 
 Sean:

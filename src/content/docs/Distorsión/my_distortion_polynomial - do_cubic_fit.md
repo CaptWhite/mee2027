@@ -8,8 +8,8 @@ Este documento proporciona una descripción teórica y matemática detallada del
 - [Descripción Teórica y Matemática de la Rutina `do_cubic_fit`](#descripción-teórica-y-matemática-de-la-rutina-do_cubic_fit)
   - [Índice](#índice)
   - [1. Introducción y Propósito](#1-introducción-y-propósito)
-        - 1. `result` *(Tupla de 4 elementos)
-        - 2. `plate2_corrected`
+        - [1. `result` *(Tupla de 4 elementos)*](#1-result-tupla-de-4-elementos)
+        - [2. `plate2_corrected` *(np.ndarray de tamaño $N\_{matched} \\times 2$)*](#2-plate2_corrected-npndarray-de-tamaño-n_matched-times-2)
   - [2. Estructura y Acoplamiento del Ajuste Astrométrico](#2-estructura-y-acoplamiento-del-ajuste-astrométrico)
   - [3. El Proceso de Optimización Iterativo (WCS Absorption Loop)](#3-el-proceso-de-optimización-iterativo-wcs-absorption-loop)
     - [Formulación Matemática de las Iteraciones](#formulación-matemática-de-las-iteraciones)
@@ -105,7 +105,10 @@ $$
 \mathbf{c}_x^{(k)} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{e}_{x}^{(k)}
 $$
 
-   $$\mathbf{c}_y^{(k)} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{e}_{y}^{(k)}$$
+$$
+\mathbf{c}_y^{(k)} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{e}_{y}^{(k)}
+$$
+
 4. **Absorción Algebraica:** Se extraen las correcciones de traslación, escala y rotación de los coeficientes lineales e interceptos de la regresión:
    - Desplazamiento del centro óptico: $(\Delta\alpha, \Delta\delta) = f(c_{x,0}^{(k)}, c_{y,0}^{(k)}, \theta^{(k-1)})$
    - Multiplicador de escala de placa: $m = \sqrt{(1 + c_{x,1}^{(k)}/w)(1 + c_{y,2}^{(k)}/w)}$
@@ -170,7 +173,9 @@ $$
 \mathbf{Z}_x(x, y) = \mathbf{X}_{mesh} \mathbf{c}_{x, free}
 $$
 
-$$\mathbf{Z}_y(x, y) = \mathbf{X}_{mesh} \mathbf{c}_{y, free}$$
+$$
+\mathbf{Z}_y(x, y) = \mathbf{X}_{mesh} \mathbf{c}_{y, free}
+$$
 
 La superficie global de la magnitud del error residual se define como la norma euclidiana del mapa vectorial de distorsión:
 

@@ -89,7 +89,9 @@ $$
 \alpha_{T1} = \text{COORD1}(\mathbf{r}(T_1)) = \arctan2(r_y(T_1), r_x(T_1))
 $$
 
-$$\delta_{T1} = \text{COORD2}(\mathbf{r}(T_1)) = \arcsin\left( \frac{r_z(T_1)}{\|\mathbf{r}(T_1)\|_2} \right)$$
+$$
+\delta_{T1} = \text{COORD2}(\mathbf{r}(T_1)) = \arcsin\left( \frac{r_z(T_1)}{\|\mathbf{r}(T_1)\|_2} \right)
+$$
 
 Este método maneja automáticamente el efecto de la aceleración perspectiva producido por estrellas muy cercanas y veloces.
 
@@ -125,14 +127,18 @@ $$
 \alpha_{rad} = \alpha_{deg} \times \frac{\pi}{180}
 $$
 
-$$\delta_{rad} = \delta_{deg} \times \frac{\pi}{180}$$
+$$
+\delta_{rad} = \delta_{deg} \times \frac{\pi}{180}
+$$
 El vector unitario correspondiente $\mathbf{u} = (x, y, z)^T$ es:
 
 $$
 x = \cos\alpha_{rad} \cos\delta_{rad}
 $$
 
-$$y = \sin\alpha_{rad} \cos\delta_{rad}$$
+$$
+y = \sin\alpha_{rad} \cos\delta_{rad}
+$$
 
 $$
 z = \sin\delta_{rad}

@@ -105,7 +105,9 @@ $$
 \eta_i = \arcsin(v'_{z, i})
 $$
 
-$$\xi_i = \arcsin\left(\frac{v'_{y, i}}{\cos\eta_i}\right) \cos\eta_i$$
+$$
+\xi_i = \arcsin\left(\frac{v'_{y, i}}{\cos\eta_i}\right) \cos\eta_i
+$$
 Estas coordenadas tangenciales en radianes se dividen por la escala de placa $s$ para obtener sus equivalentes en píxeles teóricos:
 
 $$
@@ -120,14 +122,18 @@ $$
 \begin{pmatrix} \eta_i \\ \xi_i \end{pmatrix} = s \mathbf{x}_{obs, i}
 $$
 
-$$\mathbf{v}_{projected, i} = \text{icoord\_to\_vector}(\eta_i, \xi_i)$$
+$$
+\mathbf{v}_{projected, i} = \text{icoord\_to\_vector}(\eta_i, \xi_i)
+$$
 donde el paso de coordenadas planas a vector unitario es:
 
 $$
 v'_{z, i} = \sin\eta_i
 $$
 
-$$v'_{x, i} = \cos\eta_i \cos\left(\frac{\xi_i}{\cos\eta_i}\right)$$
+$$
+v'_{x, i} = \cos\eta_i \cos\left(\frac{\xi_i}{\cos\eta_i}\right)
+$$
 
 $$
 v'_{y, i} = \cos\eta_i \sin\left(\frac{\xi_i}{\cos\eta_i}\right)
@@ -253,7 +259,9 @@ $$
 \begin{pmatrix} \Delta \alpha \\ \Delta \delta \end{pmatrix} = s_{old} \begin{pmatrix} \frac{1}{\cos\delta_0} & 0 \\ 0 & 1 \end{pmatrix} \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix} \begin{pmatrix} a_0 \\ b_0 \end{pmatrix}
 $$
 
-$$\alpha_{0, new} = \alpha_{0, old} + \Delta \alpha$$
+$$
+\alpha_{0, new} = \alpha_{0, old} + \Delta \alpha
+$$
 
 $$
 \delta_{0, new} = \delta_{0, old} + \Delta \delta
@@ -267,7 +275,9 @@ $$
 \Delta\theta = \frac{a_y}{w}
 $$
 
-$$\theta_{new} = \theta_{old} - \Delta\theta$$
+$$
+\theta_{new} = \theta_{old} - \Delta\theta
+$$
 
 Este procedimiento se repite iterativamente (tres pasadas en total) para asegurar la convergencia completa, reduciendo los términos lineales de distorsión a cero y refinando los parámetros globales de WCS.
 
@@ -283,7 +293,9 @@ $$
 \alpha(t) = \alpha(t_{ref}) + \mu_\alpha (t - t_{ref})
 $$
 
-   $$\delta(t) = \delta(t_{ref}) + \mu_\delta (t - t_{ref})$$
+$$
+\delta(t) = \delta(t_{ref}) + \mu_\delta (t - t_{ref})
+$$
 2. **Paralaje (Parallax):** Modifica la posición angular aparente en función de la posición orbital de la Tierra en el instante de la observación (usando la distancia implícita $d = 1/\pi$).
 3. **Aberración Estelar Anual:** Corrección relativista de la dirección de llegada de los fotones debida a la velocidad de traslación de la Tierra alrededor del Sol.
 4. **Refracción Atmosférica:** Implementa el modelo de atmósfera local en el marco de Alt-Az (Altitud-Azimut). La altitud aparente (refractada) $a_a$ se calcula a partir de la altitud geométrica $a_g$ mediante la presión local $P$, la temperatura $T$, la humedad relativa $H_r$ y la longitud de onda de observación $\lambda$:

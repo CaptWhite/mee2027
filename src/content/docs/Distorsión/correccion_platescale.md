@@ -4,7 +4,9 @@ Esta rutina se encarga de **aplicar formalmente todas las correcciones calculada
 
 Matemáticamente, lo que está ocurriendo aquí es una **actualización de estado mediante una suma vectorial** de la base previa más las desviaciones infinitesimales descubiertas por la regresión:
 
-$$\mathbf{q}_{\text{corregido}} = \mathbf{q}_{\text{actual}} + \mathbf{\Delta q}$$
+$$
+\mathbf{q}_{\text{corregido}} = \mathbf{q}_{\text{actual}} + \mathbf{\Delta q}
+$$
 
 Si desglosamos la tupla elemento por elemento de izquierda a derecha, vemos cómo se aplica la física y la geometría que calculamos en los pasos anteriores:
 
@@ -32,9 +34,13 @@ Este es el significado matemático detallado de cada cálculo:
 
 Este bloque calcula el nuevo factor de escala de la placa fotográfica aplicando una **corrección geométrica promedio (media geométrica)**.
 
-$$\text{multiplier} = \sqrt{\left(1 + \frac{\beta_{1[x]}}{w}\right) \left(1 + \frac{\beta_{2[y]}}{w}\right)}$$
+$$
+\text{multiplier} = \sqrt{\left(1 + \frac{\beta_{1[x]}}{w}\right) \left(1 + \frac{\beta_{2[y]}}{w}\right)}
+$$
 
-$$\text{escala}_{\text{nueva}} = \text{escala}_{\text{base}} \times \text{multiplier}$$
+$$
+\text{escala}_{\text{nueva}} = \text{escala}_{\text{base}} \times \text{multiplier}
+$$
 
 **La matemática detrás:**
 
@@ -66,7 +72,9 @@ El cálculo opera de derecha a izquierda:
 
 Esta línea calcula el pequeño desfase angular o error de rotación (*roll*) del telescopio usando la **aproximación de ángulo pequeño**.
 
-$$\Delta \theta \approx \frac{\beta_{2x}}{w}$$
+$$
+\Delta \theta \approx \frac{\beta_{2x}}{w}
+$$
 
 **La matemática detrás:**
 Anteriormente dedujimos que el coeficiente que acompaña a la variable $Y$ en la ecuación de $X$ es $\beta_{2x} = -s \sin\theta$.
@@ -88,7 +96,9 @@ Sustituyendo estos valores en la identidad, obtenemos que $\beta_{2x} \approx -\
 
 Podemos modelar este paso como la transición del estado actual del sistema al estado corregido:
 
-$$\mathbf{q}_{\text{actual}} \longrightarrow \mathbf{q}_{\text{corregido}}$$
+$$
+\mathbf{q}_{\text{actual}} \longrightarrow \mathbf{q}_{\text{corregido}}
+$$
 
 Donde el vector de parámetros está definido en el espacio de configuración del telescopio como $\mathbf{q} = (\text{Escala}, \text{RA}, \text{DEC}, \text{Rotación})$.
 
@@ -101,7 +111,9 @@ Si desglosamos la tupla elemento por elemento de izquierda a derecha, la lógica
 * **Operación:** Sustitución por escala multiplicativa.
 * **La matemática detrás:** A diferencia de las coordenadas de posición, la escala de la placa fotográfica no se corrige sumando un diferencial. Como determinamos en los pasos previos, la distorsión geométrica en los ejes del sensor actúa como un factor adimensional de estiramiento o compresión. Por lo tanto, el nuevo estado absorbe directamente el cálculo multiplicativo:
 
-$$\text{Escala}_{\text{nueva}} = \text{Escala}_{\text{base}} \times \text{multiplier}$$
+$$
+\text{Escala}_{\text{nueva}} = \text{Escala}_{\text{base}} \times \text{multiplier}
+$$
 
 
 
@@ -110,7 +122,9 @@ $$\text{Escala}_{\text{nueva}} = \text{Escala}_{\text{base}} \times \text{multip
 * **Operación:** Corrección aditiva lineal en el eje horizontal celeste.
 * **La matemática detrás:** Se aplica una traslación lineal sumando el diferencial $\Delta\text{RA}$ (almacenado en `shiftRA_DEC[0]`) a la coordenada de centro actual en RA (`q[1]`). En este punto, `shiftRA_DEC[0]` ya ha sido corregido algebraicamente mediante la división por $\cos(\delta)$ para contrarrestar la convergencia de los meridianos en la esfera celeste. La operación matemática es:
 
-$$\alpha_{\text{corregida}} = \alpha_{\text{actual}} + \Delta\alpha$$
+$$
+\alpha_{\text{corregida}} = \alpha_{\text{actual}} + \Delta\alpha
+$$
 
 
 ###### 3. `q[2] + shiftRA_DEC[1]` (Declinación - DEC)
@@ -118,7 +132,9 @@ $$\alpha_{\text{corregida}} = \alpha_{\text{actual}} + \Delta\alpha$$
 * **Operación:** Corrección aditiva lineal en el eje vertical celeste.
 * **La matemática detrás:** De manera homóloga al paso anterior, se realiza una traslación en el eje de las latitudes celestes sumando el diferencial $\Delta\text{DEC}$ (`shiftRA_DEC[1]`) a la declinación base (`q[2]`). Al ser arcos de círculo máximo, esta componente no requería correcciones por proyección esférica y se acopla directamente:
 
-$$\delta_{\text{corregida}} = \delta_{\text{actual}} + \Delta\delta$$
+$$
+\delta_{\text{corregida}} = \delta_{\text{actual}} + \Delta\delta
+$$
 
 
 
@@ -127,7 +143,9 @@ $$\delta_{\text{corregida}} = \delta_{\text{actual}} + \Delta\delta$$
 * **Operación:** Corrección sustractiva (Retroalimentación Negativa).
 * **La matemática detrás:** Aquí ocurre un cambio de signo crítico. El valor `shift_roll_angle` ($\Delta\theta$) representa el error de giro detectado en las estrellas de la imagen. En física y teoría de control, para cancelar un error observado y devolver el sistema a su orientación ideal, se debe aplicar una acción en el sentido opuesto. Por lo tanto, el algoritmo resta algebraicamente el desvío:
 
-$$\theta_{\text{corregido}} = \theta_{\text{actual}} - \Delta\theta$$
+$$
+\theta_{\text{corregido}} = \theta_{\text{actual}} - \Delta\theta
+$$
 
 
 
