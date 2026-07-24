@@ -37,7 +37,10 @@ $$
 $$
 
 
-Los errores brutos residuales en píxeles $\mathbf{e}_i = (e_{y, i}, e_{x, i})^T$ para cada estrella en el detector se evalúan mediante la diferencia vectorial con respecto a las posiciones observadas centradas $\mathbf{x}_{obs, i} = (y_{obs, i}, x_{obs, i})^T$:
+Los errores brutos residuales en píxeles $\mathbf{e}_i = (e_{y, i}, e_{x, i})^T$ para cada estrella en el detector se evalúan mediante la diferencia vectorial con respecto a las posiciones observadas centradas: 
+$$
+\mathbf{x}_{obs, i} = (y_{obs, i}, x_{obs, i})^T
+$$
 
 $$
 \mathbf{e}_i = \mathbf{x}_{detransformed, i} - \mathbf{x}_{obs, i}
@@ -88,7 +91,9 @@ $$
 e'_{x, i} = e_{x, i} - \frac{\Delta x_{fixed, i}}{m}
 $$
 
-$$e'_{y, i} = e_{y, i} - \frac{\Delta y_{fixed, i}}{m}$$
+$$
+e'_{y, i} = e_{y, i} - \frac{\Delta y_{fixed, i}}{m}
+$$
 donde $m$ es el multiplicador de escala astrométrica.
 
 ---

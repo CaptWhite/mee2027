@@ -70,11 +70,15 @@ $$
 
 La paralaje `p` (en milisegundos de arco, mas) se relaciona con la distancia `d` (en parsecs) mediante:
 
-$d = \frac{1000}{p} \quad [\text{pc}]$
+$$
+d = \frac{1000}{p} \quad [\text{pc}]
+$$
 
 o equivalentemente:
 
-$d = \frac{1}{p} \quad [\text{kpc}] \quad \text{(si p esta en mas)}$
+$$
+d = \frac{1}{p} \quad [\text{kpc}] \quad \text{(si p esta en mas)}
+$$
 
 #### 2.2.2. Regularizacion de Paralaje (regularize_parallax, lineas 13-17)
 

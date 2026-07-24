@@ -111,16 +111,16 @@ Cuando ejecutas un código en Python usando la librería Astropy (como el script
 
 En resumen: SOFA dicta la norma científica, ERFA la libera para el software, y Astropy te la entrega de forma sencilla en Python. [11] 
 
-[1] [https://ui.adsabs.harvard.edu](https://ui.adsabs.harvard.edu/abs/2014ascl.soft03026I/abstract)
-[2] [https://www.cosmosmataro.org](https://www.cosmosmataro.org/eines/usando-sofa-la-biblioteca-de-la-iau)
-[3] [https://www.cosmosmataro.org](https://www.cosmosmataro.org/eines/usando-sofa-la-biblioteca-de-la-iau/alternativas-a-sofa)
-[4] [https://www.scholarpedia.org](http://www.scholarpedia.org/article/Standards_of_Fundamental_Astronomy)
-[5] [https://www.freshports.org](https://www.freshports.org/astro/erfa)
-[6] [https://github.com](https://github.com/liberfa/erfa)
-[7] [https://www.scholarpedia.org](http://www.scholarpedia.org/article/Standards_of_Fundamental_Astronomy)
-[8] [https://www.iausofa.org](https://www.iausofa.org/other-implementations)
-[9] [https://github.com](https://github.com/liberfa/erfa/blob/master/LICENSE)
-[10] [https://pypi.org](https://pypi.org/project/pyerfa/2.0.0.1/)
+[1] [https://ui.adsabs.harvard.edu](https://ui.adsabs.harvard.edu/abs/2014ascl.soft03026I/abstract) \
+[2] [https://www.cosmosmataro.org](https://www.cosmosmataro.org/eines/usando-sofa-la-biblioteca-de-la-iau) \
+[3] [https://www.cosmosmataro.org](https://www.cosmosmataro.org/eines/usando-sofa-la-biblioteca-de-la-iau/alternativas-a-sofa) \
+[4] [https://www.scholarpedia.org](http://www.scholarpedia.org/article/Standards_of_Fundamental_Astronomy) \
+[5] [https://www.freshports.org](https://www.freshports.org/astro/erfa) \
+[6] [https://github.com](https://github.com/liberfa/erfa) \
+[7] [https://www.scholarpedia.org](http://www.scholarpedia.org/article/Standards_of_Fundamental_Astronomy) \
+[8] [https://www.iausofa.org](https://www.iausofa.org/other-implementations) \
+[9] [https://github.com](https://github.com/liberfa/erfa/blob/master/LICENSE) \
+[10] [https://pypi.org](https://pypi.org/project/pyerfa/2.0.0.1/) \
 [11] [https://build.opensuse.org](https://build.opensuse.org/package/show/science/erfa)
 
 
@@ -267,21 +267,12 @@ Ahí estás viendo el efecto combinado de aberración, deflexión, etc., al camb
 
 ---
 
-
-
-
-
-
-
-
-
-
-[1] [https://github.com](https://github.com/liberfa/pyerfa)
-[2] [https://github.com](https://github.com/liberfa/pyerfa)
-[3] [https://medium.com](https://medium.com/@shankaravi6/astropy-essential-tools-part-1-every-python-space-developer-should-know-c1f8a1b555ef)
-[4] [https://pypi.org](https://pypi.org/project/pyerfa/)
-[5] [https://docs.astropy.org](https://docs.astropy.org/en/stable/time/index.html)
-[6] [https://docs.astropy.org](https://docs.astropy.org/en/stable/time/index.html)
+[1] [https://github.com](https://github.com/liberfa/pyerfa) \
+[2] [https://github.com](https://github.com/liberfa/pyerfa) \
+[3] [https://medium.com](https://medium.com/@shankaravi6/astropy-essential-tools-part-1-every-python-space-developer-should-know-c1f8a1b555ef) \
+[4] [https://pypi.org](https://pypi.org/project/pyerfa/) \
+[5] [https://docs.astropy.org](https://docs.astropy.org/en/stable/time/index.html) \
+[6] [https://docs.astropy.org](https://docs.astropy.org/en/stable/time/index.html) \
 [7] [https://github.com](https://github.com/liberfa/pyerfa)
 
 
@@ -363,15 +354,15 @@ Si comparas los resultados de tus cálculos manuales de precisión con un softwa
 
 Si estás desarrollando un sistema de apuntado para un telescopio de alta gama o astrofotografía científica, te recomiendo tomar los datos de Cartes du Ciel (o mantener tu script con ERFA) para asegurar que ese desfase relativista esté corregido.
 
-[1] [https://github.com](https://github.com/Stellarium/stellarium/discussions/3120)
-[2] [https://ftp.ast.cam.ac.uk](https://ftp.ast.cam.ac.uk/pub/rwa/outgoing/Downloads/doc_en.pdf)
-[3] [https://www.researchgate.net](https://www.researchgate.net/publication/327807247_Comparison_of_astronomical_software_programs_for_archaeoastronomical_applications)
-[4] [https://technology.tresearch.ee](https://technology.tresearch.ee/index.php/JDIFP/article/download/9/8)
-[5] [https://www.researchgate.net](https://www.researchgate.net/publication/400786951_GRAVITATIONAL_LENSING_IN_GENERAL_RELATIVITY)
-[6] [https://www.astronomo.org](https://www.astronomo.org/foro/index.php?topic=32327.0)
-[7] [https://stargazerslounge.com](https://stargazerslounge.com/topic/232149-which-planetarium-software-you-like-and-why/)
-[8] [https://www.ap-i.net](http://www.ap-i.net/pub/skychart/doc/doc_en.pdf)
-[9] [https://www.astronomo.org](https://www.astronomo.org/foro/index.php?topic=32327.0)
+[1] [https://github.com](https://github.com/Stellarium/stellarium/discussions/3120) \
+[2] [https://ftp.ast.cam.ac.uk](https://ftp.ast.cam.ac.uk/pub/rwa/outgoing/Downloads/doc_en.pdf)  \
+[3] [https://www.researchgate.net](https://www.researchgate.net/publication/327807247_Comparison_of_astronomical_software_programs_for_archaeoastronomical_applications) \
+[4] [https://technology.tresearch.ee](https://technology.tresearch.ee/index.php/JDIFP/article/download/9/8) \
+[5] [https://www.researchgate.net](https://www.researchgate.net/publication/400786951_GRAVITATIONAL_LENSING_IN_GENERAL_RELATIVITY) \
+[6] [https://www.astronomo.org](https://www.astronomo.org/foro/index.php?topic=32327.0) \
+[7] [https://stargazerslounge.com](https://stargazerslounge.com/topic/232149-which-planetarium-software-you-like-and-why/) \
+[8] [https://www.ap-i.net](http://www.ap-i.net/pub/skychart/doc/doc_en.pdf) \
+[9] [https://www.astronomo.org](https://www.astronomo.org/foro/index.php?topic=32327.0) \
 
 
 

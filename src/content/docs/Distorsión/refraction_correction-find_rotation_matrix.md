@@ -28,7 +28,9 @@ H = np.dot(image_vectors.T, catalog_vectors)
 
 Matemáticamente, si representamos los vectores de la imagen como una matriz $A$ y los del catálogo como una matriz $B$ (donde cada fila es un vector de posición, por ejemplo, en 2D o 3D), la operación calcula:
 
-$$H = A^T B$$
+$$
+H = A^T B
+$$
 
 **Explicación matemática:**
 
@@ -47,7 +49,9 @@ $$H = A^T B$$
 
 La SVD es una técnica de álgebra lineal que factoriza la matriz $H$ en tres matrices:
 
-$$H = U \Sigma V^T$$
+$$
+H = U \Sigma V^T
+$$
 
 *(Nota: En NumPy, `np.linalg.svd` devuelve $V$ ya transpuesta, es decir, el objeto `V` del código equivale matemáticamente a $V^T$).*
 
@@ -69,11 +73,15 @@ return np.dot(U, V)
 
 Sabiendo que $H = U \Sigma V^T$, la teoría matemática subyacente demuestra que la matriz de rotación óptima $R$ que mejor mapea el sistema de la imagen al catálogo se obtiene "cancelando" la parte de la escala e interceptando las bases ortogonales:
 
-$$R = U V^T$$
+$$
+R = U V^T
+$$
 
 Como en la implementación de NumPy `V` ya es algebraicamente $V^T$, el producto de matrices `np.dot(U, V)` se traduce exactamente en:
 
-$$R = U V^T$$
+$$
+R = U V^T
+$$
 
 #### El "pequeño" detalle de la reflexión:
 

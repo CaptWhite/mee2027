@@ -1,16 +1,16 @@
 services:
   mee2027:
-    image: captwhite/mee2027:latest
+    image: mee2027:latest
     container_name: mee2027
     build:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - "4321:4321"
+      - "8040:4321"
     networks:
-      - aster-net
+      - webnet
 
 
 networks:
-  aster-net:
+  webnet:
     driver: bridge
