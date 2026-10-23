@@ -3,7 +3,6 @@ export type MenuTab = 'Astrometría' | 'Distorsión' | 'Deflexión' | 'Apéndice
 export interface DocItem {
   filename: string;
   menutab: MenuTab;
-  id: string;
   slug: string;
   description: string;
   chapter: string;
@@ -13,7 +12,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_centroids_stack_playsolve.md',
     menutab: 'Astrometría',
-    id: 'my_centroids_stack_playsolve',
     slug: 'my_centroids_stack_playsolve',
     description: 'Centroides, Apilado y PlateSolving',
     chapter: '1',
@@ -21,7 +19,6 @@ export const docList: DocItem[] = [
   {
     filename: 'parametros.md',
     menutab: 'Astrometría',
-    id: 'parametros',
     slug: 'parametros',
     description: 'Parámetros',
     chapter: '1.1',
@@ -29,7 +26,6 @@ export const docList: DocItem[] = [
   {
     filename: '00_crear_bases_datos.md',
     menutab: 'Astrometría',
-    id: '00_crear_bases_datos',
     slug: '00_crear_bases_datos',
     description: 'Estructuras KDtree desde Tycho',
     chapter: '1.2',
@@ -37,7 +33,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_database.md',
     menutab: 'Astrometría',
-    id: 'my_database',
     slug: 'my_database',
     description: 'Base de datos',
     chapter: '2',
@@ -45,7 +40,6 @@ export const docList: DocItem[] = [
     {
     filename: 'my_platesolve_new.md',
     menutab: 'Astrometría',
-    id: 'my_platesolve_new',
     slug: 'my_platesolve_new',
     description: 'Construcción (generador) V1',
     chapter: '2.1',
@@ -53,7 +47,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_platesolve_new_commented2.md',
     menutab: 'Astrometría',
-    id: 'my_platesolve_new_commented2',
     slug: 'my_platesolve_new_commented2',
     description: 'Construcción (generador) V2',
     chapter: '2.2',
@@ -61,7 +54,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_database_lookup2.md',
     menutab: 'Astrometría',
-    id: 'my_database_lookup2',
     slug: 'my_database_lookup2',
     description: 'Indexación',
     chapter: '2.3',
@@ -69,7 +61,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_database_cache.md',
     menutab: 'Astrometría',
-    id: 'my_database_cache',
     slug: 'my_database_cache',
     description: 'Persistencia',
     chapter: '2.4',
@@ -77,7 +68,6 @@ export const docList: DocItem[] = [
  {
     filename: 'my_database_searcher.md',
     menutab: 'Astrometría',
-    id: 'my_database_searcher',
     slug: 'my_database_searcher',
     description: 'Búsqueda',
     chapter: '2.5',
@@ -86,7 +76,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_stacker_implementattion.md',
     menutab: 'Astrometría',
-    id: 'my_stacker_implementattion',
     slug: 'my_stacker_implementattion',
     description: 'Centroides y Apilado',
     chapter: '3',
@@ -94,7 +83,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_stacker_implementattion - attempt_align - datos.md',
     menutab: 'Astrometría',
-    id: 'my_stacker_implementattion---attempt_align-datos---datos', 
     slug: 'my_stacker_implementattion---attempt_align---datos',
     description: '. Datos de apilado',
     chapter: '3.1',
@@ -102,7 +90,6 @@ export const docList: DocItem[] = [
   {
     filename: '07_attempt_align.md',
     menutab: 'Astrometría',
-    id: '07_attempt_align',
     slug: '07_attempt_align',
     description: 'Apilado',
     chapter: '3.2',
@@ -110,7 +97,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_platesolve_triangle.md',
     menutab: 'Astrometría',
-    id: 'my_platesolve_triangle',
     slug: 'my_platesolve_triangle',
     description: 'PlateSolve. Resolución de placas',
     chapter: '4',
@@ -121,7 +107,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_distortion_fitter.md',
     menutab: 'Distorsión',
-    id: 'my_distortion_fitter',
     slug: 'my_distortion_fitter',
     description: 'Ajuste de la distorsión',
     chapter: '1',
@@ -129,7 +114,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_distortion_diagram1.md',
     menutab: 'Distorsión',
-    id: 'my_distortion_diagram1',
     slug: 'my_distortion_diagram1',
     description: 'Diagrama total',
     chapter: '1.1',
@@ -137,7 +121,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_distortion_diagram2.md',
     menutab: 'Distorsión',
-    id: 'my_distortion_diagram2',
     slug: 'my_distortion_diagram2',
     description: 'Diagrama de filtro',
     chapter: '1.2',
@@ -145,7 +128,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_distortion_fitter-match_and_fit_distortion-secuencia.md',
     menutab: 'Distorsión',
-    id: 'my_distortion_fitter-match_and_fit_distortion-secuencia',
     slug: 'my_distortion_fitter-match_and_fit_distortion-secuencia',
     description: 'Secuencia',
     chapter: '1.3',
@@ -153,7 +135,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_distortion_fitter-match_and_fit_distortion-datos.md',
     menutab: 'Distorsión',
-    id: 'my_distortion_fitter-match_and_fit_distortion-datos',
     slug: 'my_distortion_fitter-match_and_fit_distortion-datos',
     description: 'Datos',
     chapter: '1.4',
@@ -163,7 +144,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_platesolve_triangle - platesolve.md',
     menutab: 'Distorsión',
-    id: 'my_platesolve_triangle---platesolve',
     slug: 'my_platesolve_triangle-platesolve',
     description: 'Triangulación para platesolve',
     chapter: '2',
@@ -171,7 +151,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_platesolve_triangle - _platesolve _helper.md',
     menutab: 'Distorsión',
-    id: 'my_platesolve_triangle---_platesolve-_helper',
     slug: 'my_platesolve_triangle-platesolve-helper',
     description: '. Asistente platesolve',
     chapter: '2.1',
@@ -179,7 +158,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_distortion_fitter - match_and_fit_distortion.md',
     menutab: 'Distorsión',
-    id: 'my_distortion_fitter---match_and_fit_distortion',
     slug: 'my_distortion_fitter-match-and-fit-distortion',
     description: '. Ajuste y coincidencia',
     chapter: '3',
@@ -187,7 +165,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_distortion_fitter - match_centroids.md',
     menutab: 'Distorsión',
-    id: 'my_distortion_fitter---match_centroids',
     slug: 'my_distortion_fitter-match-centroids',
     description: '. Coincidencia de centroides',
     chapter: '3.1',
@@ -196,7 +173,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_distortion_fitter-match_centroids-secuencia.md',
     menutab: 'Distorsión',
-    id: 'my_distortion_fitter-match_centroids-secuencia',
     slug: 'my_distortion_fitter-match_centroids-secuencia',
     description: 'Secuencia',
     chapter: '3.2',
@@ -204,7 +180,6 @@ export const docList: DocItem[] = [
   {
     filename: 'clase_StarData.md',
     menutab: 'Distorsión',
-    id: 'clase_stardata',
     slug: 'clase_stardata',
     description: 'Clase StarData',
     chapter: '3.3',
@@ -212,7 +187,6 @@ export const docList: DocItem[] = [
   {
     filename: 'clase_NearestNeightbors.md',
     menutab: 'Distorsión',
-    id: 'clase_nearestneightbors',
     slug: 'clase_nearestneightbors',
     description: 'Clase NearestNeightbors',
     chapter: '3.4',
@@ -220,7 +194,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_refraction_correction.md',
     menutab: 'Distorsión',
-    id: 'my_refraction_correction',
     slug: 'my_refraction_correction',
     description: 'Corrección de la refracción',
     chapter: '3.5',
@@ -228,7 +201,6 @@ export const docList: DocItem[] = [
   {
     filename: 'refraction_correction-secuencia.md',
     menutab: 'Distorsión',
-    id: 'refraction_correction-secuencia',
     slug: 'refraction_correction-secuencia',
     description: 'Secuencia',
     chapter: '3.5.1',
@@ -236,7 +208,6 @@ export const docList: DocItem[] = [
   {
     filename: 'refraction_correction-secuencia-2.md',
     menutab: 'Distorsión',
-    id: 'refraction_correction-secuencia-2',
     slug: 'refraction_correction-secuencia-2',
     description: 'Secuencia 2',
     chapter: '3.5.2',
@@ -244,7 +215,6 @@ export const docList: DocItem[] = [
   {
     filename: 'astropy-deflexion.md',
     menutab: 'Distorsión',
-    id: 'astropy-deflexion',
     slug: 'astropy-deflexion',
     description: 'Astropy - Deflexión',
     chapter: '3.5.3',
@@ -252,7 +222,6 @@ export const docList: DocItem[] = [
     {
     filename: 'refraction_correction-find_rotation_matrix.md',
     menutab: 'Distorsión',
-    id: 'refraction_correction-find_rotation_matrix',
     slug: 'refraction_correction-find_rotation_matrix',
     description: 'Encontrar la matriz de rotación',
     chapter: '3.5.4',
@@ -260,7 +229,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_distortion_polynomial.md',
     menutab: 'Distorsión',
-    id: 'my_distortion_polynomial',
     slug: 'my_distortion_polynomial',
     description: 'Distorsión polinomial',
     chapter: '4',
@@ -268,7 +236,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_distortion_polynomial - do_cubic_fit.md',
     menutab: 'Distorsión',
-    id: 'my_distortion_polynomial---do_cubic_fit',
     slug: 'my_distortion_polynomial-do-cubic-fit',
     description: '. Ajuste cúbico',
     chapter: '4.1',
@@ -276,7 +243,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_distortion_polynomial - _cubic_helper.md',
     menutab: 'Distorsión',
-    id: 'my_distortion_polynomial---_cubic_helper',
     slug: 'my_distortion_polynomial-cubic-helper',
     description: '. Asistente cúbico',
     chapter: '4.2',
@@ -284,7 +250,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_distortion_diagram3.md',
     menutab: 'Distorsión',
-    id: 'my_distortion_diagram3',
     slug: 'my_distortion_diagram3',
     description: 'Diagrama',
     chapter: '4.2.1',
@@ -292,7 +257,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_distortion_polynomial-do_cubic_fit-_cubic_helper-secuencia.md',
     menutab: 'Distorsión',
-    id: 'my_distortion_polynomial-do_cubic_fit-_cubic_helper-secuencia',
     slug: 'my_distortion_polynomial-do-cubic-fit-cubic-helper-secuencia',
     description: 'Secuencia',
     chapter: '4.2.2',
@@ -300,7 +264,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_distortion_polynomial - apply_corrections.md',
     menutab: 'Distorsión',
-    id: 'my_distortion_polynomial---apply_corrections',
     slug: 'my_distortion_polynomial-apply-corrections',
     description: '. Aplicar correcciones',
     chapter: '4.3',
@@ -308,7 +271,6 @@ export const docList: DocItem[] = [
   {
     filename: 'modelo_regresión_lineal-sm_ols.md',
     menutab: 'Distorsión',
-    id: 'modelo_regresión_lineal-sm_ols',
     slug: 'modelo_regresión_lineal-sm_ols',
     description: 'Modelo de regresión lineal - OLS',
     chapter: '4.4',
@@ -316,7 +278,6 @@ export const docList: DocItem[] = [
   {
     filename: 'correccion_platescale.md',
     menutab: 'Distorsión',
-    id: 'correccion_platescale',
     slug: 'correccion_platescale',
     description: 'Corrección de platescale',
     chapter: '4.5',
@@ -324,7 +285,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_gaia_search.md',
     menutab: 'Distorsión',
-    id: 'my_gaia_search',
     slug: 'my_gaia_search',
     description: 'Búsqueda en Gaia',
     chapter: '5',
@@ -332,7 +292,6 @@ export const docList: DocItem[] = [
   {
     filename: 'gaia_search.md',
     menutab: 'Distorsión',
-    id: 'gaia_search',
     slug: 'gaia_search',
     description: 'Exahustivo',
     chapter: '5.1',
@@ -340,7 +299,6 @@ export const docList: DocItem[] = [
   {
     filename: 'my_gravity_sweep.md',
     menutab: 'Distorsión',
-    id: 'my_gravity_sweep',
     slug: 'my_gravity_sweep',
     description: 'Barrido gravitacional',
     chapter: '6',
@@ -348,15 +306,69 @@ export const docList: DocItem[] = [
   {
     filename: '02_eclipse_analysis.md',
     menutab: 'Deflexión',
-    id: '02_eclipse_analysis',
     slug: '02_eclipse_analysis',
-    description: 'Análisi del Eclipse',
+    description: 'Módulo eclipse_analysis.py',
     chapter: '1',
+  },
+  {
+    filename: '03_0 Distribucion normal bivariada.md',
+    menutab: 'Deflexión',
+    slug: '03_0-distribucion-normal-bivariada',
+    description: '0 Distribución normal bivariada',
+    chapter: '2',
+  },
+  {
+    filename: '03_1 Distribución normal bivariada.md',
+    menutab: 'Deflexión',
+    slug: '03_1-distribucion-normal-bivariada',
+    description: '1 Distribución normal bivariada',
+    chapter: '2.1',
+  },
+  {
+    filename: '03_2 Combinaciones lineales de z1 y z2.md',
+    menutab: 'Deflexión',
+    slug: '03_2-combinaciones-lineales-de-z1-y-z2',
+    description: 'Combinaciones lineales de z1 y z2',
+    chapter: '2.2', 
+  },
+  {
+    filename: '03_3 Notación con el símbolo ~.md',
+    menutab: 'Deflexión',
+    slug: '03_3-notacion-con-el-simbolo-~',
+    description: 'Notación con el símbolo ~',
+    chapter: '2.3',
+  },
+  {
+    filename: '03_4 Funcion con media mu y desviación sigma.md',
+    menutab: 'Deflexión',
+    slug: '03_4-funcion-con-media-mu-y-desviacion-sigma',
+    description: 'Función con media mu y desviación sigma',
+    chapter: '2.4',
+  },
+  {
+    filename: '03_5 Propiedades esperanza y varianza.md',
+    menutab: 'Deflexión',
+    slug: '03_5-propiedades-esperanza-y-varianza',
+    description: 'Propiedades de la esperanza y varianza',
+    chapter: '2.5',
+  },
+  {
+    filename: '03_6 z1 y z2.md',
+    menutab: 'Deflexión',
+    slug: '03_6-z1-y-z2',
+    description: 'z1 y z2',
+    chapter: '2.6',
+  },
+  {
+    filename: '03.7 Calculo del Jacobiano.md',
+    menutab: 'Deflexión',
+    slug: '03_7-calculo-del-jacobiano',
+    description: 'Cálculo del Jacobiano',
+    chapter: '2.7',
   },
   {
     filename: 'Métodos de optimización.md',
     menutab: 'Apéndices',
-    id: 'métodos-de-optimización',
     slug: 'métodos-de-optimización',
     description: 'Algoritmos de optimización',
     chapter: '1',
@@ -364,7 +376,6 @@ export const docList: DocItem[] = [
     {
     filename: 'Basados en el gradiente.md',
     menutab: 'Apéndices',
-    id: 'basados-en-el-gradiente',
     slug: 'basados-en-el-gradiente',
     description: '. Basados en el Gradiente',
     chapter: '1.1',
@@ -372,7 +383,6 @@ export const docList: DocItem[] = [
      {
     filename: 'Metodo de Newton.md',
     menutab: 'Apéndices',
-    id: 'metodo-de-newton',
     slug: 'metodo-de-newton',
     description: '. Método de Newton',
     chapter: '1.2',
@@ -380,7 +390,6 @@ export const docList: DocItem[] = [
   {
     filename: 'Algoritmo_BFGS.md',
     menutab: 'Apéndices',
-    id: 'algoritmo_bfgs',
     slug: 'algoritmo_bfgs',
     description: '. Algoritmo BFGS',
     chapter: '1.3',
@@ -388,7 +397,6 @@ export const docList: DocItem[] = [
   {
     filename: 'scipy-optimize-minimize.md',
     menutab: 'Apéndices',
-    id: 'scipy-optimize-minimize',
     slug: 'scipy-optimize-minimize',
     description: '. scipy.optimize.minimize',
     chapter: '1.4',
@@ -396,7 +404,6 @@ export const docList: DocItem[] = [
   {
     filename: '1. Función de Rosenbrock.md',
     menutab: 'Apéndices',
-    id: '1-función-de-rosenbrock',
     slug: '1-función-de-rosenbrock',
     description: 'La función de Rosenbrock',
     chapter: '2',
@@ -404,7 +411,6 @@ export const docList: DocItem[] = [
   {
     filename: '2. Función multidimensional de Rosenbrock.md',
     menutab: 'Apéndices',
-    id: '2-función-multidimensional-de-rosenbrock',
     slug: '2-función-multidimensional-de-rosenbrock',
     description: 'La función multidimensional de Rosenbrock',
     chapter: '2.1',
@@ -412,7 +418,6 @@ export const docList: DocItem[] = [
   {
     filename: 'La matriz Hessiana.md',
     menutab: 'Apéndices',
-    id: 'la-matriz-hessiana',
     slug: 'la-matriz-hessiana',
     description: 'Matriz Hessiana de Rosenbrock',
     chapter: '2.2',
@@ -420,7 +425,6 @@ export const docList: DocItem[] = [
   {
     filename: 'Teorema de Taylor.md',
     menutab: 'Apéndices',
-    id: 'teorema-de-taylor',
     slug: 'teorema-de-taylor',
     description: 'Teorema de Taylor multidimensional',
     chapter: '3',
@@ -428,7 +432,6 @@ export const docList: DocItem[] = [
   {
     filename: 'Distribución normal Bivariante.md',
     menutab: 'Apéndices',
-    id: 'distribución-normal-bivariante',
     slug: 'distribución-normal-bivariante',
     description: 'Distribución normal Bivariante',
     chapter: '4',
@@ -436,7 +439,6 @@ export const docList: DocItem[] = [
     {
     filename: 'gráfico de contorno de confianza.md',
     menutab: 'Apéndices',
-    id: 'gráfico-de-contorno-de-confianza',
     slug: 'gráfico-de-contorno-de-confianza',
     description: 'Gráfico de contorno de confianza',
     chapter: '4.1',
@@ -444,7 +446,6 @@ export const docList: DocItem[] = [
   {
     filename: 'k-d_Tree_Architecture.md',
     menutab: 'Presentación',
-    id: 'k-d_tree_architecture',
     slug: 'k-d_tree_architecture',
     description: 'Arquitectura Árboles KDtree',
     chapter: '1',
@@ -452,7 +453,6 @@ export const docList: DocItem[] = [
   {
     filename: 'Entrevista.md',
     menutab: 'Presentación',
-    id: 'entrevista',
     slug: 'entrevista',
     description: 'Entrevista TV',
     chapter: '2',
@@ -460,7 +460,6 @@ export const docList: DocItem[] = [
   {
     filename: 'Entrevista1.md',
     menutab: 'Presentación',
-    id: 'entrevista1',
     slug: 'entrevista1',
     description: 'Curvatura de la luz',
     chapter: '2.1',
@@ -468,7 +467,6 @@ export const docList: DocItem[] = [
   {
     filename: 'Entrevista2.md',
     menutab: 'Presentación',
-    id: 'entrevista2',
     slug: 'entrevista2',
     description: 'Experimento de Eddington',
     chapter: '2.2',
@@ -476,7 +474,6 @@ export const docList: DocItem[] = [
   {
     filename: 'Entrevista3.md',
     menutab: 'Presentación',
-    id: 'entrevista3',
     slug: 'entrevista3',
     description: 'Eddington paso a paso',
     chapter: '2.3',
@@ -484,7 +481,6 @@ export const docList: DocItem[] = [
   {
     filename: 'Entrevista4.md',
     menutab: 'Presentación',
-    id: 'entrevista4',
     slug: 'entrevista4',
     description: 'El proyecto MEE2027',
     chapter: '2.4',
@@ -492,7 +488,6 @@ export const docList: DocItem[] = [
   {
     filename: 'Entrevista5.md',
     menutab: 'Presentación',
-    id: 'entrevista5',
     slug: 'entrevista5',
     description: 'Diferencias del experimento original',
     chapter: '2.5',
@@ -500,7 +495,6 @@ export const docList: DocItem[] = [
   {
     filename: 'Entrevista6.md',
     menutab: 'Presentación',
-    id: 'entrevista6',
     slug: 'entrevista6',
     description: 'Quién está involucrado',
     chapter: '2.6',
@@ -508,7 +502,6 @@ export const docList: DocItem[] = [
   {
     filename: 'Entrevista7.md',
     menutab: 'Presentación',
-    id: 'entrevista7',
     slug: 'entrevista7',
     description: '2026: Ensayo general',
     chapter: '2.7',
@@ -516,7 +509,6 @@ export const docList: DocItem[] = [
   {
     filename: 'Entrevista8.md',
     menutab: 'Presentación',
-    id: 'entrevista8',
     slug: 'entrevista8',
     description: 'Ensayo en 2026 y Objetivo 2027',
     chapter: '2.8',
@@ -524,7 +516,6 @@ export const docList: DocItem[] = [
   {
     filename: 'Entrevista9.md',
     menutab: 'Presentación',
-    id: 'entrevista9',
     slug: 'entrevista9',
     description: 'El trío ibérico de eclipses',
     chapter: '2.9',
@@ -532,7 +523,6 @@ export const docList: DocItem[] = [
   {
     filename: 'Plantilla.md',
     menutab: 'Biblio',
-    id: 'plantilla',
     slug: 'plantilla',
     description: 'Plantilla para nuevos documentos',
     chapter: '1',
@@ -540,16 +530,20 @@ export const docList: DocItem[] = [
   {
     filename: 'midu-docker.md',
     menutab: 'Biblio',
-    id: 'midu-docker',
     slug: 'midu-docker',
     description: 'Docker desde cero',
     chapter: '2.1',
   },  
 ];
 
-export const docMapById = new Map<string, DocItem>(
-  docList.map(item => [item.id, item])
+export const docMapByFilename = new Map<string, DocItem>(
+  docList.map(item => [item.filename, item])
 );
+
+export const getEntryFilename = (entryId: string, filePath?: string): string => {
+  const basename = entryId.split('/').pop() ?? entryId;
+  return filePath?.split(/[\\/]/).pop() ?? `${basename}.md`;
+};
 
 export const docMapBySlug = new Map<string, DocItem>(
   docList.map(item => [item.slug, item])
