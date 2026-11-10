@@ -463,3 +463,36 @@ Esto refuerza la interpretación de $\rho$: mide cuánto cambia, en media, $Y$ c
 5. La constante final $1/(2\pi\sigma_X\sigma_Y\sqrt{1-\rho^2})$ es exactamente la necesaria para que la densidad integre 1 y coincide con $1/(2\pi\sqrt{\det\Sigma})$.
 
 Así, la fórmula de la normal bivariada no es un objeto misterioso: es la densidad que resulta de deformar una normal bidimensional estándar mediante escalados, traslaciones y una mezcla lineal que produce la correlación $\rho$.
+
+---
+
+# Apéndice:  Generación del fichero geogebra normal-bivariada.ggb
+
+
+Crea un fichero normal-bivariada.ggb
+	- Haz la representación de una distribucion normal bivariante que llamaremos f. Para ello crea la función densidad con 
+\[
+f_{X,Y}(x,y)=
+5
+\exp\left\{
+-\frac{1}{2(1-\rho^2)}
+\left[
+\frac{(x)^2}{2^2}
+-2\rho\frac{(x)(y)}{2}
++\frac{(y)^2}{1}
+\right]
+\right\}.
+\]
+      y a continuación crea la superficie correspondiente.
+	- El coeficiente de correlación \(\rho\) debe ser un deslizador que va de 1 a -1 con intervalos de 0.1 y debe activarse al inicio
+	- Crea un deslizador que vaya moviendo el valor de rho definido en la función f desde 1 a -1
+
+Estilo de la superficie:
+	- color #66CCFF,  opacidad 20%   grosor trazo 3   opacidad del trazo 40%  trazo oculto: invisible
+	
+Activar deslizador de esta forma:
+	1. El deslizador rho tiene playing="true".
+	2. El fichero incluye geogebra_javascript.js con ggbOnInit().
+	3. Al cargar GeoGebra se ejecutan:
+		ggbApplet.setAnimating("rho", true);
+		ggbApplet.startAnimation();

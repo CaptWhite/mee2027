@@ -1,6 +1,7 @@
 services:
   mee2027:
     image: mee2027:latest
+    pull_policy: build
     container_name: mee2027
     build:
       dockerfile: Dockerfile

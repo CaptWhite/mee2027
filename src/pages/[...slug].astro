@@ -10,7 +10,7 @@ export async function getStaticPaths() {
     const basename = entry.id.split('/').pop() ?? entry.id;
     const foundDoc = docMapByFilename.get(getEntryFilename(entry.id, entry.filePath));
     const slug = foundDoc ? foundDoc.slug : basename;
-    // console.log({slug},)
+    console.log({slug},)
     return {
       params: { slug },
       props: { entry, slug },
