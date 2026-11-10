@@ -468,7 +468,9 @@ Así, la fórmula de la normal bivariada no es un objeto misterioso: es la densi
 
 # Apéndice:  Generación del fichero geogebra normal-bivariada.ggb
 
+En Codex o Chatgpt-work:
 
+``` bash
 Crea un fichero normal-bivariada.ggb
 	- Haz la representación de una distribucion normal bivariante que llamaremos f. Para ello crea la función densidad con 
 \[
@@ -496,3 +498,4 @@ Activar deslizador de esta forma:
 	3. Al cargar GeoGebra se ejecutan:
 		ggbApplet.setAnimating("rho", true);
 		ggbApplet.startAnimation();
+```

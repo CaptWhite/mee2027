@@ -1,144 +1,166 @@
-## 1. El problema que queremos resolver
+Vamos a desglosar qué significa exactamente $\operatorname{Cov}(v_i^T X,\; v_j^T X)$ y por qué es una cantidad relevante.
 
-Queremos **maximizar** una función sujeta a una **restricción**. En nuestro caso:
+## 1. Qué hay dentro de la covarianza
 
-$$
-\max_{u} \; u^T \Sigma u \qquad \text{sujeto a} \qquad u^T u = 1.
-$$
-
-Es decir: buscamos la dirección $u$ que hace máxima la varianza $u^T \Sigma u$, pero solo consideramos direcciones **unitarias** (longitud 1). Sin la restricción, la función crecería indefinidamente multiplicando $u$ por escalares grandes, así que la restricción es imprescindible.
-
-El **multiplicador de Lagrange** es una técnica para resolver este tipo de problemas: optimizar con restricciones de igualdad.
-
-## 2. La idea geométrica central
-
-Piensa en las **curvas de nivel** de la función objetivo $f(u)=u^T \Sigma u$: son el conjunto de puntos donde $f$ toma un valor constante.
-
-Y piensa en la **restricción** $g(u)=u^T u-1=0$: es una superficie (en 2D, una circunferencia; en 3D, una esfera; en $p$ dimensiones, una esfera de radio 1).
-
-Queremos movernos **solo sobre la esfera** y encontrar el punto donde $f$ es máxima.
-
-**Observación clave:** en el óptimo, la curva de nivel de $f$ es **tangente** a la superficie de la restricción. Si no fueran tangentes, podríamos deslizarnos un poco sobre la restricción y aumentar $f$. Por tanto, en el óptimo, el **gradiente de $f$** (que es perpendicular a la curva de nivel de $f$) debe ser **paralelo** al **gradiente de $g$** (que es perpendicular a la superficie de restricción):
+Tenemos dos **variables aleatorias escalares**:
 
 $$
-\nabla f(u) = \lambda \, \nabla g(u).
+Y_i = v_i^T X, \qquad Y_j = v_j^T X.
 $$
 
-El escalar $\lambda$ que aparece ahí es el **multiplicador de Lagrange**. Es justamente el factor de proporcionalidad entre los dos gradientes.
+- $X$ es el vector aleatorio de $p$ variables (cada observación es un punto en $\mathbb{R}^p$).
+- $v_i$ y $v_j$ son dos vectores fijos (en nuestro contexto, vectores propios de $\Sigma$).
+- $v_i^T X$ es un **número**: la proyección escalar de $X$ sobre la dirección $v_i$.
+- $v_j^T X$ es otro número: la proyección de $X$ sobre la dirección $v_j$.
 
-## 3. La función lagrangiana
+Así que $Y_i$ e $Y_j$ son **dos variables escalares** construidas a partir de los mismos datos $X$, mirándolos desde dos direcciones distintas.
 
-Para convertir el problema con restricción en un problema sin restricción, construimos la **lagrangiana**:
-
-$$
-\mathcal{L}(u,\lambda) = f(u) - \lambda\, g(u).
-$$
-
-En nuestro caso concreto:
+## 2. Qué mide la covarianza entre ellas
 
 $$
-\mathcal{L}(u,\lambda) = u^T \Sigma u - \lambda\,(u^T u - 1).
+\operatorname{Cov}(Y_i, Y_j) = E[(Y_i - E[Y_i])(Y_j - E[Y_j])].
 $$
 
-La idea es: si la restricción se cumple ($g(u)=0$), entonces $\mathcal{L}(u,\lambda)=f(u)$, y maximizar $\mathcal{L}$ es lo mismo que maximizar $f$. El término $-\lambda g(u)$ "penaliza" las violaciones de la restricción, y $\lambda$ ajusta cuánto.
+Mide **cómo varían conjuntamente** $Y_i$ e $Y_j$:
 
-## 4. Condiciones de primer orden
+- Si $\operatorname{Cov} > 0$: cuando $Y_i$ está por encima de su media, $Y_j$ tiende a estar también por encima de su media (y viceversa). Van "en la misma dirección".
+- Si $\operatorname{Cov} < 0$: cuando $Y_i$ sube, $Y_j$ tiende a bajar. Van en direcciones opuestas.
+- Si $\operatorname{Cov} = 0$: no hay relación lineal entre ellas; se dice que están **incorrelacionadas**.
 
-Ahora tratamos $\mathcal{L}$ como una función de $u$ y $\lambda$, y buscamos sus puntos críticos: derivamos respecto a **cada variable** e igualamos a cero.
+Es la misma idea que la covarianza entre dos columnas de una tabla de datos, pero aquí las "columnas" son las proyecciones de $X$ sobre dos direcciones $v_i$ y $v_j$.
 
-**Respecto a $u$** (usando que $\Sigma$ es simétrica):
+## 3. Por qué esta cantidad concreta es importante
 
-$$
-\frac{\partial \mathcal{L}}{\partial u} = 2\Sigma u - 2\lambda u = 0
-\quad\Longrightarrow\quad
-\Sigma u = \lambda u.
-$$
-
-¡Esta es exactamente la **ecuación de vectores propios**! El óptimo debe ser un vector propio de $\Sigma$, y $\lambda$ es su valor propio.
-
-**Respecto a $\lambda$:**
+En el contexto de la matriz de covarianzas y PCA, lo relevante es que:
 
 $$
-\frac{\partial \mathcal{L}}{\partial \lambda} = -(u^T u - 1) = 0
-\quad\Longrightarrow\quad
-u^T u = 1.
+\operatorname{Cov}(v_i^T X,\; v_j^T X) = v_i^T \Sigma v_j.
 $$
 
-Esto simplemente recupera la restricción: el vector debe ser unitario.
+Es decir, la covarianza entre las proyecciones sobre $v_i$ y $v_j$ se calcula con la **misma matriz $\Sigma$** y los mismos vectores. Esta fórmula es la que permite demostrar que:
 
-Así, el método de Lagrange **produce automáticamente** la ecuación de autovalores. No es casualidad: la definición de vector propio es precisamente la condición de estacionariedad de una forma cuadrática sobre la esfera unitaria.
+- Si $v_i$ y $v_j$ son vectores propios de $\Sigma$ con $i \neq j$, entonces $\operatorname{Cov}(v_i^T X,\; v_j^T X)=0$.
+- Es decir, **las proyecciones sobre distintos ejes principales están incorrelacionadas**.
 
-## 5. ¿Y cuál es el máximo?
+Eso es precisamente lo que hace útil a PCA: cambia las coordenadas originales (que pueden estar correlacionadas) por unas nuevas $Y_i = v_i^T X$ que son incorrelacionadas entre sí, con varianzas $\lambda_i$.
 
-La ecuación $\Sigma u = \lambda u$ nos da $p$ soluciones (los $p$ vectores propios). ¿Cuál de ellas maximiza $u^T \Sigma u$? Evaluamos la función objetivo en cada una:
+## 4. Ejemplo intuitivo en 2D
 
-$$
-u_i^T \Sigma u_i = u_i^T (\lambda_i u_i) = \lambda_i (u_i^T u_i) = \lambda_i.
-$$
+Imagina datos en forma de elipse inclinada. Los ejes de la elipse son $v_1$ (eje mayor) y $v_2$ (eje menor).
 
-Por tanto:
-- El **máximo** se alcanza en el vector propio asociado al **mayor** valor propio $\lambda_1$.
-- El **mínimo** se alcanza en el vector propio del **menor** valor propio.
-- Los demás vectores propios dan valores intermedios (puntos de silla o extremos locales en subespacios).
+- $Y_1 = v_1^T X$: coordenada de cada punto a lo largo del eje mayor.
+- $Y_2 = v_2^T X$: coordenada a lo largo del eje menor.
 
-## 6. ¿Qué significa $\lambda$? (interpretación del multiplicador)
+Si la elipse está "bien alineada" con $v_1$ y $v_2$, entonces saber cuánto vale $Y_1$ no te dice nada sobre $Y_2$: están incorrelacionadas, $\operatorname{Cov}(Y_1,Y_2)=0$. Eso es lo que garantizan los vectores propios.
 
-El multiplicador de Lagrange tiene una interpretación general muy útil: mide **cuánto cambia el óptimo de la función objetivo cuando relajas la restricción en una unidad**.
+## En resumen
 
-En general, si el problema es
+$\operatorname{Cov}(v_i^T X,\; v_j^T X)$ significa: **la covarianza entre dos variables escalares que resultan de proyectar los datos $X$ sobre dos direcciones $v_i$ y $v_j$**. Mide si esas dos proyecciones varían de forma conjunta o no. En el contexto de $\Sigma$, vale $v_i^T \Sigma v_j$, y si $v_i, v_j$ son vectores propios distintos, vale 0: las proyecciones sobre ejes principales distintos no están correlacionadas.
 
-$$
-\max f(u) \quad \text{sujeto a} \quad g(u)=c,
-$$
 
-entonces en el óptimo:
+## Cálculo:
+Vamos a justificar cada paso de la cadena de igualdades. La clave está en la **bilinealidad de la covarianza** y en que $v_j$ es vector propio de $\Sigma$.
 
-$$
-\frac{df^*}{dc} = \lambda,
-$$
+## Paso 1: $\operatorname{Cov}(v_i^T X,\; v_j^T X) = v_i^T \Sigma v_j$
 
-donde $f^*$ es el valor óptimo. Es decir, $\lambda$ es la **sensibilidad** del óptimo frente al nivel de la restricción.
-
-En nuestro caso, la restricción es $u^T u = 1$, y resulta que $\lambda$ coincide con el valor propio, que es la varianza en esa dirección. Esto tiene sentido: si permites vectores de longitud mayor que 1, la varianza máxima crece proporcionalmente a $\lambda_1$.
-
-## 7. Ejemplo numérico sencillo
-
-Tomemos
+Partimos de la definición de covarianza entre dos variables aleatorias escalares $A$ y $B$:
 
 $$
-\Sigma = \begin{pmatrix} 4 & 0 \\ 0 & 1 \end{pmatrix}.
+\operatorname{Cov}(A,B) = E[(A - E[A])(B - E[B])].
 $$
 
-Queremos maximizar $f(u)=4u_1^2 + u_2^2$ sujeto a $u_1^2+u_2^2=1$.
-
-Lagrangiana:
+Tomamos $A = v_i^T X$ y $B = v_j^T X$. Como $X$ está centrado ($E[X]=0$), también $E[v_i^T X]=v_i^T E[X]=0$ y $E[v_j^T X]=0$. Entonces:
 
 $$
-\mathcal{L} = 4u_1^2 + u_2^2 - \lambda(u_1^2+u_2^2-1).
+\operatorname{Cov}(v_i^T X,\; v_j^T X) = E[(v_i^T X)(v_j^T X)].
 $$
 
-Derivadas:
+Ahora usamos que $v_i^T X$ es un escalar, así que coincide con su traspuesta: $v_i^T X = X^T v_i$. Por tanto:
 
 $$
-\frac{\partial \mathcal{L}}{\partial u_1} = 8u_1 - 2\lambda u_1 = 0 \;\Rightarrow\; u_1(4-\lambda)=0,
+(v_i^T X)(v_j^T X) = (X^T v_i)(v_j^T X) = X^T v_i v_j^T X.
 $$
 
+Tomando esperanza y usando linealidad:
+
 $$
-\frac{\partial \mathcal{L}}{\partial u_2} = 2u_2 - 2\lambda u_2 = 0 \;\Rightarrow\; u_2(1-\lambda)=0.
+E[X^T v_i v_j^T X] = E\big[X^T (v_i v_j^T) X\big].
 $$
 
-Soluciones:
-- Si $u=(1,0)$: $\lambda=4$, $f=4$ (máximo).
-- Si $u=(0,1)$: $\lambda=1$, $f=1$ (mínimo).
+Como $v_i v_j^T$ es una matriz constante (no aleatoria), sale de la esperanza:
 
-El multiplicador $\lambda$ es justamente el valor de $f$ en el óptimo, y coincide con el valor propio.
+$$
+= E\big[X^T (v_i v_j^T) X\big].
+$$
 
-## 8. Resumen intuitivo
+Aquí conviene reordenar usando la linealidad de la traza, o directamente sacar la matriz constante:
 
-- **Problema:** maximizar $f$ sobre una superficie de restricción $g=0$.
-- **Idea:** en el óptimo, los gradientes de $f$ y $g$ son paralelos: $\nabla f = \lambda \nabla g$.
-- **Herramienta:** construir $\mathcal{L}=f-\lambda g$ y anular sus derivadas.
-- **Resultado en nuestro caso:** $\Sigma u = \lambda u$, es decir, los óptimos son los vectores propios, y $\lambda$ es el valor propio (la varianza en esa dirección).
-- **Interpretación de $\lambda$:** factor de proporcionalidad entre gradientes y, a la vez, sensibilidad del óptimo ante cambios en la restricción.
+$$
+E[X^T M X] = E[\operatorname{tr}(X^T M X)] = E[\operatorname{tr}(M X X^T)] = \operatorname{tr}(M\, E[X X^T]).
+$$
 
-En definitiva, el multiplicador de Lagrange es el puente que convierte un problema de **optimización con restricciones** en un problema de **ecuaciones algebraicas** (aquí, la ecuación de autovalores).
+Con $M = v_i v_j^T$ y $E[X X^T] = \Sigma$:
+
+$$
+= \operatorname{tr}(v_i v_j^T \Sigma) = \operatorname{tr}(v_j^T \Sigma\, v_i) = v_j^T \Sigma\, v_i.
+$$
+
+Como $\Sigma$ es simétrica, $v_j^T \Sigma v_i = v_i^T \Sigma v_j$. Y como es un escalar, su traza es él mismo. Así llegamos a:
+
+$$
+\boxed{\operatorname{Cov}(v_i^T X,\; v_j^T X) = v_i^T \Sigma v_j.}
+$$
+
+## Paso 2: $v_i^T \Sigma v_j = \lambda_j\, v_i^T v_j$
+
+Por definición de vector propio de $\Sigma$:
+
+$$
+\Sigma v_j = \lambda_j v_j.
+$$
+
+Sustituyendo en la expresión anterior:
+
+$$
+v_i^T \Sigma v_j = v_i^T (\lambda_j v_j) = \lambda_j\, (v_i^T v_j).
+$$
+
+El escalar $\lambda_j$ sale del producto. Esto es válido para cualquier $i,j$.
+
+## Paso 3: $\lambda_j\, v_i^T v_j = 0$ cuando $i \neq j$
+
+Aquí hay que distinguir dos casos:
+
+**Caso A: $\lambda_i \neq \lambda_j$.** Como $\Sigma$ es simétrica, vectores propios asociados a valores propios distintos son **ortogonales**. Demostración rápida:
+
+$$
+\lambda_i\, v_i^T v_j = (\Sigma v_i)^T v_j = v_i^T \Sigma^T v_j = v_i^T \Sigma v_j = v_i^T (\lambda_j v_j) = \lambda_j\, v_i^T v_j.
+$$
+
+Es decir, $(\lambda_i - \lambda_j)\, v_i^T v_j = 0$. Si $\lambda_i \neq \lambda_j$, entonces $v_i^T v_j = 0$, y por tanto $\lambda_j\, v_i^T v_j = 0$.
+
+**Caso B: $\lambda_i = \lambda_j$ (valor propio repetido).** En este caso los vectores propios podrían no ser ortogonales si se eligen arbitrariamente. Pero como $\Sigma$ es simétrica, **siempre se puede elegir una base ortonormal de vectores propios** (teorema espectral). Si tomamos esa base, entonces $v_i^T v_j = 0$ para $i \neq j$ también en este caso, y la igualdad se cumple.
+
+Por tanto, para $i \neq j$:
+
+$$
+\operatorname{Cov}(v_i^T X,\; v_j^T X) = \lambda_j\, v_i^T v_j = 0.
+$$
+
+## Interpretación
+
+Esta cadena demuestra que **las proyecciones de $X$ sobre distintos vectores propios de $\Sigma$ están incorrelacionadas**. Es decir, si defines las nuevas variables $Y_i = v_i^T X$ (las componentes principales), entonces:
+
+$$
+\operatorname{Cov}(Y_i, Y_j) = 0 \quad (i \neq j),
+\qquad
+\operatorname{Var}(Y_i) = v_i^T \Sigma v_i = \lambda_i.
+$$
+
+En la base de vectores propios, la matriz de covarianzas de $Y = V^T X$ es diagonal:
+
+$$
+\operatorname{Cov}(Y) = V^T \Sigma V = \Lambda = \operatorname{diag}(\lambda_1,\dots,\lambda_p).
+$$
+
+Eso es exactamente lo que hace PCA: rotar los datos a una base donde las coordenadas quedan incorrelacionadas, con varianzas iguales a los valores propios.
